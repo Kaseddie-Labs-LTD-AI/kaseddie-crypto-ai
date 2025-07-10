@@ -1,104 +1,72 @@
-# Kaseddie AI Crypto Trading Platform
+Kaseddie AI - Intelligent Crypto Trading Platform
+Live Demo: https://kaseddie-crypto-ai.netlify.app/
 
-## 🚀 Live Demo
-**Website:** https://kaseddie-crypto-ai-1.netlify.app/
+Overview
+Kaseddie AI is a next-generation cryptocurrency trading platform designed to democratize sophisticated trading for the everyday user. The platform leverages a proprietary AI engine to provide actionable market insights, automated trading strategies, and a seamless user experience through a conversational UI and voice commands.
 
-## 📋 Overview
-Professional AI-powered cryptocurrency trading platform with advanced strategies, voice commands, and real-time market analysis.
+This project is built with a focus on performance, security, and scalability, utilizing the Starknet Layer 2 network to ensure low-cost, high-speed transactions.
 
-## ✨ Features
-- **10 AI Trading Strategies** with up to 95% success rates
-- **Voice Command Trading** - Execute trades using natural language
-- **50+ Cryptocurrencies** supported
-- **Real-time Market Analysis** with AI insights
-- **Bank-grade Security** with KYC compliance
-- **Multi-platform** - Web, Desktop, Mobile
-- **Live Chat Support** with AI assistant
+✨ Key Features
+AI-Powered Trading: Access 10+ advanced, back-tested trading strategies (Momentum, Arbitrage, Sentiment Analysis, etc.).
 
-## 🛠️ Technologies
-- **Frontend:** HTML5, CSS3, JavaScript (ES6+)
-- **Styling:** CSS Grid, Flexbox, Animations
-- **APIs:** Cryptocurrency data integration
-- **Deployment:** Netlify
-- **Voice:** Web Speech API
-- **Responsive:** Mobile-first design
+Conversational Interface: Interact with the platform using natural language through the integrated AI Chat Assistant.
 
-## 🎯 AI Trading Strategies
-1. **Momentum Strategy** (78% success rate)
-2. **AI Prediction** (85% success rate)
-3. **Cross-Exchange Arbitrage** (95% success rate)
-4. **Social Sentiment AI** (81% success rate)
-5. **AI Scalping** (89% success rate)
-6. **Grid Trading** (76% success rate)
-7. **Mean Reversion** (71% success rate)
-8. **AI Buy/Sell Signals** (92% success rate)
-9. **Take Profit Algorithm** (88% success rate)
-10. **Manual Trading** (User controlled)
+Voice Commands: Execute trades, request market analysis, and manage your portfolio using your voice.
 
-## 📱 Contact Information
-- **Email:** kaseddie@hotmail.com, kaseddie@gmail.com
-- **Phone:** +256 769089860
-- **WhatsApp:** +256 784428821
-- **Support:** 24/7 Customer Support
+Starknet Integration: Connect your ArgentX or Braavos wallet for secure, on-chain operations.
 
-## 🚀 Quick Start
-1. Visit the live website
-2. Explore AI trading strategies
-3. Try the live chat feature
-4. Contact us for platform access
+Multi-Platform Support: A unified backend serves our web, desktop, and mobile applications.
 
-## 📊 Platform Statistics
-- **Success Rate:** Up to 95%
-- **Cryptocurrencies:** 50+
-- **Trading Options:** 11
-- **Market Coverage:** Global
-- **Uptime:** 99.9%
+Real-Time Market Data: Live price feeds and analytics for over 50 cryptocurrencies.
 
-## 🔧 Local Development
-```bash
-# Clone the repository
-git clone https://github.com/yourusername/kaseddie-crypto-ai.git
+🛠️ Tech Stack
+Frontend: HTML5, CSS3, Vanilla JavaScript
 
-# Navigate to project directory
-cd kaseddie-crypto-ai
+Blockchain Integration: Starknet.js for wallet connectivity and on-chain interaction.
 
-# Open in browser
-open index.html
-```
+Backend: Node.js, Express.js (for handling API requests and AI logic).
 
-## 📁 Project Structure
-```
-kaseddie-crypto-ai/
-├── index.html          # Main website
-├── styles.css          # Styling and animations
-├── script.js           # JavaScript functionality
-├── README.md           # Project documentation
-└── assets/             # Images and resources
-```
+AI/ML: Custom logic for pattern matching and intent recognition in the demo; designed for expansion with full ML models.
 
-## 🌐 Deployment
-This project is automatically deployed to Netlify from the main branch.
+🚀 Deployment
+The Kaseddie AI platform is architected with a decoupled frontend and backend for maximum scalability and flexibility.
 
-## 📈 Performance
-- **Lighthouse Score:** 95+
-- **Mobile Friendly:** Yes
-- **SEO Optimized:** Yes
-- **Accessibility:** WCAG 2.1 AA
+Frontend Deployment:
 
-## 🔒 Security
-- Bank-grade encryption
-- KYC compliance
-- Secure API endpoints
-- Data protection
+The static web application is deployed on Netlify. This ensures global CDN distribution, fast load times, and continuous deployment.
 
-## 📞 Support
-For technical support or platform access:
-- Email: kaseddie@hotmail.com
-- Phone: +256 769089860
-- WhatsApp: +256 784428821
+Live URL: https://kaseddie-crypto-ai.netlify.app/
 
-## 📄 License
-© 2024 Kaseddie AI. All rights reserved.
+Backend Deployment:
 
----
-**Built with ❤️ for the future of cryptocurrency trading**
+The Node.js server is deployed on Railway. This provides a robust, scalable server environment.
+
+Live API Endpoint: https://kaseddie-crypto-production.up.railway.app/api
+
+Deployment Files
+For a successful deployment on Netlify, you only need the following two files in your project folder:
+
+index.html: Contains all the HTML, CSS, and client-side JavaScript for the application.
+
+netlify.toml: The configuration file that tells Netlify how to build, serve, and secure your site.
+
+⚙️ Running Locally
+To run the project on your local machine, you will need to run the frontend and backend separately.
+
+1. Backend Server:
+
+# Navigate to the server directory
+cd /path/to/your/backend-folder
+
+# Install dependencies
+npm install
+
+# Start the server
+node server-clean.js
+# The server will be running on http://localhost:3002
+
+2. Frontend Application:
+
+Simply open the index.html file in your web browser.
+
+Important: Ensure the apiBase variable in the KaseddiePlatform class points to your local server (http://localhost:3002/api) for local development.

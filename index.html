@@ -3,582 +3,796 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kaseddie AI - Professional Cryptocurrency Trading Platform</title>
-    <link rel="stylesheet" href="styles.css">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <title>Kaseddie AI - Intelligent Crypto Trading on Starknet</title>
+
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Starknet.js Library -->
+    <script src="https://cdn.jsdelivr.net/npm/starknet@5.24.3/dist/index.min.js"></script>
+
+    <style>
+        /* --- FINE-TUNED CSS FOR A PROFESSIONAL INVESTOR DEMO --- */
+
+        :root {
+            --primary-color: #00d4ff;
+            --secondary-color: #ff6b35;
+            --accent-color: #00ff88;
+            --dark-bg: #0a0a0a;
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --card-border: rgba(255, 255, 255, 0.1);
+            --text-primary: #ffffff;
+            --text-secondary: #cccccc;
+            --text-muted: #888888;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--dark-bg);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* --- Header & Navigation --- */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(10, 10, 10, 0.8);
+            backdrop-filter: blur(15px);
+            z-index: 1000;
+            border-bottom: 1px solid var(--card-border);
+            transition: background 0.3s ease;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: var(--primary-color);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            position: relative;
+            padding: 5px 0;
+        }
+
+            .nav-link:hover, .nav-link.active {
+                color: var(--primary-color);
+            }
+
+            .nav-link::after {
+                content: '';
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                width: 0;
+                height: 2px;
+                background: var(--primary-color);
+                transition: width 0.3s ease;
+            }
+
+            .nav-link:hover::after, .nav-link.active::after {
+                width: 100%;
+            }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .connect-wallet-btn {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 212, 255, 0.2);
+        }
+
+            .connect-wallet-btn:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 6px 20px rgba(0, 212, 255, 0.4);
+            }
+
+        #wallet-info {
+            display: none;
+            align-items: center;
+            gap: 10px;
+            background: var(--card-bg);
+            padding: 8px 15px;
+            border-radius: 20px;
+            border: 1px solid var(--card-border);
+        }
+
+        #wallet-address {
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        #disconnect-btn {
+            background: none;
+            border: none;
+            color: var(--secondary-color);
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        /* --- Hero Section --- */
+        #home {
+            padding-top: 150px;
+            padding-bottom: 80px;
+            text-align: center;
+            min-height: 90vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+            #home::before {
+                content: '';
+                position: absolute;
+                top: -20%;
+                left: -20%;
+                width: 40%;
+                height: 80%;
+                background: radial-gradient(circle, rgba(0, 212, 255, 0.1), transparent 70%);
+                filter: blur(100px);
+                z-index: -1;
+            }
+
+            #home::after {
+                content: '';
+                position: absolute;
+                bottom: -20%;
+                right: -20%;
+                width: 40%;
+                height: 80%;
+                background: radial-gradient(circle, rgba(255, 107, 53, 0.1), transparent 70%);
+                filter: blur(100px);
+                z-index: -1;
+            }
+
+        h1 {
+            font-size: 3.8rem;
+            font-weight: 900;
+            margin-bottom: 20px;
+            line-height: 1.2;
+            background: linear-gradient(135deg, var(--primary-color) 0%, #fff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 40px;
+            color: var(--text-secondary);
+        }
+
+        .starknet-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(0, 212, 255, 0.1);
+            border: 1px solid var(--primary-color);
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            margin-top: 20px;
+        }
+
+            .starknet-badge img {
+                width: 20px;
+                height: 20px;
+            }
+
+        /* --- General & Animation Styles --- */
+        section {
+            padding: 100px 0;
+        }
+
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+
+            .fade-in.is-visible {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+        /* --- Live Chat Widget --- */
+        #liveChatWidget {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 2000;
+        }
+
+        .chat-button {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(0, 212, 255, 0.4);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+            .chat-button:hover {
+                transform: scale(1.1);
+            }
+
+            .chat-button i {
+                color: white;
+                font-size: 24px;
+            }
+
+        .chat-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: var(--secondary-color);
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .chat-window {
+            display: none;
+            position: absolute;
+            bottom: 80px;
+            right: 0;
+            width: 350px;
+            height: 450px;
+            background: rgba(20, 20, 20, 0.9);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--card-border);
+            border-radius: 15px;
+            overflow: hidden;
+            flex-direction: column;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+        }
+
+            .chat-window.active {
+                display: flex;
+            }
+
+        .chat-header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+            .chat-header h4 {
+                color: white;
+                margin: 0;
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                font-weight: 600;
+            }
+
+            .chat-header button {
+                background: none;
+                border: none;
+                color: white;
+                font-size: 20px;
+                cursor: pointer;
+            }
+
+        .chat-messages {
+            flex: 1;
+            padding: 15px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .message {
+            max-width: 85%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .bot-message {
+            align-self: flex-start;
+        }
+
+        .user-message {
+            align-self: flex-end;
+        }
+
+        .message-content {
+            padding: 10px 15px;
+            border-radius: 15px;
+            color: var(--text-primary);
+            line-height: 1.5;
+        }
+
+        .bot-message .message-content {
+            background: var(--card-bg);
+            border-top-left-radius: 0;
+        }
+
+        .user-message .message-content {
+            background: var(--primary-color);
+            color: var(--dark-bg);
+            font-weight: 500;
+            border-top-right-radius: 0;
+        }
+
+        .message-time {
+            font-size: 11px;
+            color: var(--text-muted);
+            margin-top: 5px;
+        }
+
+        .bot-message .message-time {
+            text-align: left;
+            margin-left: 5px;
+        }
+
+        .user-message .message-time {
+            text-align: right;
+            margin-right: 5px;
+        }
+
+        .chat-input {
+            padding: 15px;
+            border-top: 1px solid var(--card-border);
+            display: flex;
+            gap: 10px;
+        }
+
+            .chat-input input {
+                flex: 1;
+                padding: 10px 15px;
+                background: rgba(255, 255, 255, 0.05);
+                border: 1px solid var(--card-border);
+                border-radius: 20px;
+                color: white;
+                outline: none;
+                transition: border-color 0.3s;
+            }
+
+                .chat-input input:focus {
+                    border-color: var(--primary-color);
+                }
+
+            .chat-input button {
+                width: 40px;
+                height: 40px;
+                background: var(--primary-color);
+                border: none;
+                border-radius: 50%;
+                color: white;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+        /* Notification Styles */
+        .notification {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 15px 20px;
+            border-radius: 8px;
+            color: black;
+            font-weight: 600;
+            z-index: 3000;
+            animation: slideUp 0.5s ease-out forwards;
+            max-width: 320px;
+            word-wrap: break-word;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+        }
+
+            .notification.success {
+                background-color: var(--accent-color);
+            }
+
+            .notification.error {
+                background-color: var(--secondary-color);
+                color: white;
+            }
+
+            .notification.info {
+                background-color: var(--primary-color);
+            }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(100px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideDown {
+            from {
+                transform: translateY(0);
+                opacity: 1;
+            }
+
+            to {
+                transform: translateY(100px);
+                opacity: 0;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            h1 {
+                font-size: 2.8rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1.1rem;
+            }
+        }
+    </style>
 </head>
 <body>
-    <!-- Navigation -->
-    <nav class="navbar">
-        <div class="nav-container">
-            <div class="nav-logo">
-                <i class="fas fa-rocket"></i>
-                <span>Kaseddie</span>
-                <span class="logo-accent">AI</span>
-            </div>
-            <div class="nav-menu">
-                <div class="nav-dropdown">
-                    <a href="#home" class="nav-link active">Home <i class="fas fa-chevron-down"></i></a>
-                    <div class="dropdown-content">
-                        <a href="#home" onclick="scrollToSection('home')">Overview</a>
-                        <a href="javascript:void(0)" onclick="showLivePrices()">Live Prices</a>
-                        <a href="javascript:void(0)" onclick="showMarketStats()">Market Stats</a>
-                        <a href="javascript:void(0)" onclick="showQuickStart()">Quick Start Guide</a>
-                    </div>
-                </div>
-                <div class="nav-dropdown">
-                    <a href="#features" class="nav-link">Features <i class="fas fa-chevron-down"></i></a>
-                    <div class="dropdown-content">
-                        <a href="javascript:void(0)" onclick="showFeature('ai-strategies')">AI Trading Strategies</a>
-                        <a href="javascript:void(0)" onclick="showFeature('voice-commands')">Voice Commands</a>
-                        <a href="javascript:void(0)" onclick="showFeature('kyc-security')">KYC & Security</a>
-                        <a href="javascript:void(0)" onclick="showFeature('cryptocurrencies')">50+ Cryptocurrencies</a>
-                        <a href="javascript:void(0)" onclick="showFeature('analytics')">Real-Time Analytics</a>
-                        <a href="javascript:void(0)" onclick="showFeature('multi-platform')">Multi-Platform</a>
-                    </div>
-                </div>
-                <div class="nav-dropdown">
-                    <a href="#trading" class="nav-link">AI Trading <i class="fas fa-chevron-down"></i></a>
-                    <div class="dropdown-content">
-                        <a href="javascript:void(0)" onclick="testStrategy('momentum')">Momentum Strategy</a>
-                        <a href="javascript:void(0)" onclick="testStrategy('ai_prediction')">AI Prediction</a>
-                        <a href="javascript:void(0)" onclick="testStrategy('mean_reversion')">Mean Reversion</a>
-                        <a href="javascript:void(0)" onclick="testStrategy('arbitrage')">Arbitrage</a>
-                        <a href="javascript:void(0)" onclick="testStrategy('sentiment_analysis')">Sentiment Analysis</a>
-                        <a href="javascript:void(0)" onclick="testStrategy('scalping')">AI Scalping</a>
-                        <a href="javascript:void(0)" onclick="testStrategy('grid_trading')">Grid Trading</a>
-                        <a href="javascript:void(0)" onclick="testStrategy('ai_buy_sell')">AI Buy/Sell</a>
-                        <a href="javascript:void(0)" onclick="testStrategy('take_profit')">Take Profit</a>
-                    </div>
-                </div>
-                <div class="nav-dropdown">
-                    <a href="#platform" class="nav-link">Platform <i class="fas fa-chevron-down"></i></a>
-                    <div class="dropdown-content">
-                        <a href="javascript:void(0)" onclick="launchWebPlatform()">Web Platform</a>
-                        <a href="javascript:void(0)" onclick="downloadDesktop()">Desktop App</a>
-                        <a href="javascript:void(0)" onclick="downloadMobile()">Mobile App</a>
-                        <a href="javascript:void(0)" onclick="openManualTrading()">Manual Trading</a>
-                        <a href="javascript:void(0)" onclick="showAPIDocumentation()">API Documentation</a>
-                    </div>
-                </div>
-                <div class="nav-dropdown">
-                    <a href="#contact" class="nav-link">Contact <i class="fas fa-chevron-down"></i></a>
-                    <div class="dropdown-content">
-                        <a href="javascript:void(0)" onclick="showContactForm()">Contact Form</a>
-                        <a href="javascript:void(0)" onclick="showLiveChat()">Live Chat</a>
-                        <a href="javascript:void(0)" onclick="showSupport()">24/7 Support</a>
-                        <a href="javascript:void(0)" onclick="showHelpCenter()">Help Center</a>
-                        <a href="javascript:void(0)" onclick="openDepositWithdraw()">Deposit/Withdraw</a>
-                    </div>
-                </div>
-            </div>
-            <div class="nav-actions">
-                <div class="nav-dropdown">
-                    <button class="btn-secondary dropdown-btn">Login <i class="fas fa-chevron-down"></i></button>
-                    <div class="dropdown-content">
-                        <a href="javascript:void(0)" onclick="showLoginModal()">Sign In</a>
-                        <a href="javascript:void(0)" onclick="showRegisterModal()">Sign Up</a>
-                        <a href="javascript:void(0)" onclick="showKYCModal()">KYC Verification</a>
-                        <a href="javascript:void(0)" onclick="showSettings()">Settings</a>
-                    </div>
-                </div>
-                <div class="nav-dropdown">
-                    <button class="btn-primary dropdown-btn">Launch Platform <i class="fas fa-chevron-down"></i></button>
-                    <div class="dropdown-content">
-                        <a href="javascript:void(0)" onclick="launchWebPlatform()">Web Trading Platform</a>
-                        <a href="javascript:void(0)" onclick="launchVoiceTrading()">Voice Trading</a>
-                        <a href="javascript:void(0)" onclick="launchAIAnalytics()">AI Analytics Dashboard</a>
-                        <a href="javascript:void(0)" onclick="launchPortfolioManager()">Portfolio Manager</a>
-                        <a href="javascript:void(0)" onclick="openDepositWithdraw()">Deposit & Withdraw</a>
-                        <a href="javascript:void(0)" onclick="openInvestorDashboard()">Investor Dashboard</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </nav>
 
-    <!-- Hero Section -->
-    <section id="home" class="hero">
-        <div class="hero-background">
-            <div class="crypto-animation">
-                <div class="floating-crypto">₿</div>
-                <div class="floating-crypto">Ξ</div>
-                <div class="floating-crypto">₳</div>
-                <div class="floating-crypto">●</div>
+    <header>
+        <nav class="container">
+            <div class="logo">Kaseddie AI</div>
+            <div class="nav-links">
+                <a href="#home" class="nav-link active">Home</a>
+                <!-- Add other nav links as you build sections -->
             </div>
-        </div>
-        <div class="hero-content">
-            <div class="hero-text">
-                <h1>The Future of <span class="gradient-text">AI Crypto Trading</span></h1>
-                <p>Professional AI-powered cryptocurrency trading platform with advanced strategies, voice commands, and real-time market analysis.</p>
-                <div class="hero-stats">
-                    <div class="stat">
-                        <span class="stat-number">85%</span>
-                        <span class="stat-label">Success Rate</span>
-                    </div>
-                    <div class="stat">
-                        <span class="stat-number">50+</span>
-                        <span class="stat-label">Cryptocurrencies</span>
-                    </div>
-                    <div class="stat">
-                        <span class="stat-number">11</span>
-                        <span class="stat-label">Trading Options</span>
-                    </div>
+            <div class="header-actions">
+                <div id="wallet-info">
+                    <span id="wallet-address"></span>
+                    <button id="disconnect-btn" title="Disconnect Wallet"><i class="fas fa-sign-out-alt"></i></button>
                 </div>
-                <div class="hero-actions">
-                    <button class="btn-primary large" onclick="launchPlatform()">
-                        <i class="fas fa-rocket"></i>
-                        Launch Trading Platform
-                    </button>
-                    <button class="btn-secondary large" onclick="downloadDesktop()">
-                        <i class="fas fa-download"></i>
-                        Download Desktop App
-                    </button>
-                </div>
+                <button id="connect-wallet-btn" class="connect-wallet-btn">
+                    <i class="fas fa-wallet"></i> Connect Wallet
+                </button>
             </div>
-            <div class="hero-visual">
-                <div class="trading-preview">
-                    <div class="preview-header">
-                        <div class="status-dots">
-                            <div class="dot active"></div>
-                            <div class="dot active"></div>
-                            <div class="dot"></div>
-                        </div>
-                        <span>Live Trading</span>
-                    </div>
-                    <div class="preview-content">
-                        <div class="price-display">
-                            <span class="crypto-symbol">BTC</span>
-                            <span class="crypto-price" id="btc-preview">$65,420</span>
-                            <span class="crypto-change positive">+2.5%</span>
-                        </div>
-                        <div class="ai-signal">
-                            <i class="fas fa-brain"></i>
-                            <span>AI Signal: Strong Buy</span>
-                        </div>
-                        <div class="chart-preview">
-                            <div class="chart-line"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+        </nav>
+    </header>
 
-    <!-- Features Section -->
-    <section id="features" class="features">
-        <div class="container">
-            <div class="section-header">
-                <h2>Powerful AI Trading Features</h2>
-                <p>Everything you need for professional cryptocurrency trading</p>
-            </div>
-            <div class="features-grid">
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-brain"></i>
-                    </div>
-                    <h3>AI Trading Strategies</h3>
-                    <p>8 advanced AI algorithms plus manual trading for experienced users. Includes momentum, prediction, arbitrage, sentiment analysis, scalping, grid trading, mean reversion, and AI buy/sell signals with up to 95% success rates.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-microphone"></i>
-                    </div>
-                    <h3>Voice Commands</h3>
-                    <p>Revolutionary voice-controlled trading. Execute trades and analyze markets using natural language commands.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-shield-alt"></i>
-                    </div>
-                    <h3>KYC & Security</h3>
-                    <p>Bank-grade security with complete KYC compliance, 256-bit encryption, and multi-factor authentication.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-coins"></i>
-                    </div>
-                    <h3>50+ Cryptocurrencies</h3>
-                    <p>Trade Bitcoin, Ethereum, and 50+ altcoins with real-time data from multiple exchanges.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-chart-line"></i>
-                    </div>
-                    <h3>Real-Time Analytics</h3>
-                    <p>Advanced market analysis with AI-driven insights, technical indicators, and predictive modeling.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-mobile-alt"></i>
-                    </div>
-                    <h3>Multi-Platform</h3>
-                    <p>Web platform, desktop application, and mobile app with seamless synchronization across all devices.</p>
+    <main>
+        <section id="home">
+            <div class="container">
+                <h1>AI-Powered Trading on Starknet</h1>
+                <p class="hero-subtitle">
+                    Leverage institutional-grade AI strategies and seamless voice commands to navigate the crypto markets. Built for performance and security on the Starknet L2 network.
+                </p>
+                <div class="starknet-badge">
+                    <img src="https://starkware.co/wp-content/uploads/2021/07/starknet-logo.png" alt="Starknet Logo">
+                    <span>Powered by Starknet</span>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Trading Strategies -->
-    <section id="trading" class="trading-section">
-        <div class="container">
-            <div class="section-header">
-                <h2>AI Trading Strategies</h2>
-                <p>Choose from 10 professional-grade AI strategies plus manual trading</p>
-            </div>
-            <div class="strategies-grid">
-                <div class="strategy-card" data-strategy="momentum">
-                    <div class="strategy-icon">
-                        <i class="fas fa-chart-line"></i>
-                    </div>
-                    <h3>Momentum Strategy</h3>
-                    <p>Analyzes price momentum and trend strength for optimal entry/exit points.</p>
-                    <div class="strategy-stats">
-                        <div class="stat">
-                            <span class="value">78%</span>
-                            <span class="label">Success Rate</span>
-                        </div>
-                        <div class="stat">
-                            <span class="value">+12.5%</span>
-                            <span class="label">Avg Return</span>
-                        </div>
-                    </div>
-                    <button class="strategy-btn" onclick="testStrategy('momentum')">Test Strategy</button>
-                </div>
-                <div class="strategy-card" data-strategy="ai_prediction">
-                    <div class="strategy-icon">
-                        <i class="fas fa-brain"></i>
-                    </div>
-                    <h3>AI Prediction</h3>
-                    <p>Advanced machine learning models predict market movements with high accuracy.</p>
-                    <div class="strategy-stats">
-                        <div class="stat">
-                            <span class="value">85%</span>
-                            <span class="label">Success Rate</span>
-                        </div>
-                        <div class="stat">
-                            <span class="value">+18.3%</span>
-                            <span class="label">Avg Return</span>
-                        </div>
-                    </div>
-                    <button class="strategy-btn" onclick="testStrategy('ai_prediction')">Test Strategy</button>
-                </div>
-                <div class="strategy-card" data-strategy="mean_reversion">
-                    <div class="strategy-icon">
-                        <i class="fas fa-balance-scale"></i>
-                    </div>
-                    <h3>Mean Reversion</h3>
-                    <p>Identifies overbought/oversold conditions for contrarian trading opportunities.</p>
-                    <div class="strategy-stats">
-                        <div class="stat">
-                            <span class="value">71%</span>
-                            <span class="label">Success Rate</span>
-                        </div>
-                        <div class="stat">
-                            <span class="value">+9.8%</span>
-                            <span class="label">Avg Return</span>
-                        </div>
-                    </div>
-                    <button class="strategy-btn" onclick="testStrategy('mean_reversion')">Test Strategy</button>
-                </div>
-                <div class="strategy-card" data-strategy="arbitrage">
-                    <div class="strategy-icon">
-                        <i class="fas fa-exchange-alt"></i>
-                    </div>
-                    <h3>Cross-Exchange Arbitrage</h3>
-                    <p>Exploits price differences across multiple exchanges for risk-free profits.</p>
-                    <div class="strategy-stats">
-                        <div class="stat">
-                            <span class="value">95%</span>
-                            <span class="label">Success Rate</span>
-                        </div>
-                        <div class="stat">
-                            <span class="value">+2.8%</span>
-                            <span class="label">Avg Return</span>
-                        </div>
-                    </div>
-                    <button class="strategy-btn" onclick="testStrategy('arbitrage')">Test Strategy</button>
-                </div>
-                <div class="strategy-card" data-strategy="sentiment_analysis">
-                    <div class="strategy-icon">
-                        <i class="fas fa-comments"></i>
-                    </div>
-                    <h3>Social Sentiment AI</h3>
-                    <p>Analyzes social media and news sentiment to predict market movements.</p>
-                    <div class="strategy-stats">
-                        <div class="stat">
-                            <span class="value">81%</span>
-                            <span class="label">Success Rate</span>
-                        </div>
-                        <div class="stat">
-                            <span class="value">+16.9%</span>
-                            <span class="label">Avg Return</span>
-                        </div>
-                    </div>
-                    <button class="strategy-btn" onclick="testStrategy('sentiment_analysis')">Test Strategy</button>
-                </div>
-                <div class="strategy-card" data-strategy="scalping">
-                    <div class="strategy-icon">
-                        <i class="fas fa-bolt"></i>
-                    </div>
-                    <h3>AI Scalping</h3>
-                    <p>High-frequency micro-trades capturing small price movements with AI precision.</p>
-                    <div class="strategy-stats">
-                        <div class="stat">
-                            <span class="value">89%</span>
-                            <span class="label">Success Rate</span>
-                        </div>
-                        <div class="stat">
-                            <span class="value">+3.2%</span>
-                            <span class="label">Avg Return</span>
-                        </div>
-                    </div>
-                    <button class="strategy-btn" onclick="testStrategy('scalping')">Test Strategy</button>
-                </div>
-                <div class="strategy-card" data-strategy="grid_trading">
-                    <div class="strategy-icon">
-                        <i class="fas fa-th"></i>
-                    </div>
-                    <h3>AI Grid Trading</h3>
-                    <p>Places buy/sell orders at predetermined intervals to profit from volatility.</p>
-                    <div class="strategy-stats">
-                        <div class="stat">
-                            <span class="value">76%</span>
-                            <span class="label">Success Rate</span>
-                        </div>
-                        <div class="stat">
-                            <span class="value">+14.1%</span>
-                            <span class="label">Avg Return</span>
-                        </div>
-                    </div>
-                    <button class="strategy-btn" onclick="testStrategy('grid_trading')">Test Strategy</button>
-                </div>
-                <div class="strategy-card" data-strategy="ai_buy_sell">
-                    <div class="strategy-icon">
-                        <i class="fas fa-magic"></i>
-                    </div>
-                    <h3>AI Buy/Sell Signals</h3>
-                    <p>Advanced AI calculations using RSI, MACD, support/resistance, and volume analysis for optimal entry/exit points.</p>
-                    <div class="strategy-stats">
-                        <div class="stat">
-                            <span class="value">92%</span>
-                            <span class="label">Success Rate</span>
-                        </div>
-                        <div class="stat">
-                            <span class="value">+22.4%</span>
-                            <span class="label">Avg Return</span>
-                        </div>
-                    </div>
-                    <button class="strategy-btn" onclick="testStrategy('ai_buy_sell')">Test AI Signals</button>
-                </div>
-                <div class="strategy-card" data-strategy="take_profit">
-                    <div class="strategy-icon">
-                        <i class="fas fa-target"></i>
-                    </div>
-                    <h3>Take Profit Algorithm</h3>
-                    <p>Automated profit-taking and stop-loss system with precise calculations for risk management and profit optimization.</p>
-                    <div class="strategy-stats">
-                        <div class="stat">
-                            <span class="value">88%</span>
-                            <span class="label">Success Rate</span>
-                        </div>
-                        <div class="stat">
-                            <span class="value">+18.7%</span>
-                            <span class="label">Avg Return</span>
-                        </div>
-                    </div>
-                    <button class="strategy-btn" onclick="testStrategy('take_profit')">Test Take Profit</button>
-                </div>
-                <div class="strategy-card" data-strategy="manual_trading">
-                    <div class="strategy-icon">
-                        <i class="fas fa-hand-paper"></i>
-                    </div>
-                    <h3>Manual Trading</h3>
-                    <p>Full control for experienced traders. Execute trades manually with advanced tools and real-time data.</p>
-                    <div class="strategy-stats">
-                        <div class="stat">
-                            <span class="value">User</span>
-                            <span class="label">Controlled</span>
-                        </div>
-                        <div class="stat">
-                            <span class="value">Custom</span>
-                            <span class="label">Strategy</span>
-                        </div>
-                    </div>
-                    <button class="strategy-btn" onclick="openManualTrading()">Start Manual Trading</button>
-                </div>
-            </div>
-        </div>
-    </section>
+        <!-- All other sections of your website would be added here -->
 
-    <!-- Platform Section -->
-    <section id="platform" class="platform-section">
-        <div class="container">
-            <div class="section-header">
-                <h2>Multi-Platform Experience</h2>
-                <p>Trade anywhere with our comprehensive platform ecosystem</p>
-            </div>
-            <div class="platform-grid">
-                <div class="platform-card">
-                    <div class="platform-icon">
-                        <i class="fas fa-globe"></i>
-                    </div>
-                    <h3>Web Platform</h3>
-                    <p>Full-featured trading platform accessible from any browser with real-time data and AI strategies.</p>
-                    <button class="platform-btn" onclick="launchPlatform()">Launch Web App</button>
-                </div>
-                <div class="platform-card">
-                    <div class="platform-icon">
-                        <i class="fas fa-desktop"></i>
-                    </div>
-                    <h3>Desktop Application</h3>
-                    <p>Professional desktop app with advanced features, offline capabilities, and enhanced security.</p>
-                    <button class="platform-btn" onclick="downloadDesktop()">Download Desktop</button>
-                </div>
-                <div class="platform-card">
-                    <div class="platform-icon">
-                        <i class="fas fa-mobile-alt"></i>
-                    </div>
-                    <h3>Mobile App</h3>
-                    <p>Trade on-the-go with our mobile app featuring voice commands and push notifications.</p>
-                    <button class="platform-btn" onclick="downloadMobile()">Get Mobile App</button>
-                </div>
-            </div>
-        </div>
-    </section>
+    </main>
 
-    <!-- Contact Section -->
-    <section id="contact" class="contact-section">
-        <div class="container">
-            <div class="section-header">
-                <h2>Start Trading Today</h2>
-                <p>Join thousands of successful traders using AI-powered strategies</p>
-            </div>
-            <div class="contact-content">
-                <div class="contact-info">
-                    <h3>Ready to Transform Your Trading?</h3>
-                    <p>Experience the future of cryptocurrency trading with our AI-powered platform.</p>
-                    <div class="contact-methods">
-                        <div class="contact-method">
-                            <i class="fas fa-envelope"></i>
-                            <span>kaseddie@hotmail.com</span>
-                        </div>
-                        <div class="contact-method">
-                            <i class="fas fa-envelope"></i>
-                            <span>kaseddie@gmail.com</span>
-                        </div>
-                        <div class="contact-method">
-                            <i class="fas fa-phone"></i>
-                            <span>+256 769089860</span>
-                        </div>
-                        <div class="contact-method">
-                            <i class="fab fa-whatsapp"></i>
-                            <span>+256 784428821</span>
-                        </div>
-                        <div class="contact-method">
-                            <i class="fas fa-clock"></i>
-                            <span>24/7 Customer Support</span>
-                        </div>
-                        <div class="contact-method">
-                            <i class="fab fa-whatsapp"></i>
-                            <span>WhatsApp: +256 784428821</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="contact-form">
-                    <form id="contactForm">
-                        <div class="form-group">
-                            <input type="text" placeholder="Full Name" required>
-                        </div>
-                        <div class="form-group">
-                            <input type="email" placeholder="Email Address" required>
-                        </div>
-                        <div class="form-group">
-                            <select required>
-                                <option value="">Trading Experience</option>
-                                <option value="beginner">Beginner</option>
-                                <option value="intermediate">Intermediate</option>
-                                <option value="advanced">Advanced</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <textarea placeholder="Message (Optional)" rows="4"></textarea>
-                        </div>
-                        <button type="submit" class="btn-primary full-width">
-                            <i class="fas fa-rocket"></i>
-                            Start Trading Now
-                        </button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </section>
+    <!-- The Live Chat Widget will be created and appended by JavaScript -->
 
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <div class="footer-logo">
-                        <i class="fas fa-rocket"></i>
-                        <span>Kaseddie</span>
-                        <span class="logo-accent">AI</span>
-                    </div>
-                    <p>The future of AI-powered cryptocurrency trading.</p>
-                </div>
-                <div class="footer-section">
-                    <h4>Platform</h4>
-                    <ul>
-                        <li><a href="javascript:launchPlatform()">Web Platform</a></li>
-                        <li><a href="javascript:downloadDesktop()">Desktop App</a></li>
-                        <li><a href="javascript:downloadMobile()">Mobile App</a></li>
-                    </ul>
-                </div>
-                <div class="footer-section">
-                    <h4>Trading</h4>
-                    <ul>
-                        <li><a href="#trading">AI Strategies</a></li>
-                        <li><a href="#features">Features</a></li>
-                        <li><a href="#platform">Platforms</a></li>
-                    </ul>
-                </div>
-                <div class="footer-section">
-                    <h4>Support</h4>
-                    <ul>
-                        <li><a href="mailto:kaseddie@hotmail.com">kaseddie@hotmail.com</a></li>
-                        <li><a href="mailto:kaseddie@gmail.com">kaseddie@gmail.com</a></li>
-                        <li><a href="tel:+256769089860">+256 769089860</a></li>
-                        <li><a href="https://wa.me/256784428821">WhatsApp</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; 2024 Kaseddie AI. All rights reserved.</p>
-            </div>
-        </div>
-    </footer>
-
-    <!-- Include Modals -->
-    <div id="modals-container"></div>
-    
-    <script src="starknet-integration.js"></script>
-    <script src="ai-learning.js"></script>
-    <script src="script.js"></script>
     <script>
-        // Load modals
-        fetch('modals.html')
-            .then(response => response.text())
-            .then(html => {
-                document.getElementById('modals-container').innerHTML = html;
-            });
-        
-        // Initialize AI Learning System
-        window.aiLearning = new AILearningSystem();
-        
-        // Override generateAIResponse to use learning system
-        window.generateAIResponse = function(userMessage) {
-            return window.aiLearning.generateSmartResponse(userMessage);
-        };
+        class KaseddiePlatform {
+            constructor() {
+                // Wallet state
+                this.wallet = null;
+                this.starknet = window.starknet;
+
+                // DOM Elements
+                this.connectBtn = document.getElementById('connect-wallet-btn');
+                this.disconnectBtn = document.getElementById('disconnect-btn');
+                this.walletInfoDiv = document.getElementById('wallet-info');
+                this.walletAddressSpan = document.getElementById('wallet-address');
+
+                // API Base - Point to your LIVE backend on Railway
+                this.apiBase = 'https://kaseddie-crypto-production.up.railway.app/api';
+
+                this.init();
+            }
+
+            init() {
+                this.setupWalletConnection();
+                this.setupNavigation();
+                this.setupAnimations();
+                this.setupVoiceWelcome();
+                this.setupLiveChat();
+            }
+
+            // --- STARKNET WALLET METHODS ---
+            setupWalletConnection() {
+                if (!this.starknet) {
+                    this.showNotification("Starknet wallet not found. Please install ArgentX or Braavos.", "error");
+                    this.connectBtn.disabled = true;
+                    this.connectBtn.textContent = "Wallet Not Found";
+                    return;
+                }
+                this.connectBtn.addEventListener('click', () => this.connectWallet());
+                this.disconnectBtn.addEventListener('click', () => this.disconnectWallet());
+                this.starknet.isPreauthorized().then(isConnected => {
+                    if (isConnected) this.connectWallet(true);
+                });
+                this.starknet.on('accountsChanged', (accounts) => {
+                    if (accounts.length > 0) this.handleConnection(this.starknet);
+                    else this.disconnectWallet();
+                });
+            }
+
+            async connectWallet(silent = false) {
+                try {
+                    const wallet = await this.starknet.enable({ showList: !silent });
+                    if (wallet && wallet.isConnected) this.handleConnection(wallet);
+                } catch (error) {
+                    this.showNotification("Wallet connection was rejected.", "error");
+                }
+            }
+
+            handleConnection(wallet) {
+                this.wallet = wallet;
+                const address = this.wallet.selectedAddress;
+                const truncatedAddress = `${address.substring(0, 6)}...${address.substring(address.length - 4)}`;
+                this.walletAddressSpan.textContent = truncatedAddress;
+                this.walletAddressSpan.title = address;
+                this.connectBtn.style.display = 'none';
+                this.walletInfoDiv.style.display = 'flex';
+                this.showNotification(`Wallet connected: ${truncatedAddress}`, 'success');
+            }
+
+            disconnectWallet() {
+                this.wallet = null;
+                this.connectBtn.style.display = 'block';
+                this.walletInfoDiv.style.display = 'none';
+                this.walletAddressSpan.textContent = '';
+                this.showNotification("Wallet disconnected.", "info");
+            }
+
+            // --- CORE PLATFORM METHODS ---
+            setupVoiceWelcome() {
+                if ('speechSynthesis' in window) {
+                    this.speechSynthesis = window.speechSynthesis;
+                    setTimeout(() => this.playWelcomeMessage(), 3000);
+                }
+            }
+
+            playWelcomeMessage() {
+                const welcomeText = `Welcome to Kaseddie AI. Wallet connectivity is now active. You can ask me about crypto prices, trading strategies, or connect your Starknet wallet to begin.`;
+                this.speak(welcomeText);
+                this.showNotification('🎤 AI Assistant: Welcome!', 'info');
+            }
+
+            speak(text) {
+                if (this.speechSynthesis) {
+                    this.speechSynthesis.cancel();
+                    const utterance = new SpeechSynthesisUtterance(text);
+                    utterance.rate = 0.95;
+                    utterance.pitch = 1.0;
+                    utterance.volume = 0.8;
+                    const voices = this.speechSynthesis.getVoices();
+                    const femaleVoice = voices.find(v => v.name.includes('Female') || v.name.includes('Samantha') || v.lang.startsWith('en'));
+                    if (femaleVoice) utterance.voice = femaleVoice;
+                    this.speechSynthesis.speak(utterance);
+                }
+            }
+
+            setupLiveChat() {
+                const chatWidget = document.createElement('div');
+                chatWidget.id = 'liveChatWidget';
+                chatWidget.innerHTML = `
+                        <div class="chat-button" onclick="platform.toggleLiveChat()">
+                            <i class="fas fa-comments"></i>
+                            <span class="chat-badge">1</span>
+                        </div>
+                        <div class="chat-window" id="chatWindow">
+                            <div class="chat-header">
+                                <h4><i class="fas fa-robot"></i> AI Support</h4>
+                                <button onclick="platform.closeLiveChat()">&times;</button>
+                            </div>
+                            <div class="chat-messages" id="chatMessages">
+                                <div class="message bot-message">
+                                    <div class="message-content">👋 Hi! I'm the Kaseddie AI assistant. Ask me anything about crypto prices, trading strategies, or how to use the platform.</div>
+                                    <div class="message-time">Just now</div>
+                                </div>
+                            </div>
+                            <div class="chat-input">
+                                <input type="text" id="chatInput" placeholder="Ask about 'price of bitcoin'..." onkeypress="if(event.key === 'Enter') platform.sendChatMessage()">
+                                <button onclick="platform.sendChatMessage()"><i class="fas fa-paper-plane"></i></button>
+                            </div>
+                        </div>
+                    `;
+                document.body.appendChild(chatWidget);
+            }
+
+            toggleLiveChat() {
+                document.getElementById('chatWindow').classList.toggle('active');
+                const badge = document.querySelector('.chat-badge');
+                if (badge) badge.style.display = 'none';
+            }
+
+            closeLiveChat() {
+                document.getElementById('chatWindow').classList.remove('active');
+            }
+
+            sendChatMessage() {
+                const input = document.getElementById('chatInput');
+                const message = input.value.trim();
+                if (!message) return;
+
+                this.addChatMessage(message, 'user');
+                input.value = '';
+
+                setTimeout(() => {
+                    const response = this.generateAIResponse(message);
+                    this.addChatMessage(response, 'bot');
+                    this.speak(response);
+                }, 1000);
+            }
+
+            addChatMessage(message, sender) {
+                const messagesContainer = document.getElementById('chatMessages');
+                const messageDiv = document.createElement('div');
+                messageDiv.className = `message ${sender}-message`;
+                const timeString = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+                messageDiv.innerHTML = `
+                        <div class="message-content">${message.replace(/\n/g, '<br>')}</div>
+                        <div class="message-time">${timeString}</div>
+                    `;
+
+                messagesContainer.appendChild(messageDiv);
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            }
+
+            // --- UPGRADED "SMART DEMO" AI LOGIC ---
+            generateAIResponse(userMessage) {
+                const message = userMessage.toLowerCase();
+                const cryptoKnowledge = {
+                    'bitcoin': { symbol: 'BTC', price: 68123.45, change: 2.1, marketCap: '1.3T', info: 'The original cryptocurrency, often seen as digital gold and a store of value.' },
+                    'ethereum': { symbol: 'ETH', price: 3567.89, change: -1.2, marketCap: '428B', info: 'The leading smart contract platform, powering DeFi, NFTs, and thousands of dApps.' },
+                    'starknet': { symbol: 'STRK', price: 1.25, change: 5.5, marketCap: '1.2B', info: 'A leading ZK-Rollup (L2) that scales Ethereum by bundling transactions for massive throughput and low fees. It is ideal for complex applications like ours.' },
+                    'solana': { symbol: 'SOL', price: 150.11, change: 4.8, marketCap: '68B', info: 'A high-speed blockchain known for its fast transaction times and low costs, popular for DeFi and NFTs.' },
+                };
+                const intents = [
+                    {
+                        regex: /price of (\w+)|what is the price of (\w+)|(\w+) price/,
+                        handler: (matches) => {
+                            const cryptoName = matches[1] || matches[2] || matches[3];
+                            if (cryptoKnowledge[cryptoName]) {
+                                const data = cryptoKnowledge[cryptoName];
+                                const changeSign = data.change >= 0 ? '+' : '';
+                                return `The current price of ${cryptoName.charAt(0).toUpperCase() + cryptoName.slice(1)} (${data.symbol}) is **$${data.price.toLocaleString()}** (${changeSign}${data.change}% 24h). Its market cap is ${data.marketCap}. Would you like to analyze it further?`;
+                            }
+                            return `I don't have specific data for ${cryptoName} in my demo knowledge base, but I can provide info on Bitcoin, Ethereum, or Starknet.`;
+                        }
+                    },
+                    {
+                        regex: /tell me about (momentum|arbitrage|scalping|sentiment) strategy/,
+                        handler: (matches) => {
+                            const strategy = matches[1];
+                            const details = {
+                                momentum: 'Momentum trading involves buying assets that are showing a strong upward trend. Our AI identifies these trends early with an 82% back-tested accuracy.',
+                                arbitrage: 'Arbitrage exploits price differences for the same asset across different exchanges. Our AI scans dozens of pairs in real-time. This is a lower-risk, high-frequency strategy.',
+                                scalping: 'Scalping aims to make small profits from many quick trades. This is best suited for automated bots on low-fee networks like Starknet.',
+                                sentiment: 'Sentiment analysis involves scanning social media, news, and forums to gauge market mood. Our AI processes millions of data points to detect shifts before they impact price.'
+                            };
+                            return `🤖 The **${strategy.charAt(0).toUpperCase() + strategy.slice(1)} Strategy** is one of our core offerings. ${details[strategy]} Would you like to simulate it?`;
+                        }
+                    },
+                    { regex: /strateg(y|ies)/, handler: () => 'We offer 10 advanced AI strategies, including Momentum, Arbitrage, Sentiment Analysis, and AI-based Forecasting. Which one are you interested in learning more about?' },
+                    { regex: /price|prices|market/, handler: () => 'I can provide live prices for major cryptocurrencies. For example, you can ask, "What is the price of Ethereum?"' },
+                    { regex: /hello|hi|help|support/, handler: () => 'Hello! I am the Kaseddie AI assistant. I can help with:\n- Crypto prices (e.g., "price of bitcoin")\n- Trading strategies (e.g., "tell me about arbitrage")\n- Platform features.\nHow can I assist you?' }
+                ];
+                for (const intent of intents) {
+                    const match = message.match(intent.regex);
+                    if (match) return intent.handler(match);
+                }
+                return `I'm sorry, I'm not sure how to answer that yet. My capabilities in this demo are focused on crypto prices and trading strategies. \n\nYou could try asking:\n- "What is the price of Starknet?"\n- "Tell me about the momentum strategy."`;
+            }
+
+            // --- Other Methods ---
+            setupNavigation() {
+                document.querySelectorAll('.nav-link').forEach(link => {
+                    link.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        const targetId = link.getAttribute('href');
+                        if (document.querySelector(targetId)) {
+                            document.querySelector(targetId).scrollIntoView({ behavior: 'smooth' });
+                        }
+                    });
+                });
+            }
+            setupAnimations() {
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('is-visible');
+                        }
+                    });
+                }, { threshold: 0.1 });
+
+                document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+            }
+            showNotification(message, type = 'info') {
+                const notification = document.createElement('div');
+                notification.className = `notification ${type}`;
+                notification.textContent = message;
+                document.body.appendChild(notification);
+                setTimeout(() => {
+                    notification.style.animation = 'slideDown 0.5s ease-in forwards';
+                    setTimeout(() => notification.remove(), 500);
+                }, 5000);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            window.platform = new KaseddiePlatform();
+        });
     </script>
 </body>
 </html>
