@@ -42,6 +42,8 @@
             color: var(--text-primary);
             line-height: 1.6;
             overflow-x: hidden;
+            min-height: 100vh;
+            -webkit-overflow-scrolling: touch;
         }
 
         .container {
@@ -832,36 +834,100 @@
 
         /* Responsive Design */
         @media (max-width: 768px) {
+            body {
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+            
             .nav-menu {
                 display: none;
+            }
+            
+            .nav-container {
+                padding: 0 10px;
+                height: 60px;
+            }
+            
+            .hero {
+                padding-top: 60px;
+                min-height: auto;
+                padding-bottom: 50px;
             }
 
             .hero-content {
                 grid-template-columns: 1fr;
                 text-align: center;
+                gap: 30px;
+                padding: 0 15px;
             }
 
             .hero-text h1 {
-                font-size: 2.5rem;
+                font-size: 2rem;
+                line-height: 1.3;
+            }
+            
+            .hero-text p {
+                font-size: 1rem;
             }
 
             .hero-stats {
                 justify-content: center;
+                gap: 20px;
+                flex-wrap: wrap;
+            }
+            
+            .hero-actions {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .btn-primary.large,
+            .btn-secondary.large {
+                padding: 14px 24px;
+                font-size: 14px;
+                width: 100%;
+            }
+            
+            .trading-preview {
+                width: 100%;
+                max-width: 350px;
+                height: 250px;
             }
 
             .features-grid,
             .strategies-grid,
             .platform-grid {
                 grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .feature-card,
+            .strategy-card,
+            .platform-card {
+                padding: 20px;
+            }
+            
+            section {
+                padding: 60px 0;
+            }
+            
+            .container {
+                padding: 0 15px;
             }
 
             .contact-content {
                 grid-template-columns: 1fr;
+                gap: 30px;
             }
 
             .footer-content {
                 grid-template-columns: 1fr;
                 text-align: center;
+                gap: 30px;
+            }
+            
+            .section-header h2 {
+                font-size: 2rem;
             }
         }
 
@@ -1229,39 +1295,7 @@
         }
 
         /* Responsive Adjustments */
-        @media (max-width: 768px) {
-            .nav-menu {
-                display: none;
-            }
 
-            .hero-content {
-                grid-template-columns: 1fr;
-                text-align: center;
-            }
-
-            .hero-text h1 {
-                font-size: 2.5rem;
-            }
-
-            .hero-stats {
-                justify-content: center;
-            }
-
-            .features-grid,
-            .strategies-grid,
-            .platform-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .contact-content {
-                grid-template-columns: 1fr;
-            }
-
-            .footer-content {
-                grid-template-columns: 1fr;
-                text-align: center;
-            }
-        }
 
         /* Animations */
         @keyframes slideIn {
@@ -1467,16 +1501,16 @@
                 <p>Professional AI-powered cryptocurrency trading platform with advanced strategies, voice commands, and real-time market analysis.</p>
                 <div class="hero-stats">
                     <div class="stat">
-                        <span class="stat-number">85%</span>
-                        <span class="stat-label">Success Rate</span>
+                        <span class="stat-number">95%</span>
+                        <span class="stat-label">Target Success Rate</span>
                     </div>
                     <div class="stat">
                         <span class="stat-number">50+</span>
                         <span class="stat-label">Cryptocurrencies</span>
                     </div>
                     <div class="stat">
-                        <span class="stat-number">11</span>
-                        <span class="stat-label">Trading Options</span>
+                        <span class="stat-number">10K+</span>
+                        <span class="stat-label">Expected Users</span>
                     </div>
                 </div>
                 <div class="hero-actions">
@@ -1806,7 +1840,7 @@
         <div class="container">
             <div class="section-header">
                 <h2>Start Trading Today</h2>
-                <p>Join thousands of successful traders using AI-powered strategies</p>
+                <p>Be among the first to experience our revolutionary AI trading platform</p>
             </div>
             <div class="contact-content">
                 <div class="contact-info fade-in">
