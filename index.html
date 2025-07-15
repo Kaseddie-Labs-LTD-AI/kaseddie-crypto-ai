@@ -1622,6 +1622,10 @@
                         <i class="fas fa-rocket"></i>
                         Launch Trading Platform
                     </button>
+                    <a href="investor-dashboard.html" class="btn-secondary large" style="text-decoration: none; display: inline-flex; align-items: center; justify-content: center;">
+                        <i class="fas fa-chart-line"></i>
+                        Investor Dashboard
+                    </a>
                     <button class="btn-secondary large" onclick="downloadDesktop()">
                         <i class="fas fa-download"></i>
                         Download Desktop App
@@ -2718,14 +2722,14 @@
                     utterance.pitch = 1.0;
                     utterance.volume = 0.8;
 
-                    // Set voice if available
+                    // Set female voice if available
                     const voices = this.speechSynthesis.getVoices();
                     const femaleVoice = voices.find(v =>
+                        v.name.includes('Zira') ||
                         v.name.includes('Female') ||
                         v.name.includes('Samantha') ||
-                        v.name.includes('Karen') ||
-                        v.lang.startsWith('en')
-                    );
+                        v.name.includes('Karen')
+                    ) || voices.find(v => v.lang.startsWith('en-')) || voices[0];
                     if (femaleVoice) utterance.voice = femaleVoice;
 
                     this.speechSynthesis.speak(utterance);
