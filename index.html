@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Kaseddie AI - Professional Cryptocurrency Trading Platform</title>
 
     <!-- Google Fonts: Inter -->
@@ -44,6 +44,8 @@
             overflow-x: hidden;
             min-height: 100vh;
             -webkit-overflow-scrolling: touch;
+            width: 100%;
+            max-width: 100vw;
         }
 
         .container {
@@ -832,10 +834,15 @@
             color: var(--text-muted);
         }
 
-        /* Responsive Design */
+        /* Mobile-First Responsive Design */
         @media (max-width: 768px) {
-            body {
-                overflow-x: auto;
+            * {
+                box-sizing: border-box;
+            }
+            
+            html, body {
+                width: 100%;
+                overflow-x: hidden;
                 -webkit-overflow-scrolling: touch;
             }
             
@@ -846,88 +853,185 @@
             .nav-container {
                 padding: 0 10px;
                 height: 60px;
+                width: 100%;
+                max-width: 100vw;
+            }
+            
+            .nav-logo {
+                font-size: 18px;
+            }
+            
+            .nav-actions {
+                gap: 8px;
+            }
+            
+            .btn-primary, .btn-secondary {
+                padding: 8px 12px;
+                font-size: 12px;
             }
             
             .hero {
                 padding-top: 60px;
                 min-height: auto;
-                padding-bottom: 50px;
+                padding-bottom: 30px;
+                width: 100%;
+                overflow: hidden;
             }
 
             .hero-content {
                 grid-template-columns: 1fr;
                 text-align: center;
-                gap: 30px;
-                padding: 0 15px;
+                gap: 20px;
+                padding: 0 10px;
+                width: 100%;
+                max-width: 100vw;
             }
 
             .hero-text h1 {
-                font-size: 2rem;
-                line-height: 1.3;
+                font-size: 1.5rem;
+                line-height: 1.2;
+                margin-bottom: 15px;
             }
             
             .hero-text p {
-                font-size: 1rem;
+                font-size: 0.9rem;
+                margin-bottom: 20px;
             }
 
             .hero-stats {
-                justify-content: center;
-                gap: 20px;
+                justify-content: space-around;
+                gap: 10px;
                 flex-wrap: wrap;
+                margin-bottom: 20px;
+            }
+            
+            .stat {
+                flex: 1;
+                min-width: 80px;
+            }
+            
+            .stat-number {
+                font-size: 1.2rem;
+            }
+            
+            .stat-label {
+                font-size: 0.7rem;
             }
             
             .hero-actions {
                 flex-direction: column;
-                gap: 15px;
+                gap: 10px;
+                width: 100%;
             }
             
             .btn-primary.large,
             .btn-secondary.large {
-                padding: 14px 24px;
-                font-size: 14px;
+                padding: 12px 20px;
+                font-size: 13px;
                 width: 100%;
+                max-width: 280px;
+                margin: 0 auto;
             }
             
             .trading-preview {
                 width: 100%;
-                max-width: 350px;
-                height: 250px;
+                max-width: 280px;
+                height: 200px;
+                margin: 0 auto;
+            }
+            
+            .container {
+                padding: 0 10px;
+                width: 100%;
+                max-width: 100vw;
+            }
+            
+            section {
+                padding: 40px 0;
+                width: 100%;
+                overflow: hidden;
+            }
+            
+            .section-header h2 {
+                font-size: 1.5rem;
+                margin-bottom: 15px;
+            }
+            
+            .section-header p {
+                font-size: 0.9rem;
             }
 
             .features-grid,
             .strategies-grid,
             .platform-grid {
                 grid-template-columns: 1fr;
-                gap: 20px;
+                gap: 15px;
+                width: 100%;
             }
             
             .feature-card,
             .strategy-card,
             .platform-card {
-                padding: 20px;
+                padding: 15px;
+                width: 100%;
+                max-width: 100%;
             }
             
-            section {
-                padding: 60px 0;
+            .feature-card h3,
+            .strategy-card h3,
+            .platform-card h3 {
+                font-size: 1.1rem;
             }
             
-            .container {
-                padding: 0 15px;
+            .feature-card p,
+            .strategy-card p,
+            .platform-card p {
+                font-size: 0.85rem;
             }
 
             .contact-content {
                 grid-template-columns: 1fr;
-                gap: 30px;
+                gap: 20px;
+            }
+            
+            .contact-info h3 {
+                font-size: 1.3rem;
+            }
+            
+            .contact-method {
+                font-size: 0.85rem;
             }
 
             .footer-content {
                 grid-template-columns: 1fr;
                 text-align: center;
-                gap: 30px;
+                gap: 20px;
             }
             
-            .section-header h2 {
-                font-size: 2rem;
+            .footer-section h4 {
+                font-size: 1rem;
+            }
+            
+            /* Chat widget mobile optimization */
+            #liveChatWidget {
+                bottom: 15px;
+                right: 15px;
+            }
+            
+            .chat-window {
+                width: calc(100vw - 30px);
+                max-width: 320px;
+                height: 400px;
+                right: -5px;
+            }
+            
+            .chat-button {
+                width: 50px;
+                height: 50px;
+            }
+            
+            .chat-button i {
+                font-size: 20px;
             }
         }
 
