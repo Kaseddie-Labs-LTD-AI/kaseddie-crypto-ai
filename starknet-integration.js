@@ -67,7 +67,7 @@ class StarknetWalletManager {
             <div class="wallet-dropdown" id="walletDropdown">
                 <div class="wallet-option" data-wallet="argentX">
                     <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSI+PC9zdmc+" alt="ArgentX">
-                    <span>ArgentX</span>
+                    <span>Ready Wallet</span>
                 </div>
                 <div class="wallet-option" data-wallet="braavos">
                     <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSI+PC9zdmc+" alt="Braavos">
@@ -197,7 +197,7 @@ class StarknetWalletManager {
             // Check if wallet extensions are installed
             if (walletType === 'argentX') {
                 if (typeof window.starknet_argentX === 'undefined') {
-                    this.showNotification('ArgentX wallet not found. Please install ArgentX extension from Chrome Web Store.', 'error');
+                    this.showNotification('Ready Wallet not found. Please install Ready Wallet extension from Chrome Web Store.', 'error');
                     window.open('https://chrome.google.com/webstore/detail/argent-x/dlcobpjiigpikoobohmabehhmhfoodbb', '_blank');
                     return;
                 }
@@ -282,7 +282,7 @@ class StarknetWalletManager {
     }
 
     getWalletName() {
-        if (this.wallet === window.starknet_argentX) return 'ArgentX';
+        if (this.wallet === window.starknet_argentX) return 'Ready Wallet';
         if (this.wallet === window.starknet_braavos) return 'Braavos';
         return 'Unknown';
     }

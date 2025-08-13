@@ -37,7 +37,7 @@ The project includes a Cairo smart contract deployed on Starknet:
 ## Quick Start
 
 1. Open `index.html` in your browser
-2. Connect your Starknet wallet (ArgentX or Braavos)
+2. Connect your Starknet wallet (Ready Wallet or Braavos)
 3. Choose an AI trading strategy
 4. Start trading with AI assistance
 
