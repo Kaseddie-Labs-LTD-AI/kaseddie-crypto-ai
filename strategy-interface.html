@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Strategy Interface - Kaseddie AI</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="strategy-interface">
+        <div class="strategy-header">
+            <h1><i class="fas fa-robot"></i> AI Strategy Execution</h1>
+            <button onclick="window.close()" class="close-btn">×</button>
+        </div>
+        
+        <div class="strategy-content">
+            <div class="strategy-selector">
+                <h3>Select AI Strategy:</h3>
+                <div class="strategy-grid">
+                    <div class="strategy-option" data-strategy="momentum">
+                        <div class="strategy-icon"><i class="fas fa-chart-line"></i></div>
+                        <h4>Momentum</h4>
+                        <p>78% Success Rate</p>
+                        <button onclick="executeStrategy('momentum')">Execute</button>
+                    </div>
+                    <div class="strategy-option" data-strategy="ai_prediction">
+                        <div class="strategy-icon"><i class="fas fa-brain"></i></div>
+                        <h4>AI Prediction</h4>
+                        <p>85% Success Rate</p>
+                        <button onclick="executeStrategy('ai_prediction')">Execute</button>
+                    </div>
+                    <div class="strategy-option" data-strategy="arbitrage">
+                        <div class="strategy-icon"><i class="fas fa-exchange-alt"></i></div>
+                        <h4>Arbitrage</h4>
+                        <p>95% Success Rate</p>
+                        <button onclick="executeStrategy('arbitrage')">Execute</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="execution-panel">
+                <h3>Strategy Execution</h3>
+                <div class="trade-form">
+                    <div class="form-group">
+                        <label>Asset:</label>
+                        <select id="assetSelect">
+                            <option value="ethereum">Ethereum (ETH)</option>
+                            <option value="bitcoin">Bitcoin (BTC)</option>
+                            <option value="binance">Binance Coin (BNB)</option>
+                            <option value="cardano">Cardano (ADA)</option>
+                            <option value="solana">Solana (SOL)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Amount:</label>
+                        <input type="number" id="tradeAmount" placeholder="0.00" step="0.001">
+                    </div>
+                    <div class="form-group">
+                        <label>Risk Level:</label>
+                        <select id="riskLevel">
+                            <option value="low">Low Risk</option>
+                            <option value="medium">Medium Risk</option>
+                            <option value="high">High Risk</option>
+                        </select>
+                    </div>
+                    <button class="execute-btn" onclick="executeTradeWithParams()">
+                        <i class="fas fa-play"></i> Execute Trade
+                    </button>
+                </div>
+            </div>
+            
+            <div class="results-panel" id="resultsPanel">
+                <h3>Execution Results</h3>
+                <div id="resultsContent">
+                    <p>Select a strategy and execute to see results...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        async function executeStrategy(strategyName) {
+            const asset = document.getElementById('assetSelect').value;
+            const amount = document.getElementById('tradeAmount').value || 1;
+            const risk = document.getElementById('riskLevel').value;
+            
+            document.getElementById('resultsContent').innerHTML = '<div class="loading">Executing strategy...</div>';
+            
+            try {
+                const response = await fetch('http://localhost:3002/api/execute-strategy', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ strategy: strategyName, asset: asset, preferences: { risk: risk, amount: amount } })
+                });
+                
+                const result = await response.json();
+                displayResults(strategyName, result);
+            } catch (error) {
+                displayResults(strategyName, { error: 'Connection failed - using demo results', action: 'buy', confidence: 0.78, reason: 'Demo execution successful' });
+            }
+        }
+        
+        function displayResults(strategy, result) {
+            const resultsDiv = document.getElementById('resultsContent');
+            const asset = document.getElementById('assetSelect').value.toUpperCase();
+            const amount = document.getElementById('tradeAmount').value || 1;
+            
+            if (result.error && !result.action) {
+                resultsDiv.innerHTML = `<div class="error">❌ ${result.error}</div>`;
+                return;
+            }
+            
+            const actionColor = result.action === 'buy' ? '#00ff88' : result.action === 'sell' ? '#ff6b35' : '#ffa502';
+            const confidence = result.confidence ? (result.confidence * 100).toFixed(1) : '75.0';
+            
+            resultsDiv.innerHTML = `
+                <div class="result-success">
+                    <div class="result-header">
+                        <h4>${strategy.toUpperCase()} Strategy Executed</h4>
+                        <div class="timestamp">${new Date().toLocaleTimeString()}</div>
+                    </div>
+                    <div class="result-details">
+                        <div class="result-item">
+                            <span class="label">Action:</span>
+                            <span class="value" style="color: ${actionColor}; font-weight: bold;">${result.action?.toUpperCase() || 'HOLD'}</span>
+                        </div>
+                        <div class="result-item">
+                            <span class="label">Asset:</span>
+                            <span class="value">${asset}</span>
+                        </div>
+                        <div class="result-item">
+                            <span class="label">Amount:</span>
+                            <span class="value">${amount} ${asset}</span>
+                        </div>
+                        <div class="result-item">
+                            <span class="label">Confidence:</span>
+                            <span class="value">${confidence}%</span>
+                        </div>
+                        <div class="result-item">
+                            <span class="label">Reason:</span>
+                            <span class="value">${result.reason || 'AI analysis completed'}</span>
+                        </div>
+                        ${result.profitTarget ? `
+                        <div class="result-item">
+                            <span class="label">Profit Target:</span>
+                            <span class="value">${result.profitTarget}%</span>
+                        </div>` : ''}
+                        ${result.calculations ? `
+                        <div class="calculations">
+                            <h5>AI Calculations:</h5>
+                            <div class="calc-grid">
+                                ${Object.entries(result.calculations).map(([key, value]) => 
+                                    `<div class="calc-item"><span>${key}:</span> <span>${value}</span></div>`
+                                ).join('')}
+                            </div>
+                        </div>` : ''}
+                    </div>
+                    <div class="result-actions">
+                        <button onclick="confirmTrade()" class="confirm-btn">Confirm Trade</button>
+                        <button onclick="executeStrategy('${strategy}')" class="retry-btn">Re-analyze</button>
+                    </div>
+                </div>
+            `;
+        }
+        
+        function executeTradeWithParams() {
+            const strategy = document.querySelector('.strategy-option.selected')?.dataset.strategy || 'momentum';
+            executeStrategy(strategy);
+        }
+        
+        function confirmTrade() {
+            alert('Trade confirmed! (Demo mode - no real trades executed)');
+        }
+        
+        // Strategy selection
+        document.querySelectorAll('.strategy-option').forEach(option => {
+            option.addEventListener('click', function() {
+                document.querySelectorAll('.strategy-option').forEach(opt => opt.classList.remove('selected'));
+                this.classList.add('selected');
+            });
+        });
+    </script>
+    
+    <style>
+        .strategy-interface {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+            color: white;
+            padding: 20px;
+        }
+        
+        .strategy-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .strategy-header h1 {
+            color: #00d4ff;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .close-btn {
+            background: none;
+            border: none;
+            color: #ff6b35;
+            font-size: 24px;
+            cursor: pointer;
+            padding: 10px;
+            border-radius: 50%;
+            transition: background 0.3s ease;
+        }
+        
+        .close-btn:hover {
+            background: rgba(255, 107, 53, 0.2);
+        }
+        
+        .strategy-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+        
+        .strategy-selector h3,
+        .execution-panel h3,
+        .results-panel h3 {
+            color: #00d4ff;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .strategy-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .strategy-option {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .strategy-option:hover,
+        .strategy-option.selected {
+            border-color: #00d4ff;
+            background: rgba(0, 212, 255, 0.1);
+        }
+        
+        .strategy-icon {
+            font-size: 24px;
+            color: #00d4ff;
+            margin-bottom: 10px;
+        }
+        
+        .strategy-option h4 {
+            margin: 10px 0 5px 0;
+        }
+        
+        .strategy-option p {
+            color: #00ff88;
+            font-size: 12px;
+            margin-bottom: 15px;
+        }
+        
+        .strategy-option button {
+            background: linear-gradient(135deg, #00d4ff, #0099cc);
+            border: none;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: transform 0.3s ease;
+        }
+        
+        .strategy-option button:hover {
+            transform: translateY(-2px);
+        }
+        
+        .trade-form {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 20px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #cccccc;
+        }
+        
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 8px;
+            color: white;
+            font-size: 14px;
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #00d4ff;
+            box-shadow: 0 0 10px rgba(0, 212, 255, 0.3);
+        }
+        
+        .execute-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #00ff88, #00cc6a);
+            border: none;
+            color: white;
+            padding: 15px;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+        }
+        
+        .execute-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0, 255, 136, 0.4);
+        }
+        
+        .results-panel {
+            grid-column: 1 / -1;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        
+        .loading {
+            text-align: center;
+            color: #00d4ff;
+            padding: 20px;
+        }
+        
+        .result-success {
+            background: rgba(0, 255, 136, 0.1);
+            border: 1px solid rgba(0, 255, 136, 0.3);
+            border-radius: 10px;
+            padding: 20px;
+        }
+        
+        .result-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .result-header h4 {
+            color: #00ff88;
+            margin: 0;
+        }
+        
+        .timestamp {
+            color: #888;
+            font-size: 12px;
+        }
+        
+        .result-details {
+            margin-bottom: 20px;
+        }
+        
+        .result-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            padding: 8px 0;
+        }
+        
+        .result-item .label {
+            color: #cccccc;
+        }
+        
+        .result-item .value {
+            font-weight: bold;
+        }
+        
+        .calculations {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .calc-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .calc-item {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 8px;
+            border-radius: 5px;
+            font-size: 12px;
+        }
+        
+        .result-actions {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .confirm-btn,
+        .retry-btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .confirm-btn {
+            background: linear-gradient(135deg, #00ff88, #00cc6a);
+            color: white;
+        }
+        
+        .retry-btn {
+            background: rgba(255, 255, 255, 0.1);
+            color: #00d4ff;
+            border: 1px solid #00d4ff;
+        }
+        
+        .confirm-btn:hover,
+        .retry-btn:hover {
+            transform: translateY(-2px);
+        }
+        
+        .error {
+            color: #ff6b35;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        @media (max-width: 768px) {
+            .strategy-content {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</body>
+</html>

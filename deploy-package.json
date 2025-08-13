@@ -1,0 +1,23 @@
+{
+  "name": "kaseddie-crypto-platform",
+  "version": "1.0.0",
+  "description": "AI-Powered Cryptocurrency Trading Platform",
+  "main": "server-clean.js",
+  "scripts": {
+    "start": "node server-clean.js",
+    "dev": "node server-clean.js",
+    "build": "echo 'Build complete'",
+    "heroku-postbuild": "npm install"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "cors": "^2.8.5",
+    "ethers": "^6.8.0",
+    "axios": "^1.6.0",
+    "express-rate-limit": "^7.1.0",
+    "dotenv": "^16.3.1"
+  }
+}

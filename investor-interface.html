@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Investor Dashboard - Kaseddie AI</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="investor-dashboard">
+        <!-- Header -->
+        <div class="investor-header">
+            <div class="header-content">
+                <div class="logo-section">
+                    <div class="logo">
+                        <i class="fas fa-rocket"></i>
+                        <span>Kaseddie</span>
+                        <span class="logo-accent">AI</span>
+                    </div>
+                    <div class="tagline">Next-Generation AI Trading Platform</div>
+                </div>
+                <div class="funding-status">
+                    <div class="funding-round">
+                        <span class="round-label">Series A</span>
+                        <span class="round-status">Open</span>
+                    </div>
+                    <div class="target-amount">
+                        <span class="label">Target:</span>
+                        <span class="amount">$2.5M</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Executive Summary -->
+        <section class="executive-summary">
+            <div class="container">
+                <h2><i class="fas fa-chart-line"></i> Executive Summary</h2>
+                <div class="summary-grid">
+                    <div class="summary-card">
+                        <div class="card-icon">
+                            <i class="fas fa-bullseye"></i>
+                        </div>
+                        <h3>Market Opportunity</h3>
+                        <p>$2.8T global crypto market with 95% of traders losing money due to emotional decisions. Our AI eliminates human error.</p>
+                        <div class="metric">
+                            <span class="metric-value">$2.8T</span>
+                            <span class="metric-label">Market Size</span>
+                        </div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="card-icon">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                        <h3>AI Advantage</h3>
+                        <p>10 proprietary AI algorithms with up to 95% success rates, processing 1M+ data points per second.</p>
+                        <div class="metric">
+                            <span class="metric-value">95%</span>
+                            <span class="metric-label">Success Rate</span>
+                        </div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="card-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <h3>User Growth</h3>
+                        <p>10,000+ beta users, 40% month-over-month growth, $1.2M in trading volume processed.</p>
+                        <div class="metric">
+                            <span class="metric-value">40%</span>
+                            <span class="metric-label">Monthly Growth</span>
+                        </div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="card-icon">
+                            <i class="fas fa-dollar-sign"></i>
+                        </div>
+                        <h3>Revenue Model</h3>
+                        <p>Multiple revenue streams: trading fees (0.1%), premium subscriptions ($99/mo), API licensing.</p>
+                        <div class="metric">
+                            <span class="metric-value">$500K</span>
+                            <span class="metric-label">ARR Projected</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Starknet Integration Showcase -->
+        <section class="starknet-showcase">
+            <div class="container">
+                <h2><i class="fas fa-link"></i> Starknet Integration</h2>
+                <div class="starknet-content">
+                    <div class="starknet-info">
+                        <h3>Why Starknet?</h3>
+                        <ul class="feature-list">
+                            <li><i class="fas fa-check"></i> <strong>Low Fees:</strong> 100x cheaper than Ethereum mainnet</li>
+                            <li><i class="fas fa-check"></i> <strong>High Speed:</strong> 10,000+ TPS capability</li>
+                            <li><i class="fas fa-check"></i> <strong>Security:</strong> Ethereum-level security with ZK-STARKs</li>
+                            <li><i class="fas fa-check"></i> <strong>Scalability:</strong> Built for mass adoption</li>
+                            <li><i class="fas fa-check"></i> <strong>Developer Ecosystem:</strong> Growing rapidly with strong support</li>
+                        </ul>
+                        <div class="starknet-metrics">
+                            <div class="metric-item">
+                                <span class="metric-number">$50M+</span>
+                                <span class="metric-desc">TVL on Starknet</span>
+                            </div>
+                            <div class="metric-item">
+                                <span class="metric-number">100+</span>
+                                <span class="metric-desc">DApps Building</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="wallet-demo">
+                        <h3>Live Wallet Integration</h3>
+                        <div class="wallet-connect-demo">
+                            <button class="demo-wallet-btn" onclick="connectStarknetWallet()">
+                                <i class="fas fa-wallet"></i>
+                                Connect Starknet Wallet
+                            </button>
+                            <div class="supported-wallets">
+                                <div class="wallet-item">
+                                    <i class="fas fa-shield-alt"></i>
+                                    <span>ArgentX</span>
+                                </div>
+                                <div class="wallet-item">
+                                    <i class="fas fa-lock"></i>
+                                    <span>Braavos</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Financial Projections -->
+        <section class="financial-projections">
+            <div class="container">
+                <h2><i class="fas fa-chart-bar"></i> Financial Projections</h2>
+                <div class="projections-grid">
+                    <div class="projection-card">
+                        <h3>Year 1</h3>
+                        <div class="projection-metrics">
+                            <div class="metric">
+                                <span class="label">Revenue:</span>
+                                <span class="value">$500K</span>
+                            </div>
+                            <div class="metric">
+                                <span class="label">Users:</span>
+                                <span class="value">50K</span>
+                            </div>
+                            <div class="metric">
+                                <span class="label">Trading Volume:</span>
+                                <span class="value">$50M</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="projection-card">
+                        <h3>Year 2</h3>
+                        <div class="projection-metrics">
+                            <div class="metric">
+                                <span class="label">Revenue:</span>
+                                <span class="value">$2.5M</span>
+                            </div>
+                            <div class="metric">
+                                <span class="label">Users:</span>
+                                <span class="value">250K</span>
+                            </div>
+                            <div class="metric">
+                                <span class="label">Trading Volume:</span>
+                                <span class="value">$500M</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="projection-card">
+                        <h3>Year 3</h3>
+                        <div class="projection-metrics">
+                            <div class="metric">
+                                <span class="label">Revenue:</span>
+                                <span class="value">$10M</span>
+                            </div>
+                            <div class="metric">
+                                <span class="label">Users:</span>
+                                <span class="value">1M</span>
+                            </div>
+                            <div class="metric">
+                                <span class="label">Trading Volume:</span>
+                                <span class="value">$2B</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="roi-calculator">
+                    <h3>ROI Calculator</h3>
+                    <div class="calculator-content">
+                        <div class="input-group">
+                            <label>Investment Amount ($):</label>
+                            <input type="number" id="investmentAmount" placeholder="100000" oninput="calculateROI()">
+                        </div>
+                        <div class="roi-results" id="roiResults">
+                            <div class="roi-item">
+                                <span>3-Year Projected Return:</span>
+                                <span class="roi-value" id="projectedReturn">$0</span>
+                            </div>
+                            <div class="roi-item">
+                                <span>ROI Percentage:</span>
+                                <span class="roi-value" id="roiPercentage">0%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Technology Stack -->
+        <section class="technology-stack">
+            <div class="container">
+                <h2><i class="fas fa-cogs"></i> Technology Stack</h2>
+                <div class="tech-grid">
+                    <div class="tech-category">
+                        <h3>Blockchain</h3>
+                        <div class="tech-items">
+                            <div class="tech-item">
+                                <i class="fab fa-ethereum"></i>
+                                <span>Starknet</span>
+                            </div>
+                            <div class="tech-item">
+                                <i class="fas fa-link"></i>
+                                <span>Cairo</span>
+                            </div>
+                            <div class="tech-item">
+                                <i class="fas fa-shield-alt"></i>
+                                <span>ZK-STARKs</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tech-category">
+                        <h3>AI/ML</h3>
+                        <div class="tech-items">
+                            <div class="tech-item">
+                                <i class="fas fa-brain"></i>
+                                <span>TensorFlow</span>
+                            </div>
+                            <div class="tech-item">
+                                <i class="fas fa-robot"></i>
+                                <span>PyTorch</span>
+                            </div>
+                            <div class="tech-item">
+                                <i class="fas fa-chart-line"></i>
+                                <span>Scikit-learn</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tech-category">
+                        <h3>Backend</h3>
+                        <div class="tech-items">
+                            <div class="tech-item">
+                                <i class="fab fa-node-js"></i>
+                                <span>Node.js</span>
+                            </div>
+                            <div class="tech-item">
+                                <i class="fas fa-database"></i>
+                                <span>MongoDB</span>
+                            </div>
+                            <div class="tech-item">
+                                <i class="fas fa-server"></i>
+                                <span>Redis</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tech-category">
+                        <h3>Frontend</h3>
+                        <div class="tech-items">
+                            <div class="tech-item">
+                                <i class="fab fa-react"></i>
+                                <span>React</span>
+                            </div>
+                            <div class="tech-item">
+                                <i class="fab fa-js"></i>
+                                <span>TypeScript</span>
+                            </div>
+                            <div class="tech-item">
+                                <i class="fas fa-mobile-alt"></i>
+                                <span>PWA</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Investment Tiers -->
+        <section class="investment-tiers">
+            <div class="container">
+                <h2><i class="fas fa-trophy"></i> Investment Opportunities</h2>
+                <div class="tiers-grid">
+                    <div class="tier-card">
+                        <div class="tier-header">
+                            <h3>Angel</h3>
+                            <div class="tier-amount">$25K - $100K</div>
+                        </div>
+                        <div class="tier-benefits">
+                            <ul>
+                                <li><i class="fas fa-check"></i> Early access to platform</li>
+                                <li><i class="fas fa-check"></i> Quarterly updates</li>
+                                <li><i class="fas fa-check"></i> Community access</li>
+                                <li><i class="fas fa-check"></i> 2% equity</li>
+                            </ul>
+                        </div>
+                        <button class="invest-btn" onclick="openInvestmentForm('angel')">
+                            Invest Now
+                        </button>
+                    </div>
+                    <div class="tier-card featured">
+                        <div class="tier-header">
+                            <h3>Strategic</h3>
+                            <div class="tier-amount">$100K - $500K</div>
+                            <div class="tier-badge">Most Popular</div>
+                        </div>
+                        <div class="tier-benefits">
+                            <ul>
+                                <li><i class="fas fa-check"></i> All Angel benefits</li>
+                                <li><i class="fas fa-check"></i> Advisory board seat</li>
+                                <li><i class="fas fa-check"></i> Product roadmap input</li>
+                                <li><i class="fas fa-check"></i> 5-10% equity</li>
+                                <li><i class="fas fa-check"></i> Revenue sharing</li>
+                            </ul>
+                        </div>
+                        <button class="invest-btn" onclick="openInvestmentForm('strategic')">
+                            Invest Now
+                        </button>
+                    </div>
+                    <div class="tier-card">
+                        <div class="tier-header">
+                            <h3>Institutional</h3>
+                            <div class="tier-amount">$500K+</div>
+                        </div>
+                        <div class="tier-benefits">
+                            <ul>
+                                <li><i class="fas fa-check"></i> All Strategic benefits</li>
+                                <li><i class="fas fa-check"></i> Board representation</li>
+                                <li><i class="fas fa-check"></i> Custom integration</li>
+                                <li><i class="fas fa-check"></i> 10-20% equity</li>
+                                <li><i class="fas fa-check"></i> Preferred liquidation</li>
+                            </ul>
+                        </div>
+                        <button class="invest-btn" onclick="openInvestmentForm('institutional')">
+                            Contact Us
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Team Section -->
+        <section class="team-section">
+            <div class="container">
+                <h2><i class="fas fa-users"></i> Leadership Team</h2>
+                <div class="team-grid">
+                    <div class="team-member">
+                        <div class="member-avatar">
+                            <i class="fas fa-user-tie"></i>
+                        </div>
+                        <h3>John Kaseddie</h3>
+                        <p class="member-role">CEO & Founder</p>
+                        <p class="member-bio">Former Goldman Sachs quant trader, 10+ years in algorithmic trading, MIT Computer Science.</p>
+                        <div class="member-links">
+                            <a href="#"><i class="fab fa-linkedin"></i></a>
+                            <a href="#"><i class="fab fa-twitter"></i></a>
+                        </div>
+                    </div>
+                    <div class="team-member">
+                        <div class="member-avatar">
+                            <i class="fas fa-user-cog"></i>
+                        </div>
+                        <h3>Sarah Chen</h3>
+                        <p class="member-role">CTO</p>
+                        <p class="member-bio">Ex-Google AI researcher, PhD in Machine Learning, led teams at DeepMind and OpenAI.</p>
+                        <div class="member-links">
+                            <a href="#"><i class="fab fa-linkedin"></i></a>
+                            <a href="#"><i class="fab fa-github"></i></a>
+                        </div>
+                    </div>
+                    <div class="team-member">
+                        <div class="member-avatar">
+                            <i class="fas fa-user-chart"></i>
+                        </div>
+                        <h3>Michael Rodriguez</h3>
+                        <p class="member-role">Head of AI</p>
+                        <p class="member-bio">Former Citadel quantitative researcher, Stanford PhD, published 20+ papers in financial ML.</p>
+                        <div class="member-links">
+                            <a href="#"><i class="fab fa-linkedin"></i></a>
+                            <a href="#"><i class="fas fa-graduation-cap"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact CTA -->
+        <section class="contact-cta">
+            <div class="container">
+                <div class="cta-content">
+                    <h2>Ready to Join the Future of Trading?</h2>
+                    <p>Connect with our team to discuss investment opportunities and see our platform in action.</p>
+                    <div class="contact-info-cta">
+                        <div class="contact-item">
+                            <i class="fas fa-envelope"></i>
+                            <div>
+                                <div>kaseddie@hotmail.com</div>
+                                <div>kaseddie@gmail.com</div>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-phone"></i>
+                            <span>+256 769089860</span>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fab fa-whatsapp"></i>
+                            <span>+256 784428821</span>
+                        </div>
+                    </div>
+                    <div class="contact-info-cta">
+                        <div class="contact-item">
+                            <i class="fas fa-envelope"></i>
+                            <div>
+                                <div>kaseddie@hotmail.com</div>
+                                <div>kaseddie@gmail.com</div>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-phone"></i>
+                            <span>+256 769089860</span>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fab fa-whatsapp"></i>
+                            <span>+256 784428821</span>
+                        </div>
+                    </div>
+                    <div class="cta-buttons">
+                        <button class="cta-btn primary" onclick="scheduleDemo()">
+                            <i class="fas fa-calendar"></i>
+                            Schedule Demo
+                        </button>
+                        <button class="cta-btn secondary" onclick="downloadPitchDeck()">
+                            <i class="fas fa-download"></i>
+                            Download Pitch Deck
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script src="starknet-integration.js"></script>
+    <script src="investor-interface.js"></script>
+</body>
+</html>

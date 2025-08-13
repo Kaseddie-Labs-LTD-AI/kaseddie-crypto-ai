@@ -1,0 +1,404 @@
+<!-- Login Modal -->
+<div class="modal" id="loginModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3><i class="fas fa-sign-in-alt"></i> Login to Kaseddie AI</h3>
+            <button class="close-btn" onclick="closeModal('loginModal')">&times;</button>
+        </div>
+        <div class="modal-body">
+            <form id="loginForm">
+                <div class="form-group">
+                    <input type="email" placeholder="Email Address" required>
+                </div>
+                <div class="form-group">
+                    <input type="password" placeholder="Password" required>
+                </div>
+                <div class="form-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox"> Remember me
+                    </label>
+                </div>
+                <button type="submit" class="btn-primary full-width">
+                    <i class="fas fa-sign-in-alt"></i>
+                    Sign In
+                </button>
+            </form>
+            <div class="modal-footer">
+                <p>Don't have an account? <a href="javascript:switchToRegister()">Sign up here</a></p>
+                <p><a href="javascript:showForgotPassword()">Forgot your password?</a></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Register Modal -->
+<div class="modal" id="registerModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3><i class="fas fa-user-plus"></i> Create Account</h3>
+            <button class="close-btn" onclick="closeModal('registerModal')">&times;</button>
+        </div>
+        <div class="modal-body">
+            <form id="registerForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <input type="text" placeholder="First Name" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" placeholder="Last Name" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <input type="email" placeholder="Email Address" required>
+                </div>
+                <div class="form-group">
+                    <input type="password" placeholder="Password" required>
+                </div>
+                <div class="form-group">
+                    <input type="password" placeholder="Confirm Password" required>
+                </div>
+                <div class="form-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" required> I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>
+                    </label>
+                </div>
+                <button type="submit" class="btn-primary full-width">
+                    <i class="fas fa-user-plus"></i>
+                    Create Account
+                </button>
+            </form>
+            <div class="modal-footer">
+                <p>Already have an account? <a href="javascript:switchToLogin()">Sign in here</a></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- KYC Modal -->
+<div class="modal" id="kycModal">
+    <div class="modal-content large">
+        <div class="modal-header">
+            <h3><i class="fas fa-shield-alt"></i> KYC Verification</h3>
+            <button class="close-btn" onclick="closeModal('kycModal')">&times;</button>
+        </div>
+        <div class="modal-body">
+            <div class="kyc-steps">
+                <div class="step active">
+                    <div class="step-number">1</div>
+                    <div class="step-title">Personal Information</div>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-title">Document Upload</div>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-title">Verification</div>
+                </div>
+            </div>
+            <div class="kyc-content">
+                <h4>Complete Your Identity Verification</h4>
+                <p>To comply with regulations and ensure security, please complete the KYC process.</p>
+                <div class="kyc-benefits">
+                    <div class="benefit">
+                        <i class="fas fa-check"></i>
+                        <span>Higher trading limits</span>
+                    </div>
+                    <div class="benefit">
+                        <i class="fas fa-check"></i>
+                        <span>Access to all AI strategies</span>
+                    </div>
+                    <div class="benefit">
+                        <i class="fas fa-check"></i>
+                        <span>Priority customer support</span>
+                    </div>
+                </div>
+                <button class="btn-primary" onclick="startKYCProcess()">
+                    <i class="fas fa-play"></i>
+                    Start KYC Process
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Settings Modal -->
+<div class="modal" id="settingsModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3><i class="fas fa-cog"></i> Settings</h3>
+            <button class="close-btn" onclick="closeModal('settingsModal')">&times;</button>
+        </div>
+        <div class="modal-body">
+            <div class="settings-tabs">
+                <button class="settings-tab active" data-tab="general">General</button>
+                <button class="settings-tab" data-tab="trading">Trading</button>
+                <button class="settings-tab" data-tab="security">Security</button>
+            </div>
+            <div class="settings-content">
+                <div class="settings-section active" id="general">
+                    <h4>General Settings</h4>
+                    <div class="setting-item">
+                        <label>Language:</label>
+                        <select>
+                            <option>English</option>
+                            <option>Spanish</option>
+                            <option>French</option>
+                        </select>
+                    </div>
+                    <div class="setting-item">
+                        <label>Theme:</label>
+                        <select>
+                            <option>Dark</option>
+                            <option>Light</option>
+                        </select>
+                    </div>
+                    <div class="setting-item">
+                        <label>Notifications:</label>
+                        <input type="checkbox" checked>
+                    </div>
+                </div>
+                <div class="settings-section" id="trading">
+                    <h4>Trading Settings</h4>
+                    <div class="setting-item">
+                        <label>Default Asset:</label>
+                        <select>
+                            <option>Ethereum (ETH)</option>
+                            <option>Bitcoin (BTC)</option>
+                        </select>
+                    </div>
+                    <div class="setting-item">
+                        <label>Risk Level:</label>
+                        <select>
+                            <option>Low</option>
+                            <option>Medium</option>
+                            <option>High</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="settings-section" id="security">
+                    <h4>Security Settings</h4>
+                    <div class="setting-item">
+                        <label>Two-Factor Authentication:</label>
+                        <input type="checkbox">
+                    </div>
+                    <div class="setting-item">
+                        <label>Login Notifications:</label>
+                        <input type="checkbox" checked>
+                    </div>
+                </div>
+            </div>
+            <button class="btn-primary" onclick="saveSettings()">
+                <i class="fas fa-save"></i>
+                Save Settings
+            </button>
+        </div>
+    </div>
+</div>
+
+<style>
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(10px);
+    z-index: 2000;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal.active {
+    display: flex;
+}
+
+.modal-content {
+    background: rgba(0, 0, 0, 0.9);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 15px;
+    padding: 30px;
+    max-width: 500px;
+    width: 90%;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.modal-content.large {
+    max-width: 700px;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.modal-header h3 {
+    color: var(--primary-color);
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.close-btn {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-size: 24px;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.close-btn:hover {
+    color: var(--secondary-color);
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group input, .form-group select {
+    width: 100%;
+    padding: 12px 15px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    color: var(--text-primary);
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+
+.form-group input:focus, .form-group select:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 15px rgba(0, 212, 255, 0.3);
+}
+
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--text-secondary);
+    cursor: pointer;
+}
+
+.modal-footer {
+    text-align: center;
+    margin-top: 20px;
+    color: var(--text-secondary);
+}
+
+.modal-footer a {
+    color: var(--primary-color);
+    text-decoration: none;
+}
+
+.kyc-steps {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 30px;
+}
+
+.step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+}
+
+.step-number {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+    color: var(--text-muted);
+}
+
+.step.active .step-number {
+    background: var(--primary-color);
+    color: white;
+}
+
+.step-title {
+    font-size: 14px;
+    color: var(--text-secondary);
+}
+
+.kyc-benefits {
+    margin: 20px 0;
+}
+
+.benefit {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+    color: var(--text-secondary);
+}
+
+.benefit i {
+    color: var(--accent-color);
+}
+
+.settings-tabs {
+    display: flex;
+    margin-bottom: 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.settings-tab {
+    flex: 1;
+    padding: 12px;
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-bottom: 2px solid transparent;
+}
+
+.settings-tab.active {
+    color: var(--primary-color);
+    border-bottom-color: var(--primary-color);
+}
+
+.settings-section {
+    display: none;
+}
+
+.settings-section.active {
+    display: block;
+}
+
+.setting-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.setting-item label {
+    color: var(--text-secondary);
+}
+
+.setting-item select, .setting-item input {
+    width: auto;
+    min-width: 150px;
+}
+</style>

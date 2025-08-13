@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buy/Sell Interface - Kaseddie AI</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="trading-interface">
+        <div class="trading-header">
+            <h1><i class="fas fa-exchange-alt"></i> Buy/Sell Cryptocurrency</h1>
+            <div class="market-status">
+                <span class="status-dot"></span>
+                <span>Market Open</span>
+            </div>
+        </div>
+        
+        <div class="trading-content">
+            <div class="trading-panel">
+                <div class="panel-tabs">
+                    <button class="tab-btn active" data-tab="buy">Buy</button>
+                    <button class="tab-btn" data-tab="sell">Sell</button>
+                </div>
+                
+                <div class="tab-content active" id="buy">
+                    <div class="trade-form">
+                        <div class="asset-selector">
+                            <label>Select Cryptocurrency:</label>
+                            <select id="buyAsset" onchange="updatePrice('buy')">
+                                <option value="bitcoin" data-price="65420">Bitcoin (BTC) - $65,420</option>
+                                <option value="ethereum" data-price="3580">Ethereum (ETH) - $3,580</option>
+                                <option value="binance" data-price="245">Binance Coin (BNB) - $245</option>
+                                <option value="cardano" data-price="0.45">Cardano (ADA) - $0.45</option>
+                                <option value="solana" data-price="98">Solana (SOL) - $98</option>
+                            </select>
+                        </div>
+                        
+                        <div class="amount-input">
+                            <label>Amount to Buy:</label>
+                            <div class="input-group">
+                                <input type="number" id="buyAmount" placeholder="0.00" step="0.001" oninput="calculateTotal('buy')">
+                                <span class="currency-label" id="buyCurrency">BTC</span>
+                            </div>
+                        </div>
+                        
+                        <div class="price-display">
+                            <div class="price-item">
+                                <span>Current Price:</span>
+                                <span id="buyPrice">$65,420.00</span>
+                            </div>
+                            <div class="price-item">
+                                <span>Total Cost:</span>
+                                <span id="buyTotal">$0.00</span>
+                            </div>
+                        </div>
+                        
+                        <div class="order-type">
+                            <label>Order Type:</label>
+                            <select id="buyOrderType">
+                                <option value="market">Market Order (Instant)</option>
+                                <option value="limit">Limit Order</option>
+                                <option value="stop">Stop Order</option>
+                            </select>
+                        </div>
+                        
+                        <button class="buy-btn" onclick="executeBuy()">
+                            <i class="fas fa-arrow-up"></i>
+                            Buy Now
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="tab-content" id="sell">
+                    <div class="trade-form">
+                        <div class="asset-selector">
+                            <label>Select Cryptocurrency:</label>
+                            <select id="sellAsset" onchange="updatePrice('sell')">
+                                <option value="bitcoin" data-price="65420">Bitcoin (BTC) - $65,420</option>
+                                <option value="ethereum" data-price="3580">Ethereum (ETH) - $3,580</option>
+                                <option value="binance" data-price="245">Binance Coin (BNB) - $245</option>
+                                <option value="cardano" data-price="0.45">Cardano (ADA) - $0.45</option>
+                                <option value="solana" data-price="98">Solana (SOL) - $98</option>
+                            </select>
+                        </div>
+                        
+                        <div class="balance-display">
+                            <span>Available Balance:</span>
+                            <span id="availableBalance">1.5 BTC</span>
+                        </div>
+                        
+                        <div class="amount-input">
+                            <label>Amount to Sell:</label>
+                            <div class="input-group">
+                                <input type="number" id="sellAmount" placeholder="0.00" step="0.001" oninput="calculateTotal('sell')">
+                                <span class="currency-label" id="sellCurrency">BTC</span>
+                            </div>
+                        </div>
+                        
+                        <div class="price-display">
+                            <div class="price-item">
+                                <span>Current Price:</span>
+                                <span id="sellPrice">$65,420.00</span>
+                            </div>
+                            <div class="price-item">
+                                <span>Total Receive:</span>
+                                <span id="sellTotal">$0.00</span>
+                            </div>
+                        </div>
+                        
+                        <div class="order-type">
+                            <label>Order Type:</label>
+                            <select id="sellOrderType">
+                                <option value="market">Market Order (Instant)</option>
+                                <option value="limit">Limit Order</option>
+                                <option value="stop">Stop Loss</option>
+                            </select>
+                        </div>
+                        
+                        <button class="sell-btn" onclick="executeSell()">
+                            <i class="fas fa-arrow-down"></i>
+                            Sell Now
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="market-info">
+                <h3>Market Information</h3>
+                <div class="market-stats">
+                    <div class="stat-item">
+                        <span class="stat-label">24h Volume:</span>
+                        <span class="stat-value">$2.1B</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">24h Change:</span>
+                        <span class="stat-value positive">+2.5%</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Market Cap:</span>
+                        <span class="stat-value">$1.2T</span>
+                    </div>
+                </div>
+                
+                <div class="ai-recommendation">
+                    <h4><i class="fas fa-robot"></i> AI Recommendation</h4>
+                    <div class="recommendation-content" id="aiRecommendation">
+                        <div class="recommendation-item">
+                            <span class="rec-label">Signal:</span>
+                            <span class="rec-value buy-signal">Strong Buy</span>
+                        </div>
+                        <div class="recommendation-item">
+                            <span class="rec-label">Confidence:</span>
+                            <span class="rec-value">87%</span>
+                        </div>
+                        <div class="recommendation-item">
+                            <span class="rec-label">Target:</span>
+                            <span class="rec-value">$72,000</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="transaction-history">
+            <h3>Recent Transactions</h3>
+            <div class="transaction-list" id="transactionList">
+                <div class="transaction-item">
+                    <div class="transaction-info">
+                        <span class="transaction-type buy">Buy</span>
+                        <span class="transaction-asset">0.1 BTC</span>
+                    </div>
+                    <div class="transaction-details">
+                        <span class="transaction-price">$6,542.00</span>
+                        <span class="transaction-time">2 hours ago</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Tab switching
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const tab = this.dataset.tab;
+                
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                
+                this.classList.add('active');
+                document.getElementById(tab).classList.add('active');
+            });
+        });
+        
+        function updatePrice(type) {
+            const select = document.getElementById(type + 'Asset');
+            const option = select.options[select.selectedIndex];
+            const price = option.dataset.price;
+            const symbol = option.value.toUpperCase().slice(0, 3);
+            
+            document.getElementById(type + 'Price').textContent = '$' + parseFloat(price).toLocaleString();
+            document.getElementById(type + 'Currency').textContent = symbol;
+            
+            calculateTotal(type);
+        }
+        
+        function calculateTotal(type) {
+            const amount = parseFloat(document.getElementById(type + 'Amount').value) || 0;
+            const priceText = document.getElementById(type + 'Price').textContent;
+            const price = parseFloat(priceText.replace(/[$,]/g, ''));
+            const total = amount * price;
+            
+            document.getElementById(type + 'Total').textContent = '$' + total.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
+        }
+        
+        async function executeBuy() {
+            const asset = document.getElementById('buyAsset').value;
+            const amount = document.getElementById('buyAmount').value;
+            const orderType = document.getElementById('buyOrderType').value;
+            
+            if (!amount || amount <= 0) {
+                alert('Please enter a valid amount');
+                return;
+            }
+            
+            const confirmation = confirm(`Confirm Buy Order:\\n\\nAsset: ${asset.toUpperCase()}\\nAmount: ${amount}\\nOrder Type: ${orderType}\\n\\nProceed with purchase?`);
+            
+            if (confirmation) {
+                // Simulate API call
+                try {
+                    const response = await fetch('http://localhost:3002/api/voice-command', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ command: `buy ${amount} ${asset}` })
+                    });
+                    
+                    const result = await response.json();
+                    addTransaction('buy', asset, amount);
+                    alert('Buy order executed successfully!');
+                } catch (error) {
+                    addTransaction('buy', asset, amount);
+                    alert('Buy order executed successfully! (Demo mode)');
+                }
+            }
+        }
+        
+        async function executeSell() {
+            const asset = document.getElementById('sellAsset').value;
+            const amount = document.getElementById('sellAmount').value;
+            const orderType = document.getElementById('sellOrderType').value;
+            
+            if (!amount || amount <= 0) {
+                alert('Please enter a valid amount');
+                return;
+            }
+            
+            const confirmation = confirm(`Confirm Sell Order:\\n\\nAsset: ${asset.toUpperCase()}\\nAmount: ${amount}\\nOrder Type: ${orderType}\\n\\nProceed with sale?`);
+            
+            if (confirmation) {
+                try {
+                    const response = await fetch('http://localhost:3002/api/voice-command', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ command: `sell ${amount} ${asset}` })
+                    });
+                    
+                    const result = await response.json();
+                    addTransaction('sell', asset, amount);
+                    alert('Sell order executed successfully!');
+                } catch (error) {
+                    addTransaction('sell', asset, amount);
+                    alert('Sell order executed successfully! (Demo mode)');
+                }
+            }
+        }
+        
+        function addTransaction(type, asset, amount) {
+            const transactionList = document.getElementById('transactionList');
+            const price = document.getElementById(type + 'Price').textContent;
+            const total = parseFloat(amount) * parseFloat(price.replace(/[$,]/g, ''));
+            
+            const transactionItem = document.createElement('div');
+            transactionItem.className = 'transaction-item';
+            transactionItem.innerHTML = `
+                <div class="transaction-info">
+                    <span class="transaction-type ${type}">${type.charAt(0).toUpperCase() + type.slice(1)}</span>
+                    <span class="transaction-asset">${amount} ${asset.toUpperCase()}</span>
+                </div>
+                <div class="transaction-details">
+                    <span class="transaction-price">$${total.toLocaleString()}</span>
+                    <span class="transaction-time">Just now</span>
+                </div>
+            `;
+            
+            transactionList.insertBefore(transactionItem, transactionList.firstChild);
+        }
+        
+        // Initialize
+        updatePrice('buy');
+        updatePrice('sell');
+    </script>
+    
+    <style>
+        .trading-interface {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+            color: white;
+            padding: 20px;
+        }
+        
+        .trading-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .trading-header h1 {
+            color: #00d4ff;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .market-status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #00ff88;
+        }
+        
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: #00ff88;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+        
+        .trading-content {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .trading-panel {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 20px;
+        }
+        
+        .panel-tabs {
+            display: flex;
+            margin-bottom: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 25px;
+            padding: 5px;
+        }
+        
+        .tab-btn {
+            flex: 1;
+            background: none;
+            border: none;
+            color: white;
+            padding: 12px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .tab-btn.active {
+            background: #00d4ff;
+            color: white;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .trade-form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .asset-selector label,
+        .amount-input label,
+        .order-type label {
+            display: block;
+            margin-bottom: 8px;
+            color: #cccccc;
+        }
+        
+        .asset-selector select,
+        .order-type select {
+            width: 100%;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 8px;
+            color: white;
+            font-size: 14px;
+        }
+        
+        .input-group {
+            display: flex;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .input-group input {
+            flex: 1;
+            padding: 12px;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 14px;
+        }
+        
+        .input-group input:focus {
+            outline: none;
+        }
+        
+        .currency-label {
+            padding: 12px;
+            background: rgba(0, 212, 255, 0.2);
+            color: #00d4ff;
+            font-weight: bold;
+        }
+        
+        .balance-display {
+            display: flex;
+            justify-content: space-between;
+            color: #cccccc;
+            font-size: 14px;
+        }
+        
+        .price-display {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            padding: 15px;
+        }
+        
+        .price-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+        
+        .price-item:last-child {
+            margin-bottom: 0;
+            font-weight: bold;
+            color: #00ff88;
+        }
+        
+        .buy-btn,
+        .sell-btn {
+            padding: 15px;
+            border: none;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+        }
+        
+        .buy-btn {
+            background: linear-gradient(135deg, #00ff88, #00cc6a);
+            color: white;
+        }
+        
+        .sell-btn {
+            background: linear-gradient(135deg, #ff6b35, #f7931e);
+            color: white;
+        }
+        
+        .buy-btn:hover,
+        .sell-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+        
+        .market-info {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 20px;
+        }
+        
+        .market-info h3 {
+            color: #00d4ff;
+            margin-bottom: 20px;
+        }
+        
+        .market-stats {
+            margin-bottom: 25px;
+        }
+        
+        .stat-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        
+        .stat-label {
+            color: #cccccc;
+        }
+        
+        .stat-value {
+            font-weight: bold;
+        }
+        
+        .stat-value.positive {
+            color: #00ff88;
+        }
+        
+        .ai-recommendation {
+            background: rgba(0, 212, 255, 0.1);
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            border-radius: 10px;
+            padding: 15px;
+        }
+        
+        .ai-recommendation h4 {
+            color: #00d4ff;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .recommendation-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+        
+        .rec-label {
+            color: #cccccc;
+        }
+        
+        .rec-value {
+            font-weight: bold;
+        }
+        
+        .buy-signal {
+            color: #00ff88;
+        }
+        
+        .transaction-history {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 20px;
+        }
+        
+        .transaction-history h3 {
+            color: #00d4ff;
+            margin-bottom: 20px;
+        }
+        
+        .transaction-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+        
+        .transaction-type {
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        
+        .transaction-type.buy {
+            background: rgba(0, 255, 136, 0.2);
+            color: #00ff88;
+        }
+        
+        .transaction-type.sell {
+            background: rgba(255, 107, 53, 0.2);
+            color: #ff6b35;
+        }
+        
+        .transaction-details {
+            text-align: right;
+        }
+        
+        .transaction-price {
+            font-weight: bold;
+            display: block;
+        }
+        
+        .transaction-time {
+            font-size: 12px;
+            color: #888;
+        }
+        
+        @media (max-width: 768px) {
+            .trading-content {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</body>
+</html>

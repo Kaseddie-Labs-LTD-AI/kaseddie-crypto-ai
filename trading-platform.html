@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kaseddie AI - Trading Platform</title>
+    <link rel="stylesheet" href="trading-styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="trading-app">
+        <!-- Header -->
+        <header class="trading-header">
+            <div class="header-left">
+                <div class="logo">
+                    <i class="fas fa-rocket"></i>
+                    <span>Kaseddie</span>
+                    <span class="logo-accent">AI</span>
+                </div>
+                <div class="connection-status">
+                    <div class="status-indicator connected"></div>
+                    <span>Connected</span>
+                </div>
+            </div>
+            <div class="header-center">
+                <div class="market-ticker">
+                    <div class="ticker-item">
+                        <span class="symbol">BTC</span>
+                        <span class="price" id="btc-price">$65,420</span>
+                        <span class="change positive" id="btc-change">+2.5%</span>
+                    </div>
+                    <div class="ticker-item">
+                        <span class="symbol">ETH</span>
+                        <span class="price" id="eth-price">$3,580</span>
+                        <span class="change positive" id="eth-change">+1.8%</span>
+                    </div>
+                </div>
+            </div>
+            <div class="header-right">
+                <div class="nav-dropdown">
+                    <button class="voice-btn" id="voiceBtn">
+                        <i class="fas fa-microphone"></i>
+                        <span>Voice Command</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="dropdown-content">
+                        <a href="javascript:void(0)" onclick="startVoiceRecognition()">Start Voice Recognition</a>
+                        <a href="javascript:void(0)" onclick="showVoiceCommands()">Voice Commands List</a>
+                        <a href="javascript:void(0)" onclick="testVoiceCommand('buy 1 ethereum')">Test: Buy 1 ETH</a>
+                        <a href="javascript:void(0)" onclick="testVoiceCommand('analyze bitcoin')">Test: Analyze BTC</a>
+                        <a href="javascript:void(0)" onclick="testVoiceCommand('show portfolio')">Test: Show Portfolio</a>
+                    </div>
+                </div>
+                <button class="user-btn">
+                    <i class="fas fa-user"></i>
+                    <span>Account</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="trading-main">
+            <!-- Sidebar -->
+            <aside class="trading-sidebar">
+                <nav class="nav-menu">
+                    <div class="nav-item active" data-tab="dashboard">
+                        <i class="fas fa-chart-line"></i>
+                        <span>Dashboard</span>
+                    </div>
+                    <div class="nav-item" data-tab="trading">
+                        <i class="fas fa-exchange-alt"></i>
+                        <span>AI Trading</span>
+                    </div>
+                    <div class="nav-item" data-tab="portfolio">
+                        <i class="fas fa-wallet"></i>
+                        <span>Portfolio</span>
+                    </div>
+                    <div class="nav-item" data-tab="analytics">
+                        <i class="fas fa-brain"></i>
+                        <span>AI Analytics</span>
+                    </div>
+                    <div class="nav-item" data-tab="kyc">
+                        <i class="fas fa-shield-alt"></i>
+                        <span>KYC Verification</span>
+                    </div>
+                    <div class="nav-item" data-tab="manual">
+                        <i class="fas fa-hand-paper"></i>
+                        <span>Manual Trading</span>
+                    </div>
+                    <div class="nav-item" data-tab="wallet">
+                        <i class="fas fa-wallet"></i>
+                        <span>Wallet</span>
+                    </div>
+                    <div class="nav-item" data-tab="settings">
+                        <i class="fas fa-cog"></i>
+                        <span>Settings</span>
+                    </div>
+                </nav>
+            </aside>
+
+            <!-- Content Area -->
+            <div class="trading-content">
+                <!-- Dashboard Tab -->
+                <div class="tab-content active" id="dashboard">
+                    <div class="dashboard-grid">
+                        <!-- Portfolio Overview -->
+                        <div class="card portfolio-card">
+                            <div class="card-header">
+                                <h3><i class="fas fa-wallet"></i> Portfolio Overview</h3>
+                                <button class="refresh-btn"><i class="fas fa-sync-alt"></i></button>
+                            </div>
+                            <div class="card-content">
+                                <div class="portfolio-value">
+                                    <div class="total-value">
+                                        <span class="label">Total Value</span>
+                                        <span class="amount" id="totalValue">$12,450.00</span>
+                                    </div>
+                                    <div class="profit-loss">
+                                        <span class="change positive" id="portfolioChange">+$1,250.00 (+11.2%)</span>
+                                    </div>
+                                </div>
+                                <div class="balance-info">
+                                    <div class="balance-item">
+                                        <span class="crypto">ETH</span>
+                                        <span class="amount" id="ethBalance">3.556 ETH</span>
+                                    </div>
+                                    <div class="balance-item">
+                                        <span class="crypto">BTC</span>
+                                        <span class="amount" id="btcBalance">0.191 BTC</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Market Analysis -->
+                        <div class="card market-card">
+                            <div class="card-header">
+                                <h3><i class="fas fa-chart-area"></i> AI Market Analysis</h3>
+                            </div>
+                            <div class="card-content">
+                                <div class="market-sentiment">
+                                    <div class="sentiment-item">
+                                        <span class="label">Market Sentiment</span>
+                                        <span class="sentiment bullish" id="marketSentiment">Bullish</span>
+                                    </div>
+                                    <div class="sentiment-item">
+                                        <span class="label">AI Confidence</span>
+                                        <span class="confidence" id="aiConfidence">87%</span>
+                                    </div>
+                                </div>
+                                <div class="recommendation">
+                                    <div class="rec-header">
+                                        <i class="fas fa-robot"></i>
+                                        <span>AI Recommendation</span>
+                                    </div>
+                                    <div class="rec-content" id="aiRecommendation">
+                                        Strong buy signal detected for ETH. Technical indicators show bullish momentum with 15% upside potential.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Quick Actions -->
+                        <div class="card actions-card">
+                            <div class="card-header">
+                                <h3><i class="fas fa-bolt"></i> Quick Actions</h3>
+                            </div>
+                            <div class="card-content">
+                                <div class="action-buttons">
+                                    <button class="action-btn buy-btn" onclick="quickAction('buy')">
+                                        <i class="fas fa-arrow-up"></i>
+                                        <span>Quick Buy</span>
+                                    </button>
+                                    <button class="action-btn sell-btn" onclick="quickAction('sell')">
+                                        <i class="fas fa-arrow-down"></i>
+                                        <span>Quick Sell</span>
+                                    </button>
+                                    <button class="action-btn ai-btn" onclick="executeAIStrategy()">
+                                        <i class="fas fa-brain"></i>
+                                        <span>AI Strategy</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Live Prices -->
+                        <div class="card prices-card">
+                            <div class="card-header">
+                                <h3><i class="fas fa-coins"></i> Live Prices</h3>
+                            </div>
+                            <div class="card-content">
+                                <div class="price-list" id="priceList">
+                                    <!-- Prices populated by JavaScript -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- AI Trading Tab -->
+                <div class="tab-content" id="trading">
+                    <div class="trading-interface">
+                        <div class="trading-header-section">
+                            <h2><i class="fas fa-robot"></i> AI Trading Strategies</h2>
+                            <p>Choose from professional-grade AI trading algorithms</p>
+                        </div>
+                        <div class="strategies-grid">
+                            <div class="strategy-card" data-strategy="momentum">
+                                <div class="strategy-icon">
+                                    <i class="fas fa-chart-line"></i>
+                                </div>
+                                <h3>Momentum Strategy</h3>
+                                <p>Analyzes price momentum and trend strength for optimal entry/exit points.</p>
+                                <div class="strategy-stats">
+                                    <div class="stat">
+                                        <span class="label">Success Rate</span>
+                                        <span class="value">78%</span>
+                                    </div>
+                                    <div class="stat">
+                                        <span class="label">Avg Return</span>
+                                        <span class="value">+12.5%</span>
+                                    </div>
+                                </div>
+                                <button class="strategy-btn" onclick="executeStrategy('momentum')">Execute Strategy</button>
+                            </div>
+
+                            <div class="strategy-card" data-strategy="ai_prediction">
+                                <div class="strategy-icon">
+                                    <i class="fas fa-brain"></i>
+                                </div>
+                                <h3>AI Prediction</h3>
+                                <p>Advanced machine learning models predict market movements with high accuracy.</p>
+                                <div class="strategy-stats">
+                                    <div class="stat">
+                                        <span class="label">Success Rate</span>
+                                        <span class="value">85%</span>
+                                    </div>
+                                    <div class="stat">
+                                        <span class="label">Avg Return</span>
+                                        <span class="value">+18.3%</span>
+                                    </div>
+                                </div>
+                                <button class="strategy-btn" onclick="executeStrategy('ai_prediction')">Execute Strategy</button>
+                            </div>
+
+                            <div class="strategy-card" data-strategy="mean_reversion">
+                                <div class="strategy-icon">
+                                    <i class="fas fa-balance-scale"></i>
+                                </div>
+                                <h3>Mean Reversion</h3>
+                                <p>Identifies overbought/oversold conditions for contrarian trading opportunities.</p>
+                                <div class="strategy-stats">
+                                    <div class="stat">
+                                        <span class="label">Success Rate</span>
+                                        <span class="value">71%</span>
+                                    </div>
+                                    <div class="stat">
+                                        <span class="label">Avg Return</span>
+                                        <span class="value">+9.8%</span>
+                                    </div>
+                                </div>
+                                <button class="strategy-btn" onclick="executeStrategy('mean_reversion')">Execute Strategy</button>
+                            </div>
+
+                            <div class="strategy-card" data-strategy="ai_buy_sell">
+                                <div class="strategy-icon">
+                                    <i class="fas fa-magic"></i>
+                                </div>
+                                <h3>AI Buy/Sell Signals</h3>
+                                <p>Advanced AI calculations using RSI, MACD, support/resistance analysis.</p>
+                                <div class="strategy-stats">
+                                    <div class="stat">
+                                        <span class="label">Success Rate</span>
+                                        <span class="value">92%</span>
+                                    </div>
+                                    <div class="stat">
+                                        <span class="label">Avg Return</span>
+                                        <span class="value">+22.4%</span>
+                                    </div>
+                                </div>
+                                <button class="strategy-btn" onclick="executeStrategy('ai_buy_sell')">Execute AI Signals</button>
+                            </div>
+
+                            <div class="strategy-card" data-strategy="take_profit">
+                                <div class="strategy-icon">
+                                    <i class="fas fa-target"></i>
+                                </div>
+                                <h3>Take Profit Algorithm</h3>
+                                <p>Automated profit-taking and stop-loss with precise risk management calculations.</p>
+                                <div class="strategy-stats">
+                                    <div class="stat">
+                                        <span class="label">Success Rate</span>
+                                        <span class="value">88%</span>
+                                    </div>
+                                    <div class="stat">
+                                        <span class="label">Avg Return</span>
+                                        <span class="value">+18.7%</span>
+                                    </div>
+                                </div>
+                                <button class="strategy-btn" onclick="executeStrategy('take_profit')">Execute Take Profit</button>
+                            </div>
+
+                            <div class="strategy-card" data-strategy="manual_trading">
+                                <div class="strategy-icon">
+                                    <i class="fas fa-hand-paper"></i>
+                                </div>
+                                <h3>Manual Trading</h3>
+                                <p>Full control for experienced traders with advanced tools and real-time data.</p>
+                                <div class="strategy-stats">
+                                    <div class="stat">
+                                        <span class="label">Control</span>
+                                        <span class="value">100%</span>
+                                    </div>
+                                    <div class="stat">
+                                        <span class="label">Experience</span>
+                                        <span class="value">Required</span>
+                                    </div>
+                                </div>
+                                <button class="strategy-btn" onclick="openManualTradingInterface()">Start Manual Trading</button>
+                            </div>
+                        </div>
+
+                        <!-- Strategy Results -->
+                        <div class="strategy-results" id="strategyResults" style="display: none;">
+                            <div class="results-header">
+                                <h3><i class="fas fa-chart-bar"></i> Strategy Results</h3>
+                                <button class="close-btn" onclick="closeResults()">×</button>
+                            </div>
+                            <div class="results-content" id="resultsContent">
+                                <!-- Results populated by JavaScript -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Portfolio Tab -->
+                <div class="tab-content" id="portfolio">
+                    <div class="portfolio-interface">
+                        <div class="portfolio-header">
+                            <h2><i class="fas fa-wallet"></i> Portfolio Management</h2>
+                        </div>
+                        <div class="portfolio-content" id="portfolioContent">
+                            <!-- Portfolio content populated by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Analytics Tab -->
+                <div class="tab-content" id="analytics">
+                    <div class="analytics-interface">
+                        <div class="analytics-header">
+                            <h2><i class="fas fa-brain"></i> AI Analytics Dashboard</h2>
+                        </div>
+                        <div class="analytics-content" id="analyticsContent">
+                            <!-- Analytics content populated by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- KYC Tab -->
+                <div class="tab-content" id="kyc">
+                    <div class="kyc-interface">
+                        <div class="kyc-header">
+                            <h2><i class="fas fa-shield-alt"></i> KYC Verification</h2>
+                            <div class="kyc-status">
+                                <span class="status-badge pending">Pending Verification</span>
+                            </div>
+                        </div>
+                        <div class="kyc-content">
+                            <p>Complete your identity verification to unlock full trading features.</p>
+                            <button class="kyc-btn" onclick="startKYC()">Start KYC Process</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Manual Trading Tab -->
+                <div class="tab-content" id="manual">
+                    <div class="manual-trading-interface">
+                        <div class="manual-header">
+                            <h2><i class="fas fa-hand-paper"></i> Manual Trading Interface</h2>
+                            <p>Full control trading for experienced users</p>
+                        </div>
+                        <div class="manual-content">
+                            <div class="trading-controls">
+                                <div class="control-section">
+                                    <h3>Quick Trade</h3>
+                                    <div class="trade-form">
+                                        <select id="tradeAsset">
+                                            <option value="ethereum">Ethereum (ETH)</option>
+                                            <option value="bitcoin">Bitcoin (BTC)</option>
+                                        </select>
+                                        <input type="number" id="tradeAmount" placeholder="Amount" step="0.001">
+                                        <div class="trade-buttons">
+                                            <button class="trade-btn buy-btn" onclick="executeManualTrade('buy')">BUY</button>
+                                            <button class="trade-btn sell-btn" onclick="executeManualTrade('sell')">SELL</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="control-section">
+                                    <h3>Advanced Orders</h3>
+                                    <div class="order-types">
+                                        <button class="order-btn" onclick="setOrderType('limit')">Limit Order</button>
+                                        <button class="order-btn" onclick="setOrderType('stop')">Stop Loss</button>
+                                        <button class="order-btn" onclick="setOrderType('market')">Market Order</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Wallet Tab -->
+                <div class="tab-content" id="wallet">
+                    <div class="wallet-interface">
+                        <div class="wallet-header">
+                            <h2><i class="fas fa-wallet"></i> Wallet Management</h2>
+                            <div class="wallet-balance">
+                                <span>Total Balance: </span>
+                                <span class="balance-amount">$12,450.00</span>
+                            </div>
+                        </div>
+                        <div class="wallet-actions">
+                            <button class="wallet-btn deposit-btn" onclick="openDepositInterface()">
+                                <i class="fas fa-plus-circle"></i>
+                                Deposit Funds
+                            </button>
+                            <button class="wallet-btn withdraw-btn" onclick="openWithdrawInterface()">
+                                <i class="fas fa-minus-circle"></i>
+                                Withdraw Funds
+                            </button>
+                        </div>
+                        <div class="wallet-breakdown">
+                            <h3>Asset Breakdown</h3>
+                            <div class="asset-list">
+                                <div class="asset-item">
+                                    <div class="asset-info">
+                                        <span class="asset-name">Bitcoin (BTC)</span>
+                                        <span class="asset-amount">0.191 BTC</span>
+                                    </div>
+                                    <div class="asset-value">$12,415.00</div>
+                                </div>
+                                <div class="asset-item">
+                                    <div class="asset-info">
+                                        <span class="asset-name">Ethereum (ETH)</span>
+                                        <span class="asset-amount">0.010 ETH</span>
+                                    </div>
+                                    <div class="asset-value">$35.00</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Settings Tab -->
+                <div class="tab-content" id="settings">
+                    <div class="settings-interface">
+                        <div class="settings-header">
+                            <h2><i class="fas fa-cog"></i> Settings</h2>
+                        </div>
+                        <div class="settings-content">
+                            <div class="settings-section">
+                                <h3>Trading Preferences</h3>
+                                <div class="setting-item">
+                                    <label>Default Asset:</label>
+                                    <select id="defaultAsset">
+                                        <option value="ethereum">Ethereum (ETH)</option>
+                                        <option value="bitcoin">Bitcoin (BTC)</option>
+                                    </select>
+                                </div>
+                                <div class="setting-item">
+                                    <label>Risk Level:</label>
+                                    <select id="riskLevel">
+                                        <option value="low">Low Risk</option>
+                                        <option value="medium">Medium Risk</option>
+                                        <option value="high">High Risk</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Voice Command Modal -->
+        <div class="modal" id="voiceModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3><i class="fas fa-microphone"></i> Voice Command</h3>
+                    <button class="close-btn" onclick="closeVoiceModal()">×</button>
+                </div>
+                <div class="modal-body">
+                    <div class="voice-interface">
+                        <div class="voice-animation" id="voiceAnimation">
+                            <div class="pulse"></div>
+                        </div>
+                        <div class="voice-status" id="voiceStatus">Click to start listening...</div>
+                        <div class="voice-result" id="voiceResult"></div>
+                        <div class="voice-examples">
+                            <h4>Try saying:</h4>
+                            <ul>
+                                <li>"Buy 1 ethereum"</li>
+                                <li>"Sell 0.5 bitcoin"</li>
+                                <li>"Analyze market"</li>
+                                <li>"Show portfolio"</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="trading-script.js"></script>
+</body>
+</html>

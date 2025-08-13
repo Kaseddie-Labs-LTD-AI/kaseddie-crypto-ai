@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deposit & Withdraw - Kaseddie AI</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="deposit-withdraw-interface">
+        <div class="interface-header">
+            <h1><i class="fas fa-exchange-alt"></i> Deposit & Withdraw</h1>
+            <div class="balance-display">
+                <span>Available Balance: </span>
+                <span class="balance-amount">$12,450.00</span>
+            </div>
+        </div>
+        
+        <div class="main-tabs">
+            <button class="main-tab active" data-tab="deposit">
+                <i class="fas fa-plus-circle"></i> Deposit
+            </button>
+            <button class="main-tab" data-tab="withdraw">
+                <i class="fas fa-minus-circle"></i> Withdraw
+            </button>
+        </div>
+        
+        <!-- Deposit Section -->
+        <div class="tab-content active" id="deposit">
+            <div class="payment-methods">
+                <h3>Select Deposit Method</h3>
+                <div class="methods-grid">
+                    <!-- Bank Transfer -->
+                    <div class="method-card" data-method="bank">
+                        <div class="method-icon">
+                            <i class="fas fa-university"></i>
+                        </div>
+                        <h4>Bank Transfer</h4>
+                        <p>Direct bank deposit</p>
+                        <span class="fee">Fee: 0.5%</span>
+                    </div>
+                    
+                    <!-- Mobile Money -->
+                    <div class="method-card" data-method="mobile">
+                        <div class="method-icon">
+                            <i class="fas fa-mobile-alt"></i>
+                        </div>
+                        <h4>Mobile Money</h4>
+                        <p>MTN, Airtel, Orange</p>
+                        <span class="fee">Fee: 1.0%</span>
+                    </div>
+                    
+                    <!-- Credit/Debit Card -->
+                    <div class="method-card" data-method="card">
+                        <div class="method-icon">
+                            <i class="fas fa-credit-card"></i>
+                        </div>
+                        <h4>Card Payment</h4>
+                        <p>Visa, Mastercard</p>
+                        <span class="fee">Fee: 2.5%</span>
+                    </div>
+                    
+                    <!-- Crypto Deposit -->
+                    <div class="method-card" data-method="crypto">
+                        <div class="method-icon">
+                            <i class="fab fa-bitcoin"></i>
+                        </div>
+                        <h4>Crypto Deposit</h4>
+                        <p>BTC, ETH, USDT</p>
+                        <span class="fee">Fee: 0.1%</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Deposit Forms -->
+            <div class="deposit-forms">
+                <!-- Bank Deposit Form -->
+                <div class="deposit-form" id="bank-form" style="display: none;">
+                    <h3><i class="fas fa-university"></i> Bank Transfer Deposit</h3>
+                    <div class="form-section">
+                        <div class="form-group">
+                            <label>Select Bank:</label>
+                            <select id="bankSelect">
+                                <option value="">Choose your bank</option>
+                                <option value="equity">Equity Bank</option>
+                                <option value="kcb">KCB Bank</option>
+                                <option value="cooperative">Co-operative Bank</option>
+                                <option value="absa">Absa Bank</option>
+                                <option value="standard">Standard Chartered</option>
+                                <option value="dtb">Diamond Trust Bank</option>
+                                <option value="family">Family Bank</option>
+                                <option value="ncba">NCBA Bank</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Account Number:</label>
+                            <input type="text" id="accountNumber" placeholder="Enter your account number">
+                        </div>
+                        <div class="form-group">
+                            <label>Account Name:</label>
+                            <input type="text" id="accountName" placeholder="Account holder name">
+                        </div>
+                        <div class="form-group">
+                            <label>Deposit Amount (USD):</label>
+                            <input type="number" id="bankAmount" placeholder="0.00" step="0.01" oninput="calculateFee('bank')">
+                        </div>
+                        <div class="fee-display">
+                            <div class="fee-item">
+                                <span>Amount:</span>
+                                <span id="bankAmountDisplay">$0.00</span>
+                            </div>
+                            <div class="fee-item">
+                                <span>Fee (0.5%):</span>
+                                <span id="bankFeeDisplay">$0.00</span>
+                            </div>
+                            <div class="fee-item total">
+                                <span>Total:</span>
+                                <span id="bankTotalDisplay">$0.00</span>
+                            </div>
+                        </div>
+                        <button class="deposit-btn" onclick="processDeposit('bank')">
+                            <i class="fas fa-university"></i> Deposit via Bank
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Mobile Money Form -->
+                <div class="deposit-form" id="mobile-form" style="display: none;">
+                    <h3><i class="fas fa-mobile-alt"></i> Mobile Money Deposit</h3>
+                    <div class="form-section">
+                        <div class="form-group">
+                            <label>Mobile Money Provider:</label>
+                            <select id="mobileProvider">
+                                <option value="">Select provider</option>
+                                <option value="mtn">MTN Mobile Money</option>
+                                <option value="airtel">Airtel Money</option>
+                                <option value="orange">Orange Money</option>
+                                <option value="tigo">Tigo Cash</option>
+                                <option value="vodacom">Vodacom M-Pesa</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Phone Number:</label>
+                            <input type="tel" id="mobileNumber" placeholder="+256 700 000 000">
+                        </div>
+                        <div class="form-group">
+                            <label>Deposit Amount (USD):</label>
+                            <input type="number" id="mobileAmount" placeholder="0.00" step="0.01" oninput="calculateFee('mobile')">
+                        </div>
+                        <div class="fee-display">
+                            <div class="fee-item">
+                                <span>Amount:</span>
+                                <span id="mobileAmountDisplay">$0.00</span>
+                            </div>
+                            <div class="fee-item">
+                                <span>Fee (1.0%):</span>
+                                <span id="mobileFeeDisplay">$0.00</span>
+                            </div>
+                            <div class="fee-item total">
+                                <span>Total:</span>
+                                <span id="mobileTotalDisplay">$0.00</span>
+                            </div>
+                        </div>
+                        <button class="deposit-btn" onclick="processDeposit('mobile')">
+                            <i class="fas fa-mobile-alt"></i> Deposit via Mobile Money
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Card Payment Form -->
+                <div class="deposit-form" id="card-form" style="display: none;">
+                    <h3><i class="fas fa-credit-card"></i> Card Payment</h3>
+                    <div class="form-section">
+                        <div class="form-group">
+                            <label>Card Number:</label>
+                            <input type="text" id="cardNumber" placeholder="1234 5678 9012 3456" maxlength="19">
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Expiry Date:</label>
+                                <input type="text" id="expiryDate" placeholder="MM/YY" maxlength="5">
+                            </div>
+                            <div class="form-group">
+                                <label>CVV:</label>
+                                <input type="text" id="cvv" placeholder="123" maxlength="3">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Cardholder Name:</label>
+                            <input type="text" id="cardholderName" placeholder="John Doe">
+                        </div>
+                        <div class="form-group">
+                            <label>Deposit Amount (USD):</label>
+                            <input type="number" id="cardAmount" placeholder="0.00" step="0.01" oninput="calculateFee('card')">
+                        </div>
+                        <div class="fee-display">
+                            <div class="fee-item">
+                                <span>Amount:</span>
+                                <span id="cardAmountDisplay">$0.00</span>
+                            </div>
+                            <div class="fee-item">
+                                <span>Fee (2.5%):</span>
+                                <span id="cardFeeDisplay">$0.00</span>
+                            </div>
+                            <div class="fee-item total">
+                                <span>Total:</span>
+                                <span id="cardTotalDisplay">$0.00</span>
+                            </div>
+                        </div>
+                        <button class="deposit-btn" onclick="processDeposit('card')">
+                            <i class="fas fa-credit-card"></i> Pay with Card
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Crypto Deposit Form -->
+                <div class="deposit-form" id="crypto-form" style="display: none;">
+                    <h3><i class="fab fa-bitcoin"></i> Crypto Deposit</h3>
+                    <div class="form-section">
+                        <div class="form-group">
+                            <label>Select Cryptocurrency:</label>
+                            <select id="cryptoSelect" onchange="updateCryptoAddress()">
+                                <option value="bitcoin">Bitcoin (BTC)</option>
+                                <option value="ethereum">Ethereum (ETH)</option>
+                                <option value="usdt">Tether (USDT)</option>
+                                <option value="usdc">USD Coin (USDC)</option>
+                            </select>
+                        </div>
+                        <div class="crypto-address">
+                            <label>Deposit Address:</label>
+                            <div class="address-display">
+                                <input type="text" id="cryptoAddress" value="1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa" readonly>
+                                <button onclick="copyAddress()" class="copy-btn">
+                                    <i class="fas fa-copy"></i>
+                                </button>
+                            </div>
+                            <div class="qr-code">
+                                <div class="qr-placeholder">QR Code</div>
+                            </div>
+                        </div>
+                        <div class="crypto-info">
+                            <div class="info-item">
+                                <span>Network:</span>
+                                <span id="cryptoNetwork">Bitcoin</span>
+                            </div>
+                            <div class="info-item">
+                                <span>Min Deposit:</span>
+                                <span id="minDeposit">0.001 BTC</span>
+                            </div>
+                            <div class="info-item">
+                                <span>Confirmations:</span>
+                                <span id="confirmations">3</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Withdraw Section -->
+        <div class="tab-content" id="withdraw">
+            <div class="payment-methods">
+                <h3>Select Withdrawal Method</h3>
+                <div class="methods-grid">
+                    <!-- Bank Withdrawal -->
+                    <div class="method-card" data-method="bank-withdraw">
+                        <div class="method-icon">
+                            <i class="fas fa-university"></i>
+                        </div>
+                        <h4>Bank Transfer</h4>
+                        <p>Direct to bank account</p>
+                        <span class="fee">Fee: $5.00</span>
+                    </div>
+                    
+                    <!-- Mobile Money Withdrawal -->
+                    <div class="method-card" data-method="mobile-withdraw">
+                        <div class="method-icon">
+                            <i class="fas fa-mobile-alt"></i>
+                        </div>
+                        <h4>Mobile Money</h4>
+                        <p>MTN, Airtel, Orange</p>
+                        <span class="fee">Fee: 2.0%</span>
+                    </div>
+                    
+                    <!-- Crypto Withdrawal -->
+                    <div class="method-card" data-method="crypto-withdraw">
+                        <div class="method-icon">
+                            <i class="fab fa-bitcoin"></i>
+                        </div>
+                        <h4>Crypto Withdrawal</h4>
+                        <p>BTC, ETH, USDT</p>
+                        <span class="fee">Network fee</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Withdrawal Forms -->
+            <div class="withdraw-forms">
+                <!-- Bank Withdrawal Form -->
+                <div class="withdraw-form" id="bank-withdraw-form" style="display: none;">
+                    <h3><i class="fas fa-university"></i> Bank Withdrawal</h3>
+                    <div class="form-section">
+                        <div class="form-group">
+                            <label>Select Bank:</label>
+                            <select id="withdrawBankSelect">
+                                <option value="">Choose your bank</option>
+                                <option value="equity">Equity Bank</option>
+                                <option value="kcb">KCB Bank</option>
+                                <option value="cooperative">Co-operative Bank</option>
+                                <option value="absa">Absa Bank</option>
+                                <option value="standard">Standard Chartered</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Account Number:</label>
+                            <input type="text" id="withdrawAccountNumber" placeholder="Enter account number">
+                        </div>
+                        <div class="form-group">
+                            <label>Account Name:</label>
+                            <input type="text" id="withdrawAccountName" placeholder="Account holder name">
+                        </div>
+                        <div class="form-group">
+                            <label>Withdrawal Amount (USD):</label>
+                            <input type="number" id="bankWithdrawAmount" placeholder="0.00" step="0.01" oninput="calculateWithdrawFee('bank')">
+                        </div>
+                        <div class="fee-display">
+                            <div class="fee-item">
+                                <span>Amount:</span>
+                                <span id="bankWithdrawAmountDisplay">$0.00</span>
+                            </div>
+                            <div class="fee-item">
+                                <span>Fee:</span>
+                                <span id="bankWithdrawFeeDisplay">$5.00</span>
+                            </div>
+                            <div class="fee-item total">
+                                <span>You'll receive:</span>
+                                <span id="bankWithdrawTotalDisplay">$0.00</span>
+                            </div>
+                        </div>
+                        <button class="withdraw-btn" onclick="processWithdraw('bank')">
+                            <i class="fas fa-university"></i> Withdraw to Bank
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Mobile Money Withdrawal Form -->
+                <div class="withdraw-form" id="mobile-withdraw-form" style="display: none;">
+                    <h3><i class="fas fa-mobile-alt"></i> Mobile Money Withdrawal</h3>
+                    <div class="form-section">
+                        <div class="form-group">
+                            <label>Mobile Money Provider:</label>
+                            <select id="withdrawMobileProvider">
+                                <option value="">Select provider</option>
+                                <option value="mtn">MTN Mobile Money</option>
+                                <option value="airtel">Airtel Money</option>
+                                <option value="orange">Orange Money</option>
+                                <option value="tigo">Tigo Cash</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Phone Number:</label>
+                            <input type="tel" id="withdrawMobileNumber" placeholder="+256 700 000 000">
+                        </div>
+                        <div class="form-group">
+                            <label>Withdrawal Amount (USD):</label>
+                            <input type="number" id="mobileWithdrawAmount" placeholder="0.00" step="0.01" oninput="calculateWithdrawFee('mobile')">
+                        </div>
+                        <div class="fee-display">
+                            <div class="fee-item">
+                                <span>Amount:</span>
+                                <span id="mobileWithdrawAmountDisplay">$0.00</span>
+                            </div>
+                            <div class="fee-item">
+                                <span>Fee (2.0%):</span>
+                                <span id="mobileWithdrawFeeDisplay">$0.00</span>
+                            </div>
+                            <div class="fee-item total">
+                                <span>You'll receive:</span>
+                                <span id="mobileWithdrawTotalDisplay">$0.00</span>
+                            </div>
+                        </div>
+                        <button class="withdraw-btn" onclick="processWithdraw('mobile')">
+                            <i class="fas fa-mobile-alt"></i> Withdraw to Mobile Money
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Crypto Withdrawal Form -->
+                <div class="withdraw-form" id="crypto-withdraw-form" style="display: none;">
+                    <h3><i class="fab fa-bitcoin"></i> Crypto Withdrawal</h3>
+                    <div class="form-section">
+                        <div class="form-group">
+                            <label>Select Cryptocurrency:</label>
+                            <select id="withdrawCryptoSelect">
+                                <option value="bitcoin">Bitcoin (BTC)</option>
+                                <option value="ethereum">Ethereum (ETH)</option>
+                                <option value="usdt">Tether (USDT)</option>
+                                <option value="usdc">USD Coin (USDC)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Withdrawal Address:</label>
+                            <input type="text" id="withdrawCryptoAddress" placeholder="Enter wallet address">
+                        </div>
+                        <div class="form-group">
+                            <label>Withdrawal Amount:</label>
+                            <input type="number" id="cryptoWithdrawAmount" placeholder="0.00" step="0.001">
+                        </div>
+                        <div class="crypto-info">
+                            <div class="info-item">
+                                <span>Network Fee:</span>
+                                <span>~$15.00</span>
+                            </div>
+                            <div class="info-item">
+                                <span>Processing Time:</span>
+                                <span>10-30 minutes</span>
+                            </div>
+                        </div>
+                        <button class="withdraw-btn" onclick="processWithdraw('crypto')">
+                            <i class="fab fa-bitcoin"></i> Withdraw Crypto
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Transaction History -->
+        <div class="transaction-history">
+            <h3>Recent Transactions</h3>
+            <div class="transaction-list" id="transactionHistory">
+                <div class="transaction-item">
+                    <div class="transaction-info">
+                        <span class="transaction-type deposit">Deposit</span>
+                        <span class="transaction-method">MTN Mobile Money</span>
+                    </div>
+                    <div class="transaction-details">
+                        <span class="transaction-amount">+$500.00</span>
+                        <span class="transaction-status completed">Completed</span>
+                        <span class="transaction-time">2 hours ago</span>
+                    </div>
+                </div>
+                <div class="transaction-item">
+                    <div class="transaction-info">
+                        <span class="transaction-type withdraw">Withdraw</span>
+                        <span class="transaction-method">Bank Transfer</span>
+                    </div>
+                    <div class="transaction-details">
+                        <span class="transaction-amount">-$200.00</span>
+                        <span class="transaction-status pending">Pending</span>
+                        <span class="transaction-time">1 day ago</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="deposit-withdraw.js"></script>
+</body>
+</html>
