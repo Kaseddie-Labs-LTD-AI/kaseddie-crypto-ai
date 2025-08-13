@@ -1,0 +1,56 @@
+# This is the configuration file for deploying your site on Netlify.
+# It ensures your site is secure and performs well.
+
+[build]
+  # The publish directory is the root of your project since it's a static site.
+  publish = "."
+  # No build command is needed for a simple HTML/CSS/JS site.
+  command = "echo 'Static site deployment'"
+
+[build.environment]
+  # Specifies the Node.js version for Netlify's environment.
+  NODE_VERSION = "18"
+
+# This rule is for Single Page Applications (SPAs). It ensures that any
+# direct navigation to a sub-page (e.g., yoursite.com/features) still
+# loads the main index.html file, allowing your JavaScript to handle routing.
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+# These are important security and performance headers.
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-XSS-Protection = "1; mode=block"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    
+    # CORRECTED Content-Security-Policy (CSP)
+    # This was the most critical fix. The original policy was too restrictive.
+    # This new policy explicitly allows loading resources from the CDNs
+    # required for your application to function correctly.
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https:;"
+
+# Caching rules for performance.
+# These tell browsers to cache your CSS and JS files for a long time (1 year),
+# which speeds up subsequent visits for users.
+[[headers]]
+  for = "/*.css"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000"
+
+[[headers]]
+  for = "/*.js"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000"
+
+# This rule tells browsers not to cache the main HTML file,
+# ensuring users always get the latest version of your site's structure
+# when they visit.
+[[headers]]
+  for = "/*.html"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"

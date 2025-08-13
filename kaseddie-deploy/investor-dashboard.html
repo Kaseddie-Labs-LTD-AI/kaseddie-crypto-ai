@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Kaseddie AI - Investor Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #00d4ff;
+            --secondary-color: #ff6b35;
+            --accent-color: #00ff88;
+            --dark-bg: #0a0a0a;
+            --dark-secondary: #1a1a2e;
+            --text-primary: #ffffff;
+            --text-secondary: #cccccc;
+            --text-muted: #888888;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--dark-bg) 0%, var(--dark-secondary) 100%);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+            width: 100%;
+            max-width: 100vw;
+        }
+
+        .header {
+            background: rgba(0, 0, 0, 0.9);
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .logo i {
+            color: var(--primary-color);
+        }
+
+        .back-btn {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            width: 100%;
+        }
+
+        .dashboard-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .dashboard-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .dashboard-header p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary-color);
+        }
+
+        .stat-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--primary-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+        }
+
+        .stat-icon i {
+            color: white;
+            font-size: 20px;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .investment-section {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 40px;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .investment-tiers {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .tier-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .tier-card.featured {
+            border-color: var(--accent-color);
+            transform: scale(1.05);
+        }
+
+        .tier-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary-color);
+        }
+
+        .tier-badge {
+            background: var(--accent-color);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .tier-title {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+            color: var(--primary-color);
+        }
+
+        .tier-amount {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .tier-features {
+            list-style: none;
+            margin-bottom: 20px;
+        }
+
+        .tier-features li {
+            padding: 5px 0;
+            color: var(--text-secondary);
+        }
+
+        .tier-features li i {
+            color: var(--accent-color);
+            margin-right: 8px;
+        }
+
+        .invest-btn {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            width: 100%;
+            transition: transform 0.3s ease;
+        }
+
+        .invest-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .roadmap {
+            margin-bottom: 40px;
+        }
+
+        .roadmap-timeline {
+            position: relative;
+            padding-left: 30px;
+        }
+
+        .roadmap-timeline::before {
+            content: '';
+            position: absolute;
+            left: 15px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--primary-color);
+        }
+
+        .roadmap-item {
+            position: relative;
+            margin-bottom: 30px;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 10px;
+            margin-left: 20px;
+        }
+
+        .roadmap-item::before {
+            content: '';
+            position: absolute;
+            left: -35px;
+            top: 25px;
+            width: 12px;
+            height: 12px;
+            background: var(--primary-color);
+            border-radius: 50%;
+        }
+
+        .roadmap-quarter {
+            color: var(--primary-color);
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .contact-section {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .contact-methods {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--text-secondary);
+        }
+
+        .contact-item i {
+            color: var(--primary-color);
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .header-content {
+                padding: 0 15px;
+            }
+
+            .logo {
+                font-size: 16px;
+            }
+
+            .back-btn {
+                padding: 6px 12px;
+                font-size: 12px;
+            }
+
+            .container {
+                padding: 15px;
+            }
+
+            .dashboard-header h1 {
+                font-size: 1.8rem;
+            }
+
+            .dashboard-header p {
+                font-size: 0.9rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+
+            .stat-card {
+                padding: 20px;
+            }
+
+            .stat-number {
+                font-size: 1.5rem;
+            }
+
+            .investment-section {
+                padding: 20px;
+            }
+
+            .section-title {
+                font-size: 1.4rem;
+            }
+
+            .investment-tiers {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .tier-card {
+                padding: 20px;
+            }
+
+            .tier-card.featured {
+                transform: none;
+            }
+
+            .tier-amount {
+                font-size: 1.5rem;
+            }
+
+            .contact-methods {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .roadmap-timeline {
+                padding-left: 20px;
+            }
+
+            .roadmap-item {
+                margin-left: 15px;
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">
+                <i class="fas fa-rocket"></i>
+                <span>Kaseddie AI</span>
+            </div>
+            <a href="index.html" class="back-btn">
+                <i class="fas fa-arrow-left"></i>
+                Back to Platform
+            </a>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="dashboard-header">
+            <h1>Investor Dashboard</h1>
+            <p>New project seeking early investors - Help us build the future of AI-powered cryptocurrency trading</p>
+        </div>
+
+        <div class="investment-section">
+            <h2 class="section-title">About Kaseddie Labs LTD</h2>
+            <div style="text-align: left; color: var(--text-secondary); line-height: 1.8;">
+                <p>Kaseddie Labs LTD is a forward-thinking financial technology company building the next generation of tools for the digital asset economy. Headquartered in Kampala, Uganda, we are strategically positioned at the forefront of Africa's rapidly growing Web3 landscape.</p>
+                <p>Our mission is to empower individuals by simplifying the complexities of the cryptocurrency markets. We achieve this through our premier product, the Kaseddie AI trading platform. By integrating an advanced AI engine with an intuitive, voice-enabled user interface, we are removing the barriers to entry for sophisticated trading and analysis.</p>
+                <p>With a live MVP demonstrated at kaseddie-crypto-ai.netlify.app, we have proven our ability to execute on this vision. Kaseddie Labs is not just building an app; we are building a more intelligent and accessible future for finance.</p>
+            </div>
+        </div>
+
+
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-target"></i>
+                </div>
+                <div class="stat-number">95%</div>
+                <div class="stat-label">Target Success Rate</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-user-tie"></i>
+                </div>
+                <div class="stat-number" style="font-size: 1.2rem;">Eddie Kasamba Wahitu</div>
+                <div class="stat-label">CEO, Kaseddie-Labs-LTD</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-coins"></i>
+                </div>
+                <div class="stat-number">50+</div>
+                <div class="stat-label">Cryptocurrencies</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-mobile-alt"></i>
+                </div>
+                <div class="stat-number">100%</div>
+                <div class="stat-label">Mobile Optimized</div>
+            </div>
+        </div>
+
+        <div class="investment-section">
+            <h2 class="section-title">Investment Opportunities</h2>
+            <div class="investment-tiers">
+                <div class="tier-card">
+                    <div class="tier-title">Seed Investor</div>
+                    <div class="tier-amount">$1,000</div>
+                    <ul class="tier-features">
+                        <li><i class="fas fa-check"></i> Early access to platform</li>
+                        <li><i class="fas fa-check"></i> 5% platform fee discount</li>
+                        <li><i class="fas fa-check"></i> Monthly progress reports</li>
+                        <li><i class="fas fa-check"></i> Community access</li>
+                    </ul>
+                    <button class="invest-btn" onclick="showInvestmentForm('seed')">Invest Now</button>
+                </div>
+                <div class="tier-card featured">
+                    <div class="tier-badge">Most Popular</div>
+                    <div class="tier-title">Growth Investor</div>
+                    <div class="tier-amount">$10,000</div>
+                    <ul class="tier-features">
+                        <li><i class="fas fa-check"></i> All Seed benefits</li>
+                        <li><i class="fas fa-check"></i> 10% platform fee discount</li>
+                        <li><i class="fas fa-check"></i> Priority customer support</li>
+                        <li><i class="fas fa-check"></i> Beta testing access</li>
+                        <li><i class="fas fa-check"></i> Quarterly strategy calls</li>
+                    </ul>
+                    <button class="invest-btn" onclick="showInvestmentForm('growth')">Invest Now</button>
+                </div>
+                <div class="tier-card">
+                    <div class="tier-title">Strategic Partner</div>
+                    <div class="tier-amount">$50,000+</div>
+                    <ul class="tier-features">
+                        <li><i class="fas fa-check"></i> All Growth benefits</li>
+                        <li><i class="fas fa-check"></i> 15% platform fee discount</li>
+                        <li><i class="fas fa-check"></i> Direct CEO access</li>
+                        <li><i class="fas fa-check"></i> Custom AI strategy development</li>
+                        <li><i class="fas fa-check"></i> Revenue sharing opportunity</li>
+                    </ul>
+                    <button class="invest-btn" onclick="showInvestmentForm('strategic')">Contact Us</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="investment-section roadmap">
+            <h2 class="section-title">Development Roadmap</h2>
+            <div class="roadmap-timeline">
+                <div class="roadmap-item">
+                    <div class="roadmap-quarter">Q1 2025</div>
+                    <div>Secure $250k funding, complete team hiring, finalize MVP development</div>
+                </div>
+                <div class="roadmap-item">
+                    <div class="roadmap-quarter">Q2 2025</div>
+                    <div>Platform MVP launch, mobile optimization, basic AI strategies, first 100 users</div>
+                </div>
+                <div class="roadmap-item">
+                    <div class="roadmap-quarter">Q3 2025</div>
+                    <div>Advanced AI algorithms, voice trading, KYC integration, target 1,000 users</div>
+                </div>
+                <div class="roadmap-item">
+                    <div class="roadmap-quarter">Q4 2025</div>
+                    <div>Desktop & mobile apps, 50+ cryptocurrencies, target 5,000 users, prepare Series A</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="contact-section">
+            <h2 class="section-title">Ready to Invest?</h2>
+            <p>Contact our investment team to discuss opportunities and get detailed projections</p>
+            <div class="contact-methods">
+                <div class="contact-item">
+                    <i class="fas fa-envelope"></i>
+                    <span>kaseddie@hotmail.com</span>
+                </div>
+                <div class="contact-item">
+                    <i class="fab fa-whatsapp"></i>
+                    <span>+256 784428821</span>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-phone"></i>
+                    <span>+256 769089860</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showInvestmentForm(tier) {
+            const tierNames = {
+                'seed': 'Seed Investor ($1,000)',
+                'growth': 'Growth Investor ($10,000)', 
+                'strategic': 'Strategic Partner ($50,000+)'
+            };
+            
+            const message = `I'm interested in the ${tierNames[tier]} opportunity for Kaseddie AI. Please provide more details about the investment process and expected returns.`;
+            const whatsappUrl = `https://wa.me/256784428821?text=${encodeURIComponent(message)}`;
+            window.open(whatsappUrl, '_blank');
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,3266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Kaseddie AI - Professional Cryptocurrency Trading Platform</title>
+
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* --- Consolidated styles.css content --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #00d4ff;
+            --secondary-color: #ff6b35;
+            --accent-color: #00ff88;
+            --dark-bg: #0a0a0a;
+            --dark-secondary: #1a1a2e;
+            --dark-tertiary: #16213e;
+            --text-primary: #ffffff;
+            --text-secondary: #cccccc;
+            --text-muted: #888888;
+            --gradient-primary: linear-gradient(135deg, #00d4ff 0%, #0099cc 100%);
+            --gradient-secondary: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
+            --gradient-accent: linear-gradient(135deg, #00ff88 0%, #00cc6a 100%);
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--dark-bg) 0%, var(--dark-secondary) 50%, var(--dark-tertiary) 100%);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+            min-height: 100vh;
+            -webkit-overflow-scrolling: touch;
+            width: 100%;
+            max-width: 100vw;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Navigation */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        /* Dropdown Navigation */
+        .nav-dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            min-width: 200px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+            z-index: 1001;
+        }
+
+        .nav-dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        .dropdown-content a {
+            display: block;
+            padding: 12px 16px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+            .dropdown-content a:last-child {
+                border-bottom: none;
+            }
+
+            .dropdown-content a:hover {
+                background: rgba(0, 212, 255, 0.1);
+                color: var(--primary-color);
+            }
+
+        .dropdown-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+            .dropdown-btn i {
+                font-size: 12px;
+                transition: transform 0.3s ease;
+            }
+
+        .nav-dropdown:hover .dropdown-btn i {
+            transform: rotate(180deg);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+            .nav-logo i {
+                color: var(--primary-color);
+                font-size: 28px;
+            }
+
+        .logo-accent {
+            color: var(--secondary-color);
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+            .nav-link:hover,
+            .nav-link.active {
+                color: var(--primary-color);
+            }
+
+            .nav-link i {
+                font-size: 12px;
+                margin-left: 5px;
+                transition: transform 0.3s ease;
+            }
+
+        .nav-dropdown:hover .nav-link i {
+            transform: rotate(180deg);
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary-color);
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after,
+        .nav-link.active::after {
+            width: 100%;
+        }
+
+        .nav-actions {
+            display: flex;
+            gap: 15px;
+        }
+
+        /* Buttons */
+        .btn-primary,
+        .btn-secondary {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background: var(--gradient-primary);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-primary);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+            .btn-primary:hover,
+            .btn-secondary:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            }
+
+        .btn-primary:hover {
+            box-shadow: 0 10px 25px rgba(0, 212, 255, 0.4);
+        }
+
+        .btn-primary.large,
+        .btn-secondary.large {
+            padding: 16px 32px;
+            font-size: 16px;
+        }
+
+        .full-width {
+            width: 100%;
+            justify-content: center;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            padding-top: 70px;
+        }
+
+        .hero-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        .crypto-animation {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+
+        .floating-crypto {
+            position: absolute;
+            font-size: 60px;
+            opacity: 0.1;
+            animation: float 6s ease-in-out infinite;
+            color: var(--primary-color);
+        }
+
+            .floating-crypto:nth-child(1) {
+                top: 20%;
+                left: 10%;
+                animation-delay: 0s;
+            }
+
+            .floating-crypto:nth-child(2) {
+                top: 60%;
+                right: 15%;
+                animation-delay: 2s;
+            }
+
+            .floating-crypto:nth-child(3) {
+                bottom: 30%;
+                left: 20%;
+                animation-delay: 4s;
+            }
+
+            .floating-crypto:nth-child(4) {
+                top: 40%;
+                left: 50%;
+                animation-delay: 1s;
+            }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px) rotate(0deg);
+                opacity: 0.1;
+            }
+
+            50% {
+                transform: translateY(-20px) rotate(180deg);
+                opacity: 0.3;
+            }
+        }
+
+        .hero-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .hero-text h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-text p {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 30px;
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-number {
+            display: block;
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .hero-visual {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .trading-preview {
+            width: 400px;
+            height: 300px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 20px;
+            position: relative;
+        }
+
+        .preview-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .status-dots {
+            display: flex;
+            gap: 8px;
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--text-muted);
+        }
+
+            .dot.active {
+                background: var(--accent-color);
+                box-shadow: 0 0 10px var(--accent-color);
+            }
+
+        .price-display {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .crypto-symbol {
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        .crypto-price {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .crypto-change.positive {
+            color: var(--accent-color);
+        }
+
+        .ai-signal {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--accent-color);
+            margin-bottom: 20px;
+        }
+
+        .chart-preview {
+            height: 80px;
+            position: relative;
+        }
+
+        .chart-line {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background: linear-gradient(45deg, var(--primary-color) 0%, var(--accent-color) 100%);
+            clip-path: polygon(0 100%, 0 80%, 20% 60%, 40% 70%, 60% 40%, 80% 30%, 100% 20%, 100% 100%);
+            opacity: 0.7;
+        }
+
+        /* Sections */
+        section {
+            padding: 100px 0;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+            .section-header h2 {
+                font-size: 2.5rem;
+                margin-bottom: 20px;
+            }
+
+            .section-header p {
+                font-size: 1.1rem;
+                color: var(--text-secondary);
+                max-width: 600px;
+                margin: 0 auto;
+            }
+
+        /* Features Section */
+        .features {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 30px;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+            .feature-card:hover {
+                transform: translateY(-10px);
+                box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+                border-color: rgba(0, 212, 255, 0.3);
+            }
+
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            background: var(--gradient-primary);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+        }
+
+            .feature-icon i {
+                font-size: 24px;
+                color: white;
+            }
+
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+        }
+
+        .feature-card p {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* Trading Section */
+        .trading-section {
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        .strategies-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .strategy-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+            .strategy-card:hover {
+                transform: translateY(-10px);
+                border-color: rgba(0, 212, 255, 0.3);
+            }
+
+        .strategy-icon {
+            width: 60px;
+            height: 60px;
+            background: var(--gradient-secondary);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+        }
+
+            .strategy-icon i {
+                font-size: 24px;
+                color: white;
+            }
+
+        .strategy-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+        }
+
+        .strategy-card p {
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+        }
+
+        .strategy-stats {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 25px;
+        }
+
+            .strategy-stats .stat {
+                text-align: center;
+            }
+
+            .strategy-stats .value {
+                display: block;
+                font-size: 1.5rem;
+                font-weight: bold;
+                color: var(--primary-color);
+            }
+
+            .strategy-stats .label {
+                font-size: 0.9rem;
+                color: var(--text-muted);
+            }
+
+        .strategy-btn {
+            background: var(--gradient-primary);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+            .strategy-btn:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 10px 25px rgba(0, 212, 255, 0.4);
+            }
+
+        /* Platform Section */
+        .platform-section {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .platform-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .platform-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+            .platform-card:hover {
+                transform: translateY(-10px);
+                border-color: rgba(0, 212, 255, 0.3);
+            }
+
+        .platform-icon {
+            width: 60px;
+            height: 60px;
+            background: var(--gradient-accent);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+        }
+
+            .platform-icon i {
+                font-size: 24px;
+                color: white;
+            }
+
+        .platform-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+        }
+
+        .platform-card p {
+            color: var(--text-secondary);
+            margin-bottom: 25px;
+        }
+
+        .platform-btn {
+            background: var(--gradient-accent);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+            .platform-btn:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 10px 25px rgba(0, 255, 136, 0.4);
+            }
+
+        /* Contact Section */
+        .contact-section {
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        .contact-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: start;
+        }
+
+        .contact-info h3 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+
+        .contact-info p {
+            color: var(--text-secondary);
+            margin-bottom: 30px;
+        }
+
+        .contact-methods {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .contact-method {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            color: var(--text-secondary);
+        }
+
+            .contact-method i {
+                color: var(--primary-color);
+                font-size: 18px;
+                width: 20px;
+            }
+
+        .contact-form {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+            .form-group input,
+            .form-group select,
+            .form-group textarea {
+                width: 100%;
+                padding: 12px 15px;
+                background: rgba(255, 255, 255, 0.05);
+                border: 1px solid rgba(255, 255, 255, 0.2);
+                border-radius: 8px;
+                color: var(--text-primary);
+                font-size: 14px;
+                transition: all 0.3s ease;
+            }
+
+                .form-group input:focus,
+                .form-group select:focus,
+                .form-group textarea:focus {
+                    outline: none;
+                    border-color: var(--primary-color);
+                    box-shadow: 0 0 15px rgba(0, 212, 255, 0.3);
+                }
+
+                .form-group input::placeholder,
+                .form-group textarea::placeholder {
+                    color: var(--text-muted);
+                }
+
+        /* Footer */
+        .footer {
+            background: rgba(0, 0, 0, 0.8);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 60px 0 20px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+            .footer-logo i {
+                color: var(--primary-color);
+            }
+
+        .footer-section p {
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+        }
+
+        .footer-section h4 {
+            color: var(--text-primary);
+            margin-bottom: 20px;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+            .footer-section ul li {
+                margin-bottom: 10px;
+            }
+
+                .footer-section ul li a {
+                    color: var(--text-secondary);
+                    text-decoration: none;
+                    transition: color 0.3s ease;
+                }
+
+                    .footer-section ul li a:hover {
+                        color: var(--primary-color);
+                    }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 20px;
+            text-align: center;
+            color: var(--text-muted);
+        }
+
+        /* Mobile-First Responsive Design */
+        @media (max-width: 768px) {
+            * {
+                box-sizing: border-box;
+            }
+            
+            html, body {
+                width: 100%;
+                overflow-x: hidden;
+                -webkit-overflow-scrolling: touch;
+            }
+            
+            .nav-menu {
+                display: none;
+            }
+            
+            .nav-container {
+                padding: 0 10px;
+                height: 60px;
+                width: 100%;
+                max-width: 100vw;
+            }
+            
+            .nav-logo {
+                font-size: 18px;
+            }
+            
+            .nav-actions {
+                gap: 8px;
+            }
+            
+            .btn-primary, .btn-secondary {
+                padding: 8px 12px;
+                font-size: 12px;
+            }
+            
+            .hero {
+                padding-top: 60px;
+                min-height: auto;
+                padding-bottom: 30px;
+                width: 100%;
+                overflow: hidden;
+            }
+
+            .hero-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+                gap: 20px;
+                padding: 0 10px;
+                width: 100%;
+                max-width: 100vw;
+            }
+
+            .hero-text h1 {
+                font-size: 1.5rem;
+                line-height: 1.2;
+                margin-bottom: 15px;
+            }
+            
+            .hero-text p {
+                font-size: 0.9rem;
+                margin-bottom: 20px;
+            }
+
+            .hero-stats {
+                justify-content: space-around;
+                gap: 10px;
+                flex-wrap: wrap;
+                margin-bottom: 20px;
+            }
+            
+            .stat {
+                flex: 1;
+                min-width: 80px;
+            }
+            
+            .stat-number {
+                font-size: 1.2rem;
+            }
+            
+            .stat-label {
+                font-size: 0.7rem;
+            }
+            
+            .hero-actions {
+                flex-direction: column;
+                gap: 10px;
+                width: 100%;
+            }
+            
+            .btn-primary.large,
+            .btn-secondary.large {
+                padding: 12px 20px;
+                font-size: 13px;
+                width: 100%;
+                max-width: 280px;
+                margin: 0 auto;
+            }
+            
+            .trading-preview {
+                width: 100%;
+                max-width: 280px;
+                height: 200px;
+                margin: 0 auto;
+            }
+            
+            .container {
+                padding: 0 10px;
+                width: 100%;
+                max-width: 100vw;
+            }
+            
+            section {
+                padding: 40px 0;
+                width: 100%;
+                overflow: hidden;
+            }
+            
+            .section-header h2 {
+                font-size: 1.5rem;
+                margin-bottom: 15px;
+            }
+            
+            .section-header p {
+                font-size: 0.9rem;
+            }
+
+            .features-grid,
+            .strategies-grid,
+            .platform-grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+                width: 100%;
+            }
+            
+            .feature-card,
+            .strategy-card,
+            .platform-card {
+                padding: 15px;
+                width: 100%;
+                max-width: 100%;
+            }
+            
+            .feature-card h3,
+            .strategy-card h3,
+            .platform-card h3 {
+                font-size: 1.1rem;
+            }
+            
+            .feature-card p,
+            .strategy-card p,
+            .platform-card p {
+                font-size: 0.85rem;
+            }
+
+            .contact-content {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .contact-info h3 {
+                font-size: 1.3rem;
+            }
+            
+            .contact-method {
+                font-size: 0.85rem;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+                gap: 20px;
+            }
+            
+            .footer-section h4 {
+                font-size: 1rem;
+            }
+            
+            /* Chat widget mobile optimization */
+            #liveChatWidget {
+                bottom: 15px;
+                right: 15px;
+            }
+            
+            .chat-window {
+                width: calc(100vw - 30px);
+                max-width: 320px;
+                height: 400px;
+                right: -5px;
+            }
+            
+            .chat-button {
+                width: 50px;
+                height: 50px;
+            }
+            
+            .chat-button i {
+                font-size: 20px;
+            }
+        }
+
+        /* Animations */
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* --- Live Chat Widget (from previous immersive, adapted) --- */
+        #liveChatWidget {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 2000;
+        }
+
+        .chat-button {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(0, 212, 255, 0.4);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+            .chat-button:hover {
+                transform: scale(1.1);
+            }
+
+            .chat-button i {
+                color: white;
+                font-size: 24px;
+            }
+
+        .chat-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: var(--secondary-color);
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .chat-window {
+            display: none; /* Hidden by default */
+            position: absolute;
+            bottom: 80px; /* Above the chat button */
+            right: 0;
+            width: 350px;
+            height: 450px;
+            background: rgba(20, 20, 20, 0.9);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--card-border);
+            border-radius: 15px;
+            overflow: hidden;
+            flex-direction: column;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+            animation: fadeInScale 0.3s ease-out forwards; /* Animation for opening */
+        }
+
+            .chat-window.active {
+                display: flex; /* Show when active */
+            }
+
+        @keyframes fadeInScale {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .chat-header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+            .chat-header h4 {
+                color: white;
+                margin: 0;
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                font-weight: 600;
+            }
+
+            .chat-header button {
+                background: none;
+                border: none;
+                color: white;
+                font-size: 20px;
+                cursor: pointer;
+                transition: transform 0.2s ease;
+            }
+
+                .chat-header button:hover {
+                    transform: rotate(90deg);
+                }
+
+        .chat-messages {
+            flex: 1;
+            padding: 15px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            scrollbar-width: thin; /* For Firefox */
+            scrollbar-color: var(--primary-color) var(--dark-bg); /* For Firefox */
+        }
+
+            /* Custom scrollbar for Webkit browsers */
+            .chat-messages::-webkit-scrollbar {
+                width: 8px;
+            }
+
+            .chat-messages::-webkit-scrollbar-track {
+                background: var(--dark-bg);
+            }
+
+            .chat-messages::-webkit-scrollbar-thumb {
+                background-color: var(--primary-color);
+                border-radius: 10px;
+                border: 2px solid var(--dark-bg);
+            }
+
+        .message {
+            max-width: 85%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .bot-message {
+            align-self: flex-start;
+        }
+
+        .user-message {
+            align-self: flex-end;
+        }
+
+        .message-content {
+            padding: 10px 15px;
+            border-radius: 15px;
+            color: var(--text-primary);
+            line-height: 1.5;
+            word-wrap: break-word; /* Ensure long words break */
+        }
+
+        .bot-message .message-content {
+            background: var(--card-bg);
+            border-top-left-radius: 0;
+        }
+
+        .user-message .message-content {
+            background: var(--primary-color);
+            color: var(--dark-bg); /* Dark text for primary background */
+            font-weight: 500;
+            border-top-right-radius: 0;
+        }
+
+        .message-time {
+            font-size: 11px;
+            color: var(--text-muted);
+            margin-top: 5px;
+        }
+
+        .bot-message .message-time {
+            text-align: left;
+            margin-left: 5px;
+        }
+
+        .user-message .message-time {
+            text-align: right;
+            margin-right: 5px;
+        }
+
+        .chat-input {
+            padding: 15px;
+            border-top: 1px solid var(--card-border);
+            display: flex;
+            gap: 10px;
+        }
+
+            .chat-input input {
+                flex: 1;
+                padding: 10px 15px;
+                background: rgba(255, 255, 255, 0.05);
+                border: 1px solid var(--card-border);
+                border-radius: 20px;
+                color: white;
+                outline: none;
+                transition: border-color 0.3s;
+            }
+
+                .chat-input input:focus {
+                    border-color: var(--primary-color);
+                }
+
+            .chat-input button {
+                width: 40px;
+                height: 40px;
+                background: var(--primary-color);
+                border: none;
+                border-radius: 50%;
+                color: white;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                transition: background 0.3s ease, transform 0.2s ease;
+            }
+
+                .chat-input button:hover {
+                    background: var(--secondary-color); /* Change color on hover */
+                    transform: scale(1.05);
+                }
+
+        /* Typing indicator for AI */
+        .typing-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            background: var(--card-bg);
+            padding: 8px 12px;
+            border-radius: 15px;
+            font-size: 0.9em;
+            color: var(--text-secondary);
+            margin-top: 10px;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+            .typing-indicator span {
+                width: 6px;
+                height: 6px;
+                background-color: var(--primary-color);
+                border-radius: 50%;
+                opacity: 0;
+                animation: bounce 1.4s infinite ease-in-out;
+            }
+
+                .typing-indicator span:nth-child(2) {
+                    animation-delay: 0.2s;
+                }
+
+                .typing-indicator span:nth-child(3) {
+                    animation-delay: 0.4s;
+                }
+
+        @keyframes bounce {
+            0%, 80%, 100% {
+                transform: translateY(0);
+                opacity: 0;
+            }
+
+            40% {
+                transform: translateY(-5px);
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+
+        /* Notification Styles */
+        .notification {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 15px 20px;
+            border-radius: 8px;
+            color: black;
+            font-weight: 600;
+            z-index: 3000;
+            animation: slideUp 0.5s ease-out forwards;
+            max-width: 320px;
+            word-wrap: break-word;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+        }
+
+            .notification.success {
+                background-color: var(--accent-color);
+            }
+
+            .notification.error {
+                background-color: var(--secondary-color);
+                color: white;
+            }
+
+            .notification.info {
+                background-color: var(--primary-color);
+            }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(100px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideDown {
+            from {
+                transform: translateY(0);
+                opacity: 1;
+            }
+
+            to {
+                transform: translateY(100px);
+                opacity: 0;
+            }
+        }
+
+        /* Responsive Adjustments */
+
+
+        /* Animations */
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Mobile Download Modal Styles (from previous immersive, adapted) */
+        .mobile-download-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 3000;
+        }
+
+            .mobile-download-modal > div {
+                background: rgba(0,0,0,0.9);
+                padding: 30px;
+                border-radius: 15px;
+                text-align: center;
+                color: white;
+                max-width: 400px;
+            }
+
+            .mobile-download-modal h3 {
+                color: #00d4ff;
+                margin-bottom: 20px;
+            }
+
+            .mobile-download-modal button {
+                border: none;
+                padding: 12px 20px;
+                border-radius: 20px;
+                color: white;
+                cursor: pointer;
+                transition: background 0.3s ease;
+            }
+
+                .mobile-download-modal button:hover {
+                    opacity: 0.8;
+                }
+
+            .mobile-download-modal .fab {
+                margin-right: 8px;
+            }
+
+            .mobile-download-modal .qr-code-placeholder {
+                width: 150px;
+                height: 150px;
+                background: #fff;
+                margin: 15px auto;
+                border-radius: 10px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: #000;
+                font-weight: bold;
+            }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-rocket"></i>
+                <span>Kaseddie</span>
+                <span class="logo-accent">AI</span>
+            </div>
+            <div class="nav-menu">
+                <div class="nav-dropdown">
+                    <a href="#home" class="nav-link active">Home <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown-content">
+                        <a href="#home" onclick="scrollToSection('home')">Overview</a>
+                        <a href="javascript:void(0)" onclick="showLivePrices()">Live Prices</a>
+                        <a href="javascript:void(0)" onclick="showMarketStats()">Market Stats</a>
+                        <a href="javascript:void(0)" onclick="showQuickStart()">Quick Start Guide</a>
+                    </div>
+                </div>
+                <div class="nav-dropdown">
+                    <a href="#features" class="nav-link">Features <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown-content">
+                        <a href="javascript:void(0)" onclick="showFeature('ai-strategies')">AI Trading Strategies</a>
+                        <a href="javascript:void(0)" onclick="showFeature('voice-commands')">Voice Commands</a>
+                        <a href="javascript:void(0)" onclick="showFeature('kyc-security')">KYC & Security</a>
+                        <a href="javascript:void(0)" onclick="showFeature('cryptocurrencies')">50+ Cryptocurrencies</a>
+                        <a href="javascript:void(0)" onclick="showFeature('analytics')">Real-Time Analytics</a>
+                        <a href="javascript:void(0)" onclick="showFeature('multi-platform')">Multi-Platform</a>
+                    </div>
+                </div>
+                <div class="nav-dropdown">
+                    <a href="#trading" class="nav-link">AI Trading <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown-content">
+                        <a href="javascript:void(0)" onclick="testStrategy('momentum')">Momentum Strategy</a>
+                        <a href="javascript:void(0)" onclick="testStrategy('ai_prediction')">AI Prediction</a>
+                        <a href="javascript:void(0)" onclick="testStrategy('mean_reversion')">Mean Reversion</a>
+                        <a href="javascript:void(0)" onclick="testStrategy('arbitrage')">Arbitrage</a>
+                        <a href="javascript:void(0)" onclick="testStrategy('sentiment_analysis')">Sentiment Analysis</a>
+                        <a href="javascript:void(0)" onclick="testStrategy('scalping')">AI Scalping</a>
+                        <a href="javascript:void(0)" onclick="testStrategy('grid_trading')">Grid Trading</a>
+                        <a href="javascript:void(0)" onclick="testStrategy('ai_buy_sell')">AI Buy/Sell</a>
+                        <a href="javascript:void(0)" onclick="testStrategy('take_profit')">Take Profit</a>
+                    </div>
+                </div>
+                <div class="nav-dropdown">
+                    <a href="#platform" class="nav-link">Platform <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown-content">
+                        <a href="javascript:void(0)" onclick="launchWebPlatform()">Web Platform</a>
+                        <a href="javascript:void(0)" onclick="downloadDesktop()">Desktop App</a>
+                        <a href="javascript:void(0)" onclick="downloadMobile()">Mobile App</a>
+                        <a href="javascript:void(0)" onclick="openManualTrading()">Manual Trading</a>
+                        <a href="javascript:void(0)" onclick="showAPIDocumentation()">API Documentation</a>
+                        <a href="investor-dashboard.html">Investor Dashboard</a> <!-- NEW LINK HERE -->
+                    </div>
+                </div>
+                <div class="nav-dropdown">
+                    <a href="#contact" class="nav-link">Contact <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown-content">
+                        <a href="javascript:void(0)" onclick="showContactForm()">Contact Form</a>
+                        <a href="javascript:void(0)" onclick="showLiveChat()">Live Chat</a>
+                        <a href="javascript:void(0)" onclick="showSupport()">24/7 Support</a>
+                        <a href="javascript:void(0)" onclick="showHelpCenter()">Help Center</a>
+                        <a href="javascript:void(0)" onclick="openDepositWithdraw()">Deposit/Withdraw</a>
+                    </div>
+                </div>
+            </div>
+            <div class="nav-actions">
+                <div class="nav-dropdown">
+                    <button class="btn-secondary dropdown-btn">Login <i class="fas fa-chevron-down"></i></button>
+                    <div class="dropdown-content">
+                        <a href="javascript:void(0)" onclick="showLoginModal()">Sign In</a>
+                        <a href="javascript:void(0)" onclick="showRegisterModal()">Sign Up</a>
+                        <a href="javascript:void(0)" onclick="showKYCModal()">KYC Verification</a>
+                        <a href="javascript:void(0)" onclick="showSettings()">Settings</a>
+                    </div>
+                </div>
+                <!-- Wallet connection button and info -->
+                <div id="wallet-info">
+                    <span id="wallet-address"></span>
+                    <button id="disconnect-btn" title="Disconnect Wallet"><i class="fas fa-sign-out-alt"></i></button>
+                </div>
+                <button id="connect-wallet-btn" class="btn-primary">
+                    <i class="fas fa-wallet"></i> Connect Wallet
+                </button>
+
+                <div class="nav-dropdown">
+                    <button class="btn-primary dropdown-btn">Launch Platform <i class="fas fa-chevron-down"></i></button>
+                    <div class="dropdown-content">
+                        <a href="javascript:void(0)" onclick="launchWebPlatform()">Web Trading Platform</a>
+                        <a href="javascript:void(0)" onclick="launchVoiceTrading()">Voice Trading</a>
+                        <a href="javascript:void(0)" onclick="launchAIAnalytics()">AI Analytics Dashboard</a>
+                        <a href="javascript:void(0)" onclick="launchPortfolioManager()">Portfolio Manager</a>
+                        <a href="javascript:void(0)" onclick="openDepositWithdraw()">Deposit & Withdraw</a>
+                        <a href="javascript:void(0)" onclick="openInvestorDashboard()">Investor Dashboard</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-background">
+            <div class="crypto-animation">
+                <div class="floating-crypto">₿</div>
+                <div class="floating-crypto">Ξ</div>
+                <div class="floating-crypto">₳</div>
+                <div class="floating-crypto">●</div>
+            </div>
+        </div>
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1>The Future of <span class="gradient-text">AI Crypto Trading</span></h1>
+                <p>Professional AI-powered cryptocurrency trading platform with advanced strategies, voice commands, and real-time market analysis.</p>
+                <div class="hero-stats">
+                    <div class="stat">
+                        <span class="stat-number">95%</span>
+                        <span class="stat-label">Target Success Rate</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">50+</span>
+                        <span class="stat-label">Cryptocurrencies</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">10K+</span>
+                        <span class="stat-label">Expected Users</span>
+                    </div>
+                </div>
+                <div class="hero-actions">
+                    <button class="btn-primary large" onclick="launchPlatform()">
+                        <i class="fas fa-rocket"></i>
+                        Launch Trading Platform
+                    </button>
+                    <a href="investor-dashboard.html" class="btn-secondary large" style="text-decoration: none; display: inline-flex; align-items: center; justify-content: center;">
+                        <i class="fas fa-chart-line"></i>
+                        Investor Dashboard
+                    </a>
+                    <button class="btn-secondary large" onclick="downloadDesktop()">
+                        <i class="fas fa-download"></i>
+                        Download Desktop App
+                    </button>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <div class="trading-preview">
+                    <div class="preview-header">
+                        <div class="status-dots">
+                            <div class="dot active"></div>
+                            <div class="dot active"></div>
+                            <div class="dot"></div>
+                        </div>
+                        <span>Live Trading</span>
+                    </div>
+                    <div class="preview-content">
+                        <div class="price-display">
+                            <span class="crypto-symbol">BTC</span>
+                            <span class="crypto-price" id="btc-preview">$65,420</span>
+                            <span class="crypto-change positive">+2.5%</span>
+                        </div>
+                        <div class="ai-signal">
+                            <i class="fas fa-brain"></i>
+                            <span>AI Signal: Strong Buy</span>
+                        </div>
+                        <div class="chart-preview">
+                            <div class="chart-line"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features">
+        <div class="container">
+            <div class="section-header">
+                <h2>Powerful AI Trading Features</h2>
+                <p>Everything you need for professional cryptocurrency trading</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h3>AI Trading Strategies</h3>
+                    <p>8 advanced AI algorithms plus manual trading for experienced users. Includes momentum, prediction, arbitrage, sentiment analysis, scalping, grid trading, mean reversion, and AI buy/sell signals with up to 95% success rates.</p>
+                </div>
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">
+                        <i class="fas fa-microphone"></i>
+                    </div>
+                    <h3>Voice Commands</h3>
+                    <p>Revolutionary voice-controlled trading. Execute trades and analyze markets using natural language commands.</p>
+                </div>
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>KYC & Security</h3>
+                    <p>Bank-grade security with complete KYC compliance, 256-bit encryption, and multi-factor authentication.</p>
+                </div>
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">
+                        <i class="fas fa-coins"></i>
+                    </div>
+                    <h3>50+ Cryptocurrencies</h3>
+                    <p>Trade Bitcoin, Ethereum, and 50+ altcoins with real-time data from multiple exchanges.</p>
+                </div>
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>Real-Time Analytics</h3>
+                    <p>Advanced market analysis with AI-driven insights, technical indicators, and predictive modeling.</p>
+                </div>
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <h3>Multi-Platform</h3>
+                    <p>Web platform, desktop application, and mobile app with seamless synchronization across all devices.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Trading Strategies -->
+    <section id="trading" class="trading-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>AI Trading Strategies</h2>
+                <p>Choose from 10 professional-grade AI strategies plus manual trading</p>
+            </div>
+            <div class="strategies-grid">
+                <div class="strategy-card fade-in" data-strategy="momentum">
+                    <div class="strategy-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>Momentum Strategy</h3>
+                    <p>Analyzes price momentum and trend strength for optimal entry/exit points.</p>
+                    <div class="strategy-stats">
+                        <div class="stat">
+                            <span class="value">78%</span>
+                            <span class="label">Success Rate</span>
+                        </div>
+                        <div class="stat">
+                            <span class="value">+12.5%</span>
+                            <span class="label">Avg Return</span>
+                        </div>
+                    </div>
+                    <button class="strategy-btn" onclick="testStrategy('momentum')">Test Strategy</button>
+                </div>
+                <div class="strategy-card fade-in" data-strategy="ai_prediction">
+                    <div class="strategy-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h3>AI Prediction</h3>
+                    <p>Advanced machine learning models predict market movements with high accuracy.</p>
+                    <div class="strategy-stats">
+                        <div class="stat">
+                            <span class="value">85%</span>
+                            <span class="label">Success Rate</span>
+                        </div>
+                        <div class="stat">
+                            <span class="value">+18.3%</span>
+                            <span class="label">Avg Return</span>
+                        </div>
+                    </div>
+                    <button class="strategy-btn" onclick="testStrategy('ai_prediction')">Test Strategy</button>
+                </div>
+                <div class="strategy-card fade-in" data-strategy="mean_reversion">
+                    <div class="strategy-icon">
+                        <i class="fas fa-balance-scale"></i>
+                    </div>
+                    <h3>Mean Reversion</h3>
+                    <p>Identifies overbought/oversold conditions for contrarian trading opportunities.</p>
+                    <div class="strategy-stats">
+                        <div class="stat">
+                            <span class="value">71%</span>
+                            <span class="label">Success Rate</span>
+                        </div>
+                        <div class="stat">
+                            <span class="value">+9.8%</span>
+                            <span class="label">Avg Return</span>
+                        </div>
+                    </div>
+                    <button class="strategy-btn" onclick="testStrategy('mean_reversion')">Test Strategy</button>
+                </div>
+                <div class="strategy-card fade-in" data-strategy="arbitrage">
+                    <div class="strategy-icon">
+                        <i class="fas fa-exchange-alt"></i>
+                    </div>
+                    <h3>Cross-Exchange Arbitrage</h3>
+                    <p>Exploits price differences across multiple exchanges for risk-free profits.</p>
+                    <div class="strategy-stats">
+                        <div class="stat">
+                            <span class="value">95%</span>
+                            <span class="label">Success Rate</span>
+                        </div>
+                        <div class="stat">
+                            <span class="value">+2.8%</span>
+                            <span class="label">Avg Return</span>
+                        </div>
+                    </div>
+                    <button class="strategy-btn" onclick="testStrategy('arbitrage')">Test Strategy</button>
+                </div>
+                <div class="strategy-card fade-in" data-strategy="sentiment_analysis">
+                    <div class="strategy-icon">
+                        <i class="fas fa-comments"></i>
+                    </div>
+                    <h3>Social Sentiment AI</h3>
+                    <p>Analyzes social media and news sentiment to predict market movements.</p>
+                    <div class="strategy-stats">
+                        <div class="stat">
+                            <span class="value">81%</span>
+                            <span class="label">Success Rate</span>
+                        </div>
+                        <div class="stat">
+                            <span class="value">+16.9%</span>
+                            <span class="label">Avg Return</span>
+                        </div>
+                    </div>
+                    <button class="strategy-btn" onclick="testStrategy('sentiment_analysis')">Test Strategy</button>
+                </div>
+                <div class="strategy-card fade-in" data-strategy="scalping">
+                    <div class="strategy-icon">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <h3>AI Scalping</h3>
+                    <p>High-frequency micro-trades capturing small price movements with AI precision.</p>
+                    <div class="strategy-stats">
+                        <div class="stat">
+                            <span class="value">89%</span>
+                            <span class="label">Success Rate</span>
+                        </div>
+                        <div class="stat">
+                            <span class="value">+3.2%</span>
+                            <span class="label">Avg Return</span>
+                        </div>
+                    </div>
+                    <button class="strategy-btn" onclick="testStrategy('scalping')">Test Strategy</button>
+                </div>
+                <div class="strategy-card fade-in" data-strategy="grid_trading">
+                    <div class="strategy-icon">
+                        <i class="fas fa-th"></i>
+                    </div>
+                    <h3>AI Grid Trading</h3>
+                    <p>Places buy/sell orders at predetermined intervals to profit from volatility.</p>
+                    <div class="strategy-stats">
+                        <div class="stat">
+                            <span class="value">76%</span>
+                            <span class="label">Success Rate</span>
+                        </div>
+                        <div class="stat">
+                            <span class="value">+14.1%</span>
+                            <span class="label">Avg Return</span>
+                        </div>
+                    </div>
+                    <button class="strategy-btn" onclick="testStrategy('grid_trading')">Test Strategy</button>
+                </div>
+                <div class="strategy-card fade-in" data-strategy="ai_buy_sell">
+                    <div class="strategy-icon">
+                        <i class="fas fa-magic"></i>
+                    </div>
+                    <h3>AI Buy/Sell Signals</h3>
+                    <p>Advanced AI calculations using RSI, MACD, support/resistance, and volume analysis for optimal entry/exit points.</p>
+                    <div class="strategy-stats">
+                        <div class="stat">
+                            <span class="value">92%</span>
+                            <span class="label">Success Rate</span>
+                        </div>
+                        <div class="stat">
+                            <span class="value">+22.4%</span>
+                            <span class="label">Avg Return</span>
+                        </div>
+                    </div>
+                    <button class="strategy-btn" onclick="testStrategy('ai_buy_sell')">Test AI Signals</button>
+                </div>
+                <div class="strategy-card fade-in" data-strategy="take_profit">
+                    <div class="strategy-icon">
+                        <i class="fas fa-bullseye"></i> <!-- Changed from fa-target to fa-bullseye for better icon -->
+                    </div>
+                    <h3>Take Profit Algorithm</h3>
+                    <p>Automated profit-taking and stop-loss system with precise calculations for risk management and profit optimization.</p>
+                    <div class="strategy-stats">
+                        <div class="stat">
+                            <span class="value">88%</span>
+                            <span class="label">Success Rate</span>
+                        </div>
+                        <div class="stat">
+                            <span class="value">+18.7%</span>
+                            <span class="label">Avg Return</span>
+                        </div>
+                    </div>
+                    <button class="strategy-btn" onclick="testStrategy('take_profit')">Test Take Profit</button>
+                </div>
+                <div class="strategy-card fade-in" data-strategy="manual_trading">
+                    <div class="strategy-icon">
+                        <i class="fas fa-hand-paper"></i>
+                    </div>
+                    <h3>Manual Trading</h3>
+                    <p>Full control for experienced traders. Execute trades manually with advanced tools and real-time data.</p>
+                    <div class="strategy-stats">
+                        <div class="stat">
+                            <span class="value">User</span>
+                            <span class="label">Controlled</span>
+                        </div>
+                        <div class="stat">
+                            <span class="value">Custom</span>
+                            <span class="label">Strategy</span>
+                        </div>
+                    </div>
+                    <button class="strategy-btn" onclick="openManualTrading()">Start Manual Trading</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Platform Section -->
+    <section id="platform" class="platform-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Multi-Platform Experience</h2>
+                <p>Trade anywhere with our comprehensive platform ecosystem</p>
+            </div>
+            <div class="platform-grid">
+                <div class="platform-card fade-in">
+                    <div class="platform-icon">
+                        <i class="fas fa-globe"></i>
+                    </div>
+                    <h3>Web Platform</h3>
+                    <p>Full-featured trading platform accessible from any browser with real-time data and AI strategies.</p>
+                    <button class="platform-btn" onclick="launchWebPlatform()">Launch Web App</button>
+                </div>
+                <div class="platform-card fade-in">
+                    <div class="platform-icon">
+                        <i class="fas fa-desktop"></i>
+                    </div>
+                    <h3>Desktop Application</h3>
+                    <p>Professional desktop app with advanced features, offline capabilities, and enhanced security.</p>
+                    <button class="platform-btn" onclick="downloadDesktop()">Download Desktop</button>
+                </div>
+                <div class="platform-card fade-in">
+                    <div class="platform-icon">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <h3>Mobile App</h3>
+                    <p>Trade on-the-go with our mobile app featuring voice commands and push notifications.</p>
+                    <button class="platform-btn" onclick="downloadMobile()">Get Mobile App</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Start Trading Today</h2>
+                <p>Be among the first to experience our revolutionary AI trading platform</p>
+            </div>
+            <div class="contact-content">
+                <div class="contact-info fade-in">
+                    <h3>Ready to Transform Your Trading?</h3>
+                    <p>Experience the future of cryptocurrency trading with our AI-powered platform.</p>
+                    <div class="contact-methods">
+                        <div class="contact-method">
+                            <i class="fas fa-envelope"></i>
+                            <span>kaseddie@hotmail.com</span>
+                        </div>
+                        <div class="contact-method">
+                            <i class="fas fa-envelope"></i>
+                            <span>kaseddie@gmail.com</span>
+                        </div>
+                        <div class="contact-method">
+                            <i class="fas fa-phone"></i>
+                            <span>+256 769089860</span>
+                        </div>
+                        <div class="contact-method">
+                            <i class="fab fa-whatsapp"></i>
+                            <span>+256 784428821</span>
+                        </div>
+                        <div class="contact-method">
+                            <i class="fas fa-clock"></i>
+                            <span>24/7 Customer Support</span>
+                        </div>
+                        <div class="contact-method">
+                            <i class="fab fa-whatsapp"></i>
+                            <span>WhatsApp: +256 784428821</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="contact-form fade-in">
+                    <form id="contactForm">
+                        <div class="form-group">
+                            <input type="text" placeholder="Full Name" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" placeholder="Email Address" required>
+                        </div>
+                        <div class="form-group">
+                            <select required>
+                                <option value="">Trading Experience</option>
+                                <option value="beginner">Beginner</option>
+                                <option value="intermediate">Intermediate</option>
+                                <option value="advanced">Advanced</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <textarea placeholder="Message (Optional)" rows="4"></textarea>
+                        </div>
+                        <button type="submit" class="btn-primary full-width">
+                            <i class="fas fa-rocket"></i>
+                            Start Trading Now
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <i class="fas fa-rocket"></i>
+                        <span>Kaseddie</span>
+                        <span class="logo-accent">AI</span>
+                    </div>
+                    <p>The future of AI-powered cryptocurrency trading.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Platform</h4>
+                    <ul>
+                        <li><a href="javascript:launchWebPlatform()">Web Platform</a></li>
+                        <li><a href="javascript:downloadDesktop()">Desktop App</a></li>
+                        <li><a href="javascript:downloadMobile()">Mobile App</a></li>
+                        <li><a href="investor-dashboard.html">Investor Dashboard</a></li> <!-- NEW LINK IN FOOTER -->
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Trading</h4>
+                    <ul>
+                        <li><a href="#trading">AI Strategies</a></li>
+                        <li><a href="#features">Features</a></li>
+                        <li><a href="#platform">Platforms</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Support</h4>
+                    <ul>
+                        <li><a href="mailto:kaseddie@hotmail.com">kaseddie@hotmail.com</a></li>
+                        <li><a href="mailto:kaseddie@gmail.com">kaseddie@gmail.com</a></li>
+                        <li><a href="tel:+256769089860">+256 769089860</a></li>
+                        <li><a href="https://wa.me/256784428821">WhatsApp</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Kaseddie AI. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modals Container (content now directly embedded) -->
+    <div id="modals-container">
+        <!-- Login Modal -->
+        <div id="loginModal" class="mobile-download-modal" style="display: none;">
+            <div>
+                <h3 style="color:#00d4ff;margin-bottom:20px;">Login</h3>
+                <p style="color:#ccc;">Login functionality coming soon!</p>
+                <button onclick="closeModal('loginModal')" style="background:#ff6b35;margin-top:20px;padding:10px 20px;">Close</button>
+            </div>
+        </div>
+        <!-- Register Modal -->
+        <div id="registerModal" class="mobile-download-modal" style="display: none;">
+            <div>
+                <h3 style="color:#00d4ff;margin-bottom:20px;">Register</h3>
+                <p style="color:#ccc;">Registration functionality coming soon!</p>
+                <button onclick="closeModal('registerModal')" style="background:#ff6b35;margin-top:20px;padding:10px 20px;">Close</button>
+            </div>
+        </div>
+        <!-- KYC Modal -->
+        <div id="kycModal" class="mobile-download-modal" style="display: none;">
+            <div>
+                <h3 style="color:#00d4ff;margin-bottom:20px;">KYC Verification</h3>
+                <p style="color:#ccc;">KYC process coming soon!</p>
+                <button onclick="closeModal('kycModal')" style="background:#ff6b35;margin-top:20px;padding:10px 20px;">Close</button>
+            </div>
+        </div>
+        <!-- Settings Modal -->
+        <div id="settingsModal" class="mobile-download-modal" style="display: none;">
+            <div>
+                <h3 style="color:#00d4ff;margin-bottom:20px;">Settings</h3>
+                <p style="color:#ccc;">User settings coming soon!</p>
+                <button onclick="closeModal('settingsModal')" style="background:#ff6b35;margin-top:20px;padding:10px 20px;">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // AI Learning System for Kaseddie Platform
+        class AILearningSystem {
+            constructor() {
+                this.knowledgeBase = this.loadKnowledgeBase();
+                this.userInteractions = this.loadUserInteractions();
+                this.learningEnabled = true;
+            }
+
+            loadKnowledgeBase() {
+                return {
+                    // Comprehensive cryptocurrency data
+                    cryptocurrencies: {
+                        'bitcoin': {
+                            symbol: 'BTC',
+                            name: 'Bitcoin',
+                            description: 'First and largest cryptocurrency, often called digital gold, serving as a store of value and a decentralized payment network.',
+                            useCase: 'Store of value, digital payments, hedge against inflation',
+                            technology: 'Proof of Work, SHA-256 mining, UTXO model',
+                            marketCap: 'Approx. $1.2 Trillion (dynamic)',
+                            maxSupply: '21,000,000 BTC',
+                            keywords: ['btc', 'bitcoin', 'digital gold', 'satoshi', 'mining']
+                        },
+                        'ethereum': {
+                            symbol: 'ETH',
+                            name: 'Ethereum',
+                            description: 'A decentralized, open-source blockchain with smart contract functionality. It is the foundation for DeFi, NFTs, and dApps.',
+                            useCase: 'Smart contracts, DeFi, NFTs, dApps, enterprise solutions',
+                            technology: 'Transitioned from Proof of Work to Proof of Stake (Ethereum 2.0), EVM (Ethereum Virtual Machine), Layer 2 scaling solutions',
+                            marketCap: 'Approx. $430 Billion (dynamic)',
+                            maxSupply: 'No fixed max supply (issuance reduced with EIP-1559)',
+                            keywords: ['eth', 'ethereum', 'smart contracts', 'defi', 'vitalik', 'gas fees', 'pos', 'proof of stake']
+                        },
+                        'binance': {
+                            symbol: 'BNB',
+                            name: 'Binance Coin',
+                            description: 'The native cryptocurrency of the Binance exchange and the Binance Smart Chain (BSC). Used for discounted trading fees and as gas on BSC.',
+                            useCase: 'Trading fee discounts, BSC gas fees, staking, launchpad participation',
+                            technology: 'BEP-20 (Binance Smart Chain), operates on a Proof of Staked Authority (PoSA) consensus mechanism',
+                            keywords: ['bnb', 'binance', 'bsc', 'cz', 'binance smart chain']
+                        },
+                        'cardano': {
+                            symbol: 'ADA',
+                            name: 'Cardano',
+                            description: 'A proof-of-stake blockchain platform designed for "changemakers, innovators, and visionaries," aiming for a more secure and scalable infrastructure for dApps and smart contracts.',
+                            useCase: 'Smart contracts, decentralized applications, identity management, supply chain solutions',
+                            technology: 'Ouroboros Proof of Stake consensus protocol, peer-reviewed research approach',
+                            keywords: ['ada', 'cardano', 'charles hoskinson', 'ouroboros', 'pos']
+                        },
+                        'solana': {
+                            symbol: 'SOL',
+                            name: 'Solana',
+                            description: 'A high-performance blockchain known for its speed and low transaction costs, designed to support decentralized applications and crypto projects.',
+                            useCase: 'DeFi, NFTs, high-frequency trading, gaming, scalable dApps',
+                            technology: 'Proof of History (PoH) combined with Proof of Stake (PoS), Tower BFT consensus mechanism',
+                            keywords: ['sol', 'solana', 'fast', 'cheap', 'anatoly', 'high throughput']
+                        }
+                    },
+
+                    // Trading strategies knowledge
+                    tradingStrategies: {
+                        'momentum': {
+                            description: 'This strategy capitalizes on the continuance of existing trends. It identifies assets that are moving strongly in one direction and aims to profit by riding that trend. It often uses indicators like RSI and MACD.',
+                            successRate: 78,
+                            riskLevel: 'Medium',
+                            timeframe: 'Short to medium term',
+                            indicators: ['RSI', 'MACD', 'Moving Averages'],
+                            bestFor: 'Trending markets, traders who can quickly react to market shifts.'
+                        },
+                        'ai_prediction': {
+                            description: 'Our AI Prediction strategy uses advanced machine learning models to analyze vast amounts of historical data, market sentiment, and macroeconomic factors to forecast future price movements with high accuracy. It identifies optimal entry and exit points.',
+                            successRate: 85,
+                            riskLevel: 'Medium-High (depends on market volatility)',
+                            timeframe: 'Variable, from short-term to medium-term predictions',
+                            requirements: ['Data-driven approach', 'Complex algorithms'],
+                            bestFor: 'Traders seeking data-backed insights and automated decision-making.'
+                        },
+                        'mean_reversion': {
+                            description: 'This strategy is based on the assumption that asset prices will eventually return to their historical average or mean. It involves buying when prices are significantly below the mean and selling when they are significantly above.',
+                            successRate: 71,
+                            riskLevel: 'Medium',
+                            timeframe: 'Short to medium term',
+                            indicators: ['Bollinger Bands', 'Keltner Channels', 'Oscillators'],
+                            bestFor: 'Sideways or range-bound markets, patient traders.'
+                        },
+                        'arbitrage': {
+                            description: 'Cross-exchange arbitrage involves simultaneously buying a cryptocurrency on one exchange where its price is lower and selling it on another exchange where its price is higher, profiting from the price difference. It requires extremely fast execution.',
+                            successRate: 95,
+                            riskLevel: 'Low (if executed perfectly, but high execution risk)',
+                            timeframe: 'Very short term (milliseconds to seconds)',
+                            requirements: ['Multiple exchange accounts', 'Fast execution systems', 'Low latency connections'],
+                            bestFor: 'Risk-averse traders with advanced technical setups.'
+                        },
+                        'sentiment_analysis': {
+                            description: 'The Social Sentiment AI strategy analyzes public opinion from social media, news articles, and other online sources to gauge market sentiment. It identifies bullish or bearish trends based on collective emotions and uses this to inform trading decisions.',
+                            successRate: 81,
+                            riskLevel: 'Medium',
+                            timeframe: 'Short to medium term',
+                            requirements: ['Natural Language Processing (NLP)', 'Real-time data feeds'],
+                            bestFor: 'Traders who value market psychology and news-driven movements.'
+                        },
+                        'scalping': {
+                            description: 'AI Scalping involves executing a large number of very short-term trades to profit from small price movements. Our AI identifies tiny inefficiencies and executes trades at lightning speed, accumulating small gains into significant profits.',
+                            successRate: 89,
+                            riskLevel: 'High (due to frequency and small margins)',
+                            timeframe: 'Seconds to minutes (ultra-short term)',
+                            requirements: ['Fast internet', 'Low latency execution', 'High liquidity markets'],
+                            bestFor: 'Highly active traders, automated systems.'
+                        },
+                        'grid_trading': {
+                            description: 'AI Grid Trading places a series of buy and sell orders at predetermined price intervals above and below a set price. As the price fluctuates within the grid, the bot automatically buys low and sells high, profiting from volatility.',
+                            successRate: 76,
+                            riskLevel: 'Medium',
+                            timeframe: 'Flexible, works well in volatile, range-bound markets',
+                            requirements: ['Defined price range', 'Capital allocation for multiple orders'],
+                            bestFor: 'Volatile markets without strong trends, automated passive income.'
+                        },
+                        'ai_buy_sell': {
+                            description: 'Our AI Buy/Sell Signals leverage a combination of technical indicators (RSI, MACD), support and resistance levels, and volume analysis to generate precise buy or sell recommendations. The AI identifies high-probability trade setups.',
+                            successRate: 92,
+                            riskLevel: 'Medium',
+                            timeframe: 'Short to medium term',
+                            indicators: ['RSI', 'MACD', 'Support/Resistance', 'Volume'],
+                            bestFor: 'Traders looking for highly accurate entry/exit signals.'
+                        },
+                        'take_profit': {
+                            description: 'The Automated Take Profit Algorithm is designed to maximize profits and minimize losses. It automatically closes positions when a predefined profit target is reached (take profit) or when a specified loss limit is hit (stop loss), ensuring disciplined trading.',
+                            successRate: 88,
+                            riskLevel: 'Low (risk management tool)',
+                            timeframe: 'Continuous, as part of any trading strategy',
+                            requirements: ['Clear profit targets and stop-loss levels'],
+                            bestFor: 'All traders, for effective risk management and profit securing.'
+                        },
+                        'manual_trading': {
+                            description: 'For experienced traders who prefer full control, our platform offers a robust manual trading interface. You can execute trades directly, utilize advanced charting tools, and apply your own strategies with real-time data.',
+                            successRate: 'User Dependent',
+                            riskLevel: 'User Dependent',
+                            timeframe: 'User Dependent',
+                            requirements: ['Trading knowledge', 'Market analysis skills'],
+                            bestFor: 'Experienced traders who want full discretion over their trades.'
+                        }
+                    },
+
+                    // DeFi protocols and concepts
+                    defi: {
+                        'yield_farming': {
+                            description: 'Yield farming is a way to earn cryptocurrency rewards by providing liquidity to decentralized finance (DeFi) protocols. Users deposit their crypto assets into liquidity pools, which are then used for various DeFi operations, and in return, they earn fees or new tokens.',
+                            risks: ['Impermanent loss', 'Smart contract risk', 'Rug pulls', 'Volatility risk'],
+                            returns: 'Highly variable, typically 5-50% APY but can be much higher or lower.',
+                            platforms: ['Uniswap', 'Compound', 'Aave', 'PancakeSwap', 'Curve Finance']
+                        },
+                        'staking': {
+                            description: 'Staking involves locking up cryptocurrency holdings to support the operations of a blockchain network, typically one that uses a Proof of Stake (PoS) consensus mechanism. In return for securing the network, stakers earn rewards.',
+                            risks: ['Slashing (loss of staked assets for network misconduct)', 'Lock-up periods', 'Price volatility of staked asset'],
+                            returns: 'Typically 4-15% APY, depending on the asset and network.',
+                            coins: ['ETH (Ethereum 2.0)', 'ADA (Cardano)', 'DOT (Polkadot)', 'SOL (Solana)', 'ATOM (Cosmos)']
+                        }
+                    },
+
+                    // Market analysis terms
+                    technicalAnalysis: {
+                        'rsi': 'Relative Strength Index (RSI) is a momentum oscillator that measures the speed and change of price movements. It ranges from 0 to 100, with readings above 70 typically indicating overbought conditions and below 30 indicating oversold conditions.',
+                        'macd': 'Moving Average Convergence Divergence (MACD) is a trend-following momentum indicator that shows the relationship between two moving averages of a cryptocurrency\'s price. It helps identify trend direction, strength, duration, and momentum.',
+                        'bollinger_bands': 'Bollinger Bands are a volatility indicator consisting of a middle band (a simple moving average) and two outer bands (standard deviations above and below the middle band). They help identify overbought/oversold levels and potential price reversals.',
+                        'support': 'A support level is a price point on a chart where buying interest is strong enough to prevent the price from falling further. It acts as a floor for the price.',
+                        'resistance': 'A resistance level is a price point on a chart where selling interest is strong enough to prevent the price from rising further. It acts as a ceiling for the price.',
+                        'fibonacci': 'Fibonacci Retracement levels are horizontal lines indicating where support and resistance are likely to occur. They are derived from the Fibonacci sequence and are used by traders to identify potential reversal points after a significant price move.'
+                    },
+
+                    // General platform information
+                    platformInfo: {
+                        'features': 'Kaseddie AI offers AI trading strategies, voice commands, bank-grade security (KYC, 2FA), 50+ cryptocurrencies, real-time analytics, and multi-platform access (web, desktop, mobile).',
+                        'security': 'We employ 256-bit encryption, multi-factor authentication (2FA), and adhere to strict KYC (Know Your Customer) compliance to ensure the highest level of security for your assets and data.',
+                        'voice_commands': 'You can use natural language voice commands to execute trades (e.g., "Buy 1 Ethereum"), analyze markets (e.g., "Analyze Bitcoin market"), or manage your portfolio (e.g., "Show my portfolio").',
+                        'deposit_withdraw': 'Deposit and withdrawal functionalities are coming soon. Currently, you can connect your Starknet wallet for future seamless transactions.',
+                        'contact': 'You can reach us via email at kaseddie@hotmail.com or kaseddie@gmail.com, phone at +256 769089860, or WhatsApp at +256 784428821. We offer 24/7 customer support.',
+                        'getting_started': 'To get started: 1) Sign Up, 2) Complete KYC Verification, 3) Choose an AI Trading Strategy, and 4) Start Trading. Our platform is designed for both beginners and advanced traders.'
+                    }
+                };
+            }
+
+            loadUserInteractions() {
+                if (typeof localStorage !== 'undefined') {
+                    return JSON.parse(localStorage.getItem('aiLearningData') || '{}');
+                }
+                return {};
+            }
+
+            saveUserInteractions() {
+                if (typeof localStorage !== 'undefined') {
+                    localStorage.setItem('aiLearningData', JSON.stringify(this.userInteractions));
+                }
+            }
+
+            // Enhanced response generation with learning
+            generateSmartResponse(userMessage) {
+                const message = userMessage.toLowerCase();
+                const words = message.split(' ');
+
+                // Learn from user input
+                this.learnFromInput(userMessage);
+
+                // Check for cryptocurrency mentions
+                for (const [crypto, data] of Object.entries(this.knowledgeBase.cryptocurrencies)) {
+                    if (data.keywords.some(keyword => message.includes(keyword))) {
+                        return this.generateCryptoResponse(crypto, data, message);
+                    }
+                }
+
+                // Check for trading strategy mentions
+                for (const [strategy, data] of Object.entries(this.knowledgeBase.tradingStrategies)) {
+                    if (message.includes(strategy.replace(/_/g, ' '))) { // Handle spaces in strategy names
+                        return this.generateStrategyResponse(strategy, data);
+                    }
+                }
+
+                // Check for DeFi mentions
+                if (message.includes('defi') || message.includes('yield') || message.includes('staking') || message.includes('liquidity')) {
+                    return this.generateDeFiResponse(message);
+                }
+
+                // Check for technical analysis
+                if (message.includes('analysis') || message.includes('chart') || message.includes('indicator') || message.includes('rsi') || message.includes('macd') || message.includes('bollinger') || message.includes('support') || message.includes('resistance') || message.includes('fibonacci')) {
+                    return this.generateTechnicalResponse(message);
+                }
+
+                // Check for general platform info
+                if (message.includes('feature') || message.includes('security') || message.includes('voice') || message.includes('deposit') || message.includes('withdraw') || message.includes('contact') || message.includes('start')) {
+                    return this.generatePlatformInfoResponse(message);
+                }
+
+                // Pattern-based responses with learning
+                return this.generatePatternResponse(message);
+            }
+
+            generateCryptoResponse(crypto, data, message) {
+                let response = `💰 Here's some information about ${data.name} (${data.symbol}):\n`;
+                response += `📊 **Description:** ${data.description}\n`;
+                response += `🎯 **Primary Use Case:** ${data.useCase}\n`;
+
+                if (message.includes('technology') || message.includes('how it works')) {
+                    response += `⚙️ **Technology:** ${data.technology || 'Advanced blockchain technology'}\n`;
+                }
+                if (data.marketCap && (message.includes('market cap') || message.includes('size'))) {
+                    response += `📈 **Market Cap:** ${data.marketCap}\n`;
+                }
+                if (data.maxSupply && (message.includes('supply') || message.includes('how many'))) {
+                    response += `📦 **Max Supply:** ${data.maxSupply}\n`;
+                }
+
+                if (message.includes('price') || message.includes('buy') || message.includes('sell')) {
+                    response += `💹 For current market prices and trends, please refer to the live data on our platform. Would you like to explore a trading strategy for ${data.name}?`;
+                } else {
+                    response += `\nIs there anything else you'd like to know about ${data.name} or other cryptocurrencies?`;
+                }
+
+                return response;
+            }
+
+            generateStrategyResponse(strategyKey, data) {
+                return `🤖 **${data.name || strategyKey.replace(/_/g, ' ').toUpperCase()} Strategy**:\n` +
+                       `📈 **Description:** ${data.description}\n` +
+                       `📊 **Success Rate:** ${data.successRate}%\n` +
+                       `⚖️ **Risk Level:** ${data.riskLevel}\n` +
+                       `⏰ **Timeframe:** ${data.timeframe}\n` +
+                       `🎯 **Best For:** ${data.bestFor}\n` +
+                       (data.indicators ? `💡 **Key Indicators:** ${data.indicators.join(', ')}\n` : '') +
+                       (data.requirements ? `✅ **Requirements:** ${data.requirements.join(', ')}\n` : '') +
+                       `\nWould you like to test this strategy or learn about another one?`;
+            }
+
+            generateDeFiResponse(message) {
+                if (message.includes('yield') || message.includes('farming')) {
+                    const data = this.knowledgeBase.defi.yield_farming;
+                    return `🌾 **Yield Farming**:\n${data.description}\n💰 **Typical Returns:** ${data.returns}\n⚠️ **Key Risks:** ${data.risks.join(', ')}\n🏛️ **Popular Platforms:** ${data.platforms.join(', ')}\n\nYield farming can offer high returns but comes with risks like impermanent loss.`;
+                }
+
+                if (message.includes('staking')) {
+                    const data = this.knowledgeBase.defi.staking;
+                    return `🔒 **Staking**:\n${data.description}\n💰 **Typical Returns:** ${data.returns}\n⚠️ **Key Risks:** ${data.risks.join(', ')}\n🪙 **Popular Staking Coins:** ${data.coins.join(', ')}\n\nStaking is a great way to earn passive income by supporting blockchain networks.`;
+                }
+
+                return `🏦 **Decentralized Finance (DeFi)** offers a range of innovative financial services without intermediaries. On Kaseddie AI, you can explore concepts like:\n• **Yield Farming**: Earning rewards by providing liquidity.\n• **Staking**: Earning rewards by locking your crypto assets.\n• **Lending & Borrowing**: Accessing or providing loans in crypto.\n\nWhich DeFi concept would you like to delve deeper into?`;
+            }
+
+            generateTechnicalResponse(message) {
+                const indicators = Object.entries(this.knowledgeBase.technicalAnalysis);
+                for (const [indicatorKey, description] of indicators) {
+                    if (message.includes(indicatorKey.replace('_', ' '))) {
+                        return `📈 **${indicatorKey.toUpperCase().replace('_', ' ')}**:\n${description}\n\nThis tool helps traders analyze market trends and make informed decisions. Would you like me to explain another indicator or how to use them on our platform?`;
+                    }
+                }
+
+                let response = `📊 **Technical Analysis Tools** are essential for understanding market behavior. Here are some key indicators and concepts:\n`;
+                response += indicators.map(([ind, desc]) => `• **${ind.toUpperCase().replace('_', ' ')}**: ${desc.split(' - ')[0]}`).join('\n'); // Short description for list
+                response += `\n\nWhich specific indicator or concept would you like to learn more about?`;
+                return response;
+            }
+
+            generatePlatformInfoResponse(message) {
+                if (message.includes('feature')) {
+                    return `✨ **Kaseddie AI Platform Features**:\n${this.knowledgeBase.platformInfo.features}\n\nWe strive to provide a comprehensive and cutting-edge trading experience.`;
+                }
+                if (message.includes('security') || message.includes('safe')) {
+                    return `🛡️ **Platform Security**:\n${this.knowledgeBase.platformInfo.security}\n\nYour security is our top priority.`;
+                }
+                if (message.includes('voice')) {
+                    return `🎤 **Voice Commands**:\n${this.knowledgeBase.platformInfo.voice_commands}\n\nExperience hands-free trading with our intuitive voice interface!`;
+                }
+                if (message.includes('deposit') || message.includes('withdraw')) {
+                    return `💸 **Deposit & Withdrawal**:\n${this.knowledgeBase.platformInfo.deposit_withdraw}\n\nWe are working to enable full deposit and withdrawal functionalities soon.`;
+                }
+                if (message.includes('contact') || message.includes('support')) {
+                    return `📞 **Contact & Support**:\n${this.knowledgeBase.platformInfo.contact}\n\nOur team is available 24/7 to assist you.`;
+                }
+                if (message.includes('start') || message.includes('getting started')) {
+                    return `🚀 **Getting Started with Kaseddie AI**:\n${this.knowledgeBase.platformInfo.getting_started}\n\nWe're excited to have you join our community!`;
+                }
+                return this.generateFallbackResponse(message); // Fallback if no specific platform info matches
+            }
+
+
+            generatePatternResponse(message) {
+                // Advanced pattern matching with context awareness
+                const patterns = {
+                    'how_to': /how (to|do|can)/i,
+                    'what_is': /what (is|are)/i,
+                    'when_to': /when (to|should)/i,
+                    'why': /why/i,
+                    'best': /best|top|good|recommend/i,
+                    'safe': /safe|secure|risk/i,
+                    'profit': /profit|money|earn|make/i,
+                    'hello': /hi|hello|hey/i,
+                    'thank_you': /thank you|thanks/i
+                };
+
+                for (const [pattern, regex] of Object.entries(patterns)) {
+                    if (regex.test(message)) {
+                        return this.generateContextualResponse(pattern, message);
+                    }
+                }
+
+                return this.generateFallbackResponse(message);
+            }
+
+            generateContextualResponse(pattern, message) {
+                const responses = {
+                    'how_to': `🎓 I can guide you through various processes on Kaseddie AI:\n• Setting up your first crypto wallet\n• Executing your first AI-powered trade\n• Understanding and utilizing our AI trading strategies\n• Managing risk and optimizing your portfolio\n\nWhat specifically would you like to learn how to do?`,
+
+                    'what_is': `📚 I can explain various concepts related to cryptocurrency and our platform:\n• What are different cryptocurrencies like Bitcoin or Ethereum?\n• What is blockchain technology?\n• What are AI trading strategies?\n• What are DeFi protocols like yield farming or staking?\n• What are technical indicators like RSI or MACD?\n\nWhat term or concept would you like me to define for you?`,
+
+                    'when_to': `⏰ Timing is crucial in crypto trading. While I cannot give financial advice, I can explain general principles:\n• **Buying**: Often done during market dips or when AI signals indicate a strong buy opportunity.\n• **Selling**: When your profit targets are reached or when AI signals suggest a strong sell.\n• **Risk Management**: Using stop-losses to limit potential downside.\n• **Market Cycles**: Understanding bull and bear markets.\n\nWhat specific timing question do you have in mind?`,
+
+                    'best': `🏆 When it comes to "best" options, it often depends on your goals and risk tolerance. However, based on our platform's offerings:\n• **For beginners**: Bitcoin and Ethereum are generally recommended due to their stability and liquidity.\n• **Top AI Strategy**: Our AI Prediction strategy boasts an 85% success rate.\n• **Investment Approach**: Dollar-cost averaging (DCA) is often recommended for long-term growth.\n• **Portfolio**: A diversified portfolio is key to mitigating risk.\n\nWhat's your investment goal, and I can suggest relevant options?`,
+
+                    'safe': `🛡️ Ensuring your safety and security is paramount at Kaseddie AI. Here's how we prioritize it:\n• We use **bank-grade 256-bit encryption** for all data.\n• **Multi-Factor Authentication (2FA)** is highly recommended for your account.\n• We adhere to strict **KYC (Know Your Customer) compliance** for secure transactions.\n• **Never share your private keys** or sensitive information.\n• Start with smaller amounts until you are comfortable.\n\nDo you have specific security concerns or need advice on protecting your account?`,
+
+                    'profit': `💰 Kaseddie AI offers several avenues for potential profit:\n• **AI Trading Strategies**: Our automated strategies have high success rates (e.g., AI Buy/Sell Signals at 92%).\n• **DeFi Yield Farming**: Potentially high APY by providing liquidity.\n• **Staking Rewards**: Earn passive income by locking your assets.\n• **Long-Term Holding (HODL)**: A strategy for patient investors.\n\nRemember that all trading involves risk. What's your risk tolerance, and I can suggest suitable options?`,
+
+                    'hello': `👋 Hello! I'm your Kaseddie AI trading assistant. How can I assist you with your crypto trading journey today? Feel free to ask about our features, strategies, or general crypto knowledge.`,
+                    'thank_you': `You're most welcome! I'm here to help. Is there anything else I can assist you with regarding Kaseddie AI or cryptocurrency trading?`
+                };
+
+                return responses[pattern] || this.generateFallbackResponse(message);
+            }
+
+            learnFromInput(userMessage) {
+                if (!this.learningEnabled) return;
+
+                const timestamp = Date.now();
+                const sessionId = this.getSessionId();
+
+                // Store interaction for learning
+                if (!this.userInteractions[sessionId]) {
+                    this.userInteractions[sessionId] = [];
+                }
+
+                this.userInteractions[sessionId].push({
+                    message: userMessage,
+                    timestamp: timestamp,
+                    context: this.getCurrentContext()
+                });
+
+                // Analyze patterns every 10 interactions (or more frequently for testing)
+                if (this.userInteractions[sessionId].length % 5 === 0) { // Changed to 5 for quicker testing
+                    this.analyzeUserPatterns(sessionId);
+                }
+
+                this.saveUserInteractions();
+            }
+
+            analyzeUserPatterns(sessionId) {
+                const interactions = this.userInteractions[sessionId];
+                const recentInteractions = interactions.slice(-20); // Last 20 interactions
+
+                // Find common topics
+                const topics = {};
+                recentInteractions.forEach(interaction => {
+                    const words = interaction.message.toLowerCase().split(' ');
+                    words.forEach(word => {
+                        if (word.length > 3 && !['what', 'how', 'when', 'why', 'can', 'you', 'the', 'and', 'for', 'about'].includes(word)) {
+                            topics[word] = (topics[word] || 0) + 1;
+                        }
+                    });
+                });
+
+                // Store learned patterns
+                this.userInteractions[`${sessionId}_patterns`] = {
+                    commonTopics: Object.entries(topics)
+                        .sort(([,a], [,b]) => b - a)
+                        .slice(0, 10)
+                        .map(([topic]) => topic),
+                    lastAnalysis: Date.now()
+                };
+            }
+
+            getSessionId() {
+                if (typeof sessionStorage !== 'undefined') {
+                    let sessionId = sessionStorage.getItem('aiSessionId');
+                    if (!sessionId) {
+                        sessionId = 'session_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+                        sessionStorage.setItem('aiSessionId', sessionId);
+                    }
+                    return sessionId;
+                }
+                return 'default_session';
+            }
+
+            getCurrentContext() {
+                return {
+                    url: typeof window !== 'undefined' ? window.location.href : '',
+                    timestamp: Date.now(),
+                    userAgent: typeof navigator !== 'undefined' ? navigator.userAgent : ''
+                };
+            }
+
+            // Get personalized recommendations based on user history
+            getPersonalizedRecommendations(sessionId) {
+                const patterns = this.userInteractions[`${sessionId}_patterns`];
+                if (!patterns) return null;
+
+                const recommendations = [];
+
+                patterns.commonTopics.forEach(topic => {
+                    if (this.knowledgeBase.cryptocurrencies[topic]) {
+                        recommendations.push(`Consider learning more about ${topic.toUpperCase()}`);
+                    }
+                });
+
+                return recommendations.length > 0 ? recommendations : null;
+            }
+        }
+
+
+        // Kaseddie AI Crypto Platform - Main JavaScript
+        class KaseddiePlatform {
+            constructor() {
+                // Wallet state
+                this.wallet = null;
+                // Check if starknet object is available globally
+                this.starknet = window.starknet;
+
+                // Initialize AI Learning System
+                this.aiLearning = new AILearningSystem();
+
+                // DOM Elements
+                this.connectBtn = document.getElementById('connect-wallet-btn');
+                this.disconnectBtn = document.getElementById('disconnect-btn');
+                this.walletInfoDiv = document.getElementById('wallet-info');
+                this.walletAddressSpan = document.getElementById('wallet-address');
+                this.btcPreview = document.getElementById('btc-preview'); // For price display in hero section
+
+                // API Base for potential future backend calls (not used for Gemini API directly)
+                this.apiBase = 'https://kaseddie-crypto-production.up.railway.app/api';
+
+                // Initialize the platform features
+                this.init();
+            }
+
+            init() {
+                this.setupWalletConnection();
+                this.setupNavigation();
+                this.setupAnimations();
+                this.setupVoiceWelcome();
+                this.setupLiveChat();
+                this.loadLivePrices(); // Load initial prices
+                this.startPriceUpdates(); // Start periodic price updates
+                this.setupEventListeners(); // Setup other event listeners
+            }
+
+            // --- STARKNET WALLET METHODS ---
+            setupWalletConnection() {
+                // Check if the Starknet wallet extension is available
+                if (!this.starknet) {
+                    this.showNotification(
+                        "Starknet wallet extension not found. Please install ArgentX or Braavos to connect.",
+                        "error"
+                    );
+                    this.connectBtn.disabled = true;
+                    this.connectBtn.innerHTML = "<i class='fas fa-exclamation-triangle'></i> Install Wallet"; // Change button text
+                    // Provide a direct link to install ArgentX
+                    this.connectBtn.onclick = () => window.open("https://www.argent.xyz/argent-x/", "_blank");
+                    return;
+                }
+
+                // Add event listeners for wallet connection and disconnection
+                this.connectBtn.addEventListener('click', () => this.connectWallet());
+                this.disconnectBtn.addEventListener('click', () => this.disconnectWallet());
+
+                // Check if the wallet is already pre-authorized (connected from a previous session)
+                this.starknet.isPreauthorized().then(isConnected => {
+                    if (isConnected) {
+                        this.connectWallet(true); // Attempt silent connection
+                    }
+                }).catch(error => {
+                    console.error("Error checking pre-authorization:", error);
+                    this.showNotification("Failed to check wallet pre-authorization.", "error");
+                });
+
+                // Listen for account changes (e.g., user switches accounts or disconnects from the extension)
+                this.starknet.on('accountsChanged', (accounts) => {
+                    if (accounts.length > 0) {
+                        this.handleConnection(this.starknet); // Re-handle connection with new account
+                    } else {
+                        this.disconnectWallet(); // Disconnect if no accounts are selected
+                    }
+                });
+            }
+
+            /**
+             * Connects to the Starknet wallet.
+             * @param {boolean} silent - If true, prevents showing the wallet selection modal if not already connected.
+             */
+            async connectWallet(silent = false) {
+                try {
+                    // Enable the Starknet wallet
+                    // The { showList: !silent } parameter tells the wallet extension to show a selection modal
+                    // if multiple wallets are available or if it's the first connection.
+                    const wallet = await this.starknet.enable({ showList: !silent });
+                    if (wallet && wallet.isConnected) {
+                        this.handleConnection(wallet); // Handle successful connection
+                    } else if (!silent) {
+                        // Only show rejection if it wasn't a silent attempt and connection failed
+                        this.showNotification("Wallet connection was rejected or failed.", "error");
+                    }
+                } catch (error) {
+                    console.error("Error connecting wallet:", error);
+                    this.showNotification("Wallet connection failed. Please try again.", "error");
+                }
+            }
+
+            /**
+             * Handles a successful wallet connection, updating UI.
+             * @param {object} wallet - The connected Starknet wallet object.
+             */
+            handleConnection(wallet) {
+                this.wallet = wallet;
+                const address = this.wallet.selectedAddress;
+                // Truncate address for display
+                const truncatedAddress = `${address.substring(0, 6)}...${address.substring(address.length - 4)}`;
+                this.walletAddressSpan.textContent = truncatedAddress;
+                this.walletAddressSpan.title = address; // Full address on hover
+                this.connectBtn.style.display = 'none'; // Hide connect button
+                this.walletInfoDiv.style.display = 'flex'; // Show wallet info
+                this.showNotification(`Wallet connected: ${truncatedAddress}`, 'success');
+            }
+
+            /**
+             * Disconnects the wallet and updates UI.
+             */
+            disconnectWallet() {
+                this.wallet = null;
+                this.connectBtn.style.display = 'block'; // Show connect button
+                this.connectBtn.innerHTML = "<i class=\"fas fa-wallet\"></i> Connect Wallet"; // Reset text
+                this.connectBtn.onclick = () => this.connectWallet(); // Reset click handler
+                this.walletInfoDiv.style.display = 'none'; // Hide wallet info
+                this.walletAddressSpan.textContent = '';
+                this.showNotification("Wallet disconnected.", "info");
+            }
+
+            // --- VOICE ASSISTANT METHODS ---
+            setupVoiceWelcome() {
+                // Check if the Web Speech API is supported
+                if ('speechSynthesis' in window) {
+                    this.speechSynthesis = window.speechSynthesis;
+
+                    // Function to play welcome message once voices are loaded
+                    const playWelcome = () => {
+                        this.playWelcomeMessage();
+                        // Remove the event listener after playing the welcome message
+                        this.speechSynthesis.onvoiceschanged = null;
+                    };
+
+                    // Wait for voices to be loaded before playing welcome message
+                    // This is crucial as voices might not be immediately available
+                    if (this.speechSynthesis.getVoices().length === 0) {
+                        this.speechSynthesis.onvoiceschanged = playWelcome;
+                    } else {
+                        // If voices are already loaded, play immediately after a delay
+                        setTimeout(playWelcome, 3000);
+                    }
+                } else {
+                    console.warn("Speech Synthesis API not supported in this browser.");
+                }
+            }
+
+            playWelcomeMessage() {
+                const welcomeText = `Welcome to Kaseddie AI, the future of cryptocurrency trading!
+                I'm your AI trading assistant. Our platform offers 10 advanced AI trading strategies with up to 95% success rates.
+                You can trade over 50 cryptocurrencies using voice commands like "Buy 1 Ethereum" or "Analyze Bitcoin market".
+                We provide real-time market analysis, automated trading strategies, and bank-grade security with KYC compliance.
+                To get started, you can sign up, complete KYC verification, choose an AI strategy, and start trading.
+                You can also try our voice commands by saying things like "Show my portfolio" or "Execute momentum strategy".
+                How can I help you today?`;
+
+                this.speak(welcomeText);
+                this.showNotification('🎤 AI Assistant: Welcome! Voice introduction playing...', 'info');
+            }
+
+            /**
+             * Speaks the given text using the browser's speech synthesis.
+             * @param {string} text - The text to speak.
+             */
+            speak(text) {
+                if (this.speechSynthesis) {
+                    this.speechSynthesis.cancel(); // Stop any ongoing speech
+                    const utterance = new SpeechSynthesisUtterance(text);
+                    utterance.rate = 0.95; // Slightly slower speech
+                    utterance.pitch = 1.0;
+                    utterance.volume = 0.8;
+
+                    // Set female voice if available
+                    const voices = this.speechSynthesis.getVoices();
+                    const femaleVoice = voices.find(v =>
+                        v.name.includes('Zira') ||
+                        v.name.includes('Female') ||
+                        v.name.includes('Samantha') ||
+                        v.name.includes('Karen')
+                    ) || voices.find(v => v.lang.startsWith('en-')) || voices[0];
+                    if (femaleVoice) utterance.voice = femaleVoice;
+
+                    this.speechSynthesis.speak(utterance);
+                }
+            }
+
+            // --- LIVE CHAT WIDGET METHODS ---
+            setupLiveChat() {
+                // Create the chat widget container
+                const chatWidget = document.createElement('div');
+                chatWidget.id = 'liveChatWidget';
+                chatWidget.innerHTML = `
+                    <div class="chat-button" onclick="window.platform.toggleLiveChat()">
+                        <i class="fas fa-comments"></i>
+                        <span class="chat-badge">1</span>
+                    </div>
+                    <div class="chat-window" id="chatWindow">
+                        <div class="chat-header">
+                            <h4><i class="fas fa-robot"></i> AI Support</h4>
+                            <button onclick="window.platform.closeLiveChat()">&times;</button>
+                        </div>
+                        <div class="chat-messages" id="chatMessages">
+                            <div class="message bot-message">
+                                <div class="message-content">👋 Hi! I'm the Kaseddie AI assistant. Ask me anything about crypto prices, trading strategies, or how to use the platform.</div>
+                                <div class="message-time">${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
+                            </div>
+                        </div>
+                        <div class="chat-input">
+                            <input type="text" id="chatInput" placeholder="Ask about 'price of bitcoin'..." onkeypress="window.platform.handleChatKeyPress(event)">
+                            <button onclick="window.platform.sendChatMessage()"><i class="fas fa-paper-plane"></i></button>
+                        </div>
+                    </div>
+                `;
+                document.body.appendChild(chatWidget);
+            }
+
+            toggleLiveChat() {
+                const chatWindow = document.getElementById('chatWindow');
+                chatWindow.classList.toggle('active');
+                const badge = document.querySelector('.chat-badge');
+                if (badge) badge.style.display = 'none'; // Hide badge when chat is opened
+                if (chatWindow.classList.contains('active')) {
+                    document.getElementById('chatInput').focus(); // Focus input when opened
+                }
+            }
+
+            closeLiveChat() {
+                document.getElementById('chatWindow').classList.remove('active');
+            }
+
+            handleChatKeyPress(event) {
+                if (event.key === 'Enter') {
+                    this.sendChatMessage();
+                }
+            }
+
+            /**
+             * Sends a user message to the chat and gets an AI response.
+             */
+            async sendChatMessage() {
+                const input = document.getElementById('chatInput');
+                const message = input.value.trim();
+                if (!message) return;
+
+                this.addChatMessage(message, 'user');
+                input.value = ''; // Clear input
+
+                // Add a typing indicator while waiting for AI response
+                const typingIndicator = this.addTypingIndicator();
+
+                try {
+                    // First, try to get a response from the AILearningSystem
+                    const aiLearningResponse = this.aiLearning.generateSmartResponse(message);
+
+                    let finalResponse;
+                    // Check if the AILearningSystem provided a specific answer
+                    // (i.e., not its generic fallback message)
+                    if (aiLearningResponse && !aiLearningResponse.includes("I'm continuously learning!")) {
+                        finalResponse = aiLearningResponse;
+                    } else {
+                        // If AILearningSystem didn't have a specific answer, fall back to Gemini
+                        finalResponse = await this.getGeminiResponse(message);
+                    }
+
+                    this.removeTypingIndicator(typingIndicator); // Remove indicator
+                    this.addChatMessage(finalResponse, 'bot');
+                    this.speak(finalResponse); // Speak AI response
+                } catch (error) {
+                    console.error("Error getting AI response:", error);
+                    this.removeTypingIndicator(typingIndicator); // Remove indicator even on error
+                    this.addChatMessage("I'm sorry, I encountered an error. Please try again later.", 'bot');
+                    this.showNotification("AI assistant error. Please check console.", "error");
+                }
+            }
+
+            /**
+             * Adds a message to the chat display.
+             * @param {string} message - The message content.
+             * @param {'user'|'bot'} sender - The sender of the message.
+             */
+            addChatMessage(message, sender) {
+                const messagesContainer = document.getElementById('chatMessages');
+                const messageDiv = document.createElement('div');
+                messageDiv.className = `message ${sender}-message`;
+                const timeString = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+                messageDiv.innerHTML = `
+                    <div class="message-content">${message.replace(/\n/g, '<br>')}</div>
+                    <div class="message-time">${timeString}</div>
+                `;
+
+                messagesContainer.appendChild(messageDiv);
+                // Scroll to the bottom to show the latest message
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            }
+
+            /**
+             * Adds a typing indicator to the chat.
+             * @returns {HTMLElement} The created typing indicator element.
+             */
+            addTypingIndicator() {
+                const messagesContainer = document.getElementById('chatMessages');
+                const typingDiv = document.createElement('div');
+                typingDiv.className = 'typing-indicator bot-message';
+                typingDiv.innerHTML = `
+                    <span></span><span></span><span></span>
+                `;
+                messagesContainer.appendChild(typingDiv);
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+                return typingDiv;
+            }
+
+            /**
+             * Removes a specific typing indicator from the chat.
+             * @param {HTMLElement} indicatorElement - The typing indicator element to remove.
+             */
+            removeTypingIndicator(indicatorElement) {
+                if (indicatorElement && indicatorElement.parentNode) {
+                    indicatorElement.parentNode.removeChild(indicatorElement);
+                }
+            }
+
+            // --- GEMINI AI INTEGRATION (replaces generateAIResponse) ---
+            /**
+             * Gets a response from the Gemini AI model.
+             * @param {string} userMessage - The user's message to send to the AI.
+             * @returns {Promise<string>} A promise that resolves with the AI's response text.
+             */
+            async getGeminiResponse(userMessage) {
+                // Construct a more detailed prompt for the AI
+                const fullPrompt = `You are Kaseddie AI, a professional cryptocurrency trading assistant.
+                Your goal is to provide helpful, detailed, and accurate information about:
+                - Kaseddie AI platform features (AI trading strategies, voice commands, security, cryptocurrencies, analytics, multi-platform support).
+                - General cryptocurrency trading concepts.
+                - How to use the Kaseddie AI platform.
+                - Market insights (if applicable, based on general knowledge, as you don't have real-time market access).
+                - Respond in a professional, friendly, and informative tone.
+                - If a question is outside your scope (e.g., personal financial advice, real-time market predictions beyond general trends, or specific account details), politely state that you cannot assist with that particular query and suggest where they might find that information (e.g., consult a financial advisor, check the platform's live data, or contact support).
+
+                User query: "${userMessage}"`;
+
+                let chatHistory = [];
+                chatHistory.push({ role: "user", parts: [{ text: fullPrompt }] }); // Send the enhanced prompt
+
+                const payload = {
+                    contents: chatHistory,
+                };
+
+                // IMPORTANT: Leave apiKey as an empty string. Canvas will provide it at runtime.
+                const apiKey = "";
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+
+                try {
+                    const response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+
+                    if (!response.ok) {
+                        const errorData = await response.json();
+                        console.error("Gemini API error response:", errorData);
+                        throw new Error(`API error: ${response.status} ${response.statusText}`);
+                    }
+
+                    const result = await response.json();
+
+                    if (result.candidates && result.candidates.length > 0 &&
+                        result.candidates[0].content && result.candidates[0].content.parts &&
+                        result.candidates[0].content.parts.length > 0) {
+                        return result.candidates[0].content.parts[0].text;
+                    } else {
+                        console.warn("Gemini API response structure unexpected:", result);
+                        return "I'm sorry, I couldn't generate a response. The AI model returned an unexpected format.";
+                    }
+                } catch (error) {
+                    console.error("Error calling Gemini API:", error);
+                    return "I'm experiencing technical difficulties and cannot respond right now. Please try again later.";
+                }
+            }
+
+            // --- Other Utility Methods from original script.js ---
+            setupNavigation() {
+                // Smooth scrolling for navigation links
+                document.querySelectorAll('.nav-link').forEach(link => {
+                    link.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        const targetId = link.getAttribute('href').substring(1);
+                        const targetSection = document.getElementById(targetId);
+
+                        if (targetSection) {
+                            targetSection.scrollIntoView({
+                                behavior: 'smooth',
+                                block: 'start'
+                            });
+
+                            // Update active nav link
+                            document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+                            link.classList.add('active');
+                        }
+                    });
+                });
+
+                // Update active nav on scroll
+                window.addEventListener('scroll', () => {
+                    this.updateActiveNav();
+                });
+            }
+
+            updateActiveNav() {
+                const sections = document.querySelectorAll('section[id]');
+                const scrollPos = window.scrollY + 100; // Offset for fixed header
+
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    const sectionHeight = section.offsetHeight;
+                    const sectionId = section.getAttribute('id');
+
+                    if (scrollPos >= sectionTop && scrollPos < sectionTop + sectionHeight) {
+                        document.querySelectorAll('.nav-link').forEach(link => {
+                            link.classList.remove('active');
+                            if (link.getAttribute('href') === `#${sectionId}`) {
+                                link.classList.add('active');
+                            }
+                        });
+                    }
+                });
+            }
+
+            setupAnimations() {
+                // Intersection Observer for animations
+                const observerOptions = {
+                    threshold: 0.1, // Trigger when 10% of the element is visible
+                    rootMargin: '0px 0px -50px 0px' // Shrink the viewport bottom by 50px
+                };
+
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('is-visible'); // Use 'is-visible' as per your CSS
+                            observer.unobserve(entry.target); // Stop observing once animated
+                        }
+                    });
+                }, observerOptions);
+
+                // Observe elements for animation
+                document.querySelectorAll('.fade-in, .feature-card, .strategy-card, .platform-card').forEach(el => {
+                    observer.observe(el);
+                });
+            }
+
+            async loadLivePrices() {
+                try {
+                    const response = await this.fetchWithRetry(`${this.apiBase}/prices`);
+                    const data = await response.json();
+
+                    if (data.prices && this.btcPreview) {
+                        this.updatePriceDisplay(data.prices);
+                    } else if (this.btcPreview) {
+                        // Fallback to demo data if API response is empty or malformed
+                        this.btcPreview.textContent = `$65,420 (Demo)`;
+                        this.showNotification('Using demo prices as live data is unavailable.', 'info');
+                    }
+                } catch (error) {
+                    console.log('Using demo prices due to:', error.message);
+                    // Use demo data if API is not available or fails
+                    if (this.btcPreview) {
+                        this.btcPreview.textContent = `$65,420 (Demo)`;
+                    }
+                    this.showNotification('Using demo prices as live data is unavailable.', 'info');
+                }
+            }
+
+            async fetchWithRetry(url, options = {}, maxRetries = 3) {
+                for (let i = 0; i < maxRetries; i++) {
+                    try {
+                        const controller = new AbortController();
+                        const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
+
+                        const response = await fetch(url, {
+                            ...options,
+                            signal: controller.signal,
+                            headers: {
+                                'Connection': 'keep-alive',
+                                'Keep-Alive': 'timeout=5, max=1000',
+                                ...options.headers
+                            }
+                        });
+
+                        clearTimeout(timeoutId);
+                        return response;
+                    } catch (error) {
+                        console.log(`Attempt ${i + 1} failed:`, error.message);
+                        if (i === maxRetries - 1) throw error;
+                        await new Promise(resolve => setTimeout(resolve, 1000 * (i + 1))); // Exponential backoff
+                    }
+                }
+            }
+
+            updatePriceDisplay(prices) {
+                // Update BTC price in hero section
+                if (prices.bitcoin && this.btcPreview) {
+                    const changeSign = prices.bitcoin.usd_24h_change >= 0 ? '+' : '';
+                    this.btcPreview.textContent = `$${prices.bitcoin.usd.toLocaleString()} (${changeSign}${prices.bitcoin.usd_24h_change}%)`;
+                }
+            }
+
+            setupEventListeners() {
+                // Contact form
+                const contactForm = document.getElementById('contactForm');
+                if (contactForm) {
+                    contactForm.addEventListener('submit', (e) => {
+                        e.preventDefault();
+                        this.handleContactForm();
+                    });
+                }
+            }
+
+            handleContactForm() {
+                this.showNotification('Thank you for your interest! We\'ll contact you soon.', 'success');
+                document.getElementById('contactForm').reset();
+            }
+
+            startPriceUpdates() {
+                // Update prices every 30 seconds
+                setInterval(() => {
+                    this.loadLivePrices();
+                }, 30000);
+            }
+
+            showNotification(message, type = 'info') {
+                const notification = document.createElement('div');
+                notification.className = `notification ${type}`;
+                notification.textContent = message;
+
+                document.body.appendChild(notification);
+
+                setTimeout(() => {
+                    notification.style.animation = 'slideDown 0.5s ease-in forwards';
+                    setTimeout(() => notification.remove(), 500);
+                }, 5000);
+            }
+
+            // Methods for modals (Login, Register, KYC, Settings)
+            showLogin() {
+                document.getElementById('loginModal').style.display = 'flex';
+            }
+
+            showRegister() {
+                document.getElementById('registerModal').style.display = 'flex';
+            }
+
+            showKYC() {
+                document.getElementById('kycModal').style.display = 'flex';
+            }
+
+            showSettings() {
+                document.getElementById('settingsModal').style.display = 'flex';
+            }
+
+            closeModal(modalId) {
+                document.getElementById(modalId).style.display = 'none';
+            }
+        }
+
+        // --- Global Functions (called directly from HTML onclick attributes) ---
+        // These functions act as wrappers to call the methods on the KaseddiePlatform instance.
+        // This ensures the `this` context is correct within the class methods.
+
+        function testStrategy(strategyName) {
+            // Open real strategy interface instead of just notification
+            // For demo, we'll just show a notification and log.
+            if (window.platform) {
+                window.platform.showNotification(`Simulating ${strategyName} strategy...`, 'info');
+                console.log(`Test strategy: ${strategyName}`);
+                // You would typically open a new window or navigate here:
+                // window.open(`strategy-interface.html?strategy=${strategyName}`, '_blank', 'width=1200,height=800');
+            }
+        }
+
+        function launchWebPlatform() {
+            if (window.platform) {
+                window.platform.showNotification('Launching Web Trading Platform...', 'success');
+                // window.open('trading-platform.html', '_blank');
+            }
+        }
+
+        function downloadDesktop() {
+            if (window.platform) {
+                const desktopAppInfo = `
+Kaseddie AI Desktop App
+Version: 1.0.0
+Platform: ${navigator.platform}
+Download will be available soon!
+
+Features:
+- Advanced AI Trading Strategies
+- Real-time Market Data
+- Voice Command Trading
+- Portfolio Management
+- Offline Capabilities
+`;
+                const link = document.createElement('a');
+                link.href = 'data:text/plain;charset=utf-8,' + encodeURIComponent(desktopAppInfo);
+                link.download = 'kaseddie-desktop-info.txt';
+                link.click();
+
+                window.platform.showNotification('Desktop app info downloaded! Full installer coming soon.', 'success');
+            }
+        }
+
+        function downloadMobile() {
+            // This will create a modal for mobile download options
+            const mobileModal = document.createElement('div');
+            mobileModal.id = 'tempMobileModal'; // Give it an ID to remove easily
+            mobileModal.className = 'mobile-download-modal';
+            mobileModal.innerHTML = `
+                <div>
+                    <h3>📱 Download Mobile App</h3>
+                    <div style="margin-bottom:20px;">
+                        <div style="display:flex;gap:15px;justify-content:center;margin-bottom:15px;">
+                            <button onclick="downloadAPK()" style="background:#00ff88;border:none;padding:12px 20px;border-radius:20px;color:white;cursor:pointer;">
+                                <i class="fab fa-android"></i> Download APK
+                            </button>
+                            <button onclick="openAppStore()" style="background:#00d4ff;border:none;padding:12px 20px;border-radius:20px;color:white;cursor:pointer;">
+                                <i class="fab fa-apple"></i> App Store
+                            </button>
+                        </div>
+                        <p style="color:#ccc;font-size:14px;">Scan QR code to download:</p>
+                        <div class="qr-code-placeholder">QR CODE</div>
+                    </div>
+                    <button onclick="document.getElementById('tempMobileModal').remove()" style="background:#ff6b35;border:none;padding:10px 20px;border-radius:20px;color:white;cursor:pointer;">Close</button>
+                </div>
+            `;
+            document.body.appendChild(mobileModal);
+        }
+
+        // Global helper functions for mobile download modal
+        window.downloadAPK = function() {
+            const link = document.createElement('a');
+            link.href = 'data:application/vnd.android.package-archive;base64,UEsDBBQAAAAIAA=='; // Dummy APK
+            link.download = 'kaseddie-mobile.apk';
+            link.click();
+            if (window.platform) window.platform.showNotification('APK download started!', 'success');
+            document.getElementById('tempMobileModal').remove(); // Close modal after action
+        };
+
+        window.openAppStore = function() {
+            window.open('https://apps.apple.com/search?term=kaseddie', '_blank');
+            if (window.platform) window.platform.showNotification('Opening App Store...', 'info');
+            document.getElementById('tempMobileModal').remove(); // Close modal after action
+        };
+
+        function showLogin() {
+            if (window.platform) window.platform.showLogin();
+        }
+
+        function openManualTrading() {
+            if (window.platform) {
+                window.platform.showNotification('Opening manual trading interface...', 'info');
+                // window.open('/trading-platform.html#manual', '_blank');
+            }
+        }
+
+        // Home dropdown functions (now call platform methods or notifications directly)
+        function scrollToSection(sectionId) {
+            document.getElementById(sectionId).scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function showLivePrices() {
+            if (window.platform) window.platform.showNotification('Loading live cryptocurrency prices...', 'info');
+            scrollToSection('home');
+        }
+
+        function showMarketStats() {
+            if (window.platform) window.platform.showNotification('Market statistics: BTC +2.5%, ETH +1.8%, Total Volume: $2.1B (Demo Data)', 'info');
+        }
+
+        function showQuickStart() {
+            if (window.platform) window.platform.showNotification('Quick Start: 1) Sign Up 2) Complete KYC 3) Choose AI Strategy 4) Start Trading!', 'info');
+        }
+
+        // Features dropdown functions
+        function showFeature(featureType) {
+            const messages = {
+                'ai-strategies': '10 Advanced AI Trading Strategies with up to 95% success rates.',
+                'voice-commands': 'Voice Trading: "Buy 1 ETH", "Analyze Bitcoin", "Show Portfolio".',
+                'kyc-security': 'Bank-grade security with 256-bit encryption and KYC compliance.',
+                'cryptocurrencies': '50+ cryptocurrencies including BTC, ETH, BNB, ADA, SOL, DOT.',
+                'analytics': 'Real-time market analysis with AI insights and technical indicators.',
+                'multi-platform': 'Web, Desktop, and Mobile platforms with seamless sync.',
+                'starknet-integration': 'Benefit from low fees and high throughput on the Starknet L2, ensuring efficient and cost-effective trades.' // Added this specific message
+            };
+            if (window.platform) window.platform.showNotification(messages[featureType] || 'Feature details coming soon!', 'info');
+            scrollToSection('features');
+        }
+
+        // Platform dropdown functions
+        function launchWebPlatform() {
+            if (window.platform) window.platform.showNotification('Launching Web Trading Platform...', 'success');
+            // window.open('/trading-platform.html', '_blank'); // Uncomment if you have this page
+        }
+
+        function showAPIDocumentation() {
+            if (window.platform) window.platform.showNotification('API Documentation: REST endpoints for trading, prices, and portfolio management (Coming Soon)', 'info');
+        }
+
+        // Contact dropdown functions
+        function showContactForm() {
+            scrollToSection('contact');
+            if (window.platform) window.platform.showNotification('Contact form ready - Fill out your details below', 'info');
+        }
+
+        function showLiveChat

@@ -1,0 +1,1968 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kaseddie AI Live Demo Advert (Video Simulation)</title>
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Root Variables */
+        :root {
+            --primary-color: #00d4ff;
+            --secondary-color: #ff6b35;
+            --accent-color: #00ff88;
+            --dark-bg: #0a0a0a;
+            --dark-secondary: #1a1a2e;
+            --dark-tertiary: #16213e;
+            --text-primary: #ffffff;
+            --text-secondary: #cccccc;
+            --text-muted: #888888;
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --card-border: rgba(255, 255, 255, 0.1);
+            --gradient-primary: linear-gradient(135deg, #00d4ff 0%, #0099cc 100%);
+            --gradient-secondary: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
+            --gradient-accent: linear-gradient(135deg, #00ff88 0%, #00cc6a 100%);
+        }
+
+        /* General Body and Container Styles */
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, var(--dark-bg) 0%, var(--dark-secondary) 50%, var(--dark-tertiary) 100%);
+            color: var(--text-primary);
+            margin: 0;
+            overflow: hidden; /* Hide scrollbars for full-screen slides */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .advert-container {
+            width: 90vw;
+            height: 90vh;
+            max-width: 1200px;
+            max-height: 800px;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(15px);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Slide Styles */
+        .slide {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 40px;
+            opacity: 0;
+            transform: translateX(100%);
+            transition: opacity 0.7s ease-in-out, transform 0.7s ease-in-out;
+            text-align: center;
+        }
+
+            .slide.active {
+                opacity: 1;
+                transform: translateX(0);
+                position: relative; /* Keep active slide in flow */
+            }
+
+            .slide.prev {
+                transform: translateX(-100%);
+            }
+
+            .slide h2 {
+                font-size: 3.5rem;
+                margin-bottom: 20px;
+                background: var(--gradient-primary);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
+            }
+
+            .slide p {
+                font-size: 1.2rem;
+                color: var(--text-secondary);
+                max-width: 800px;
+                margin-bottom: 40px;
+            }
+
+        /* Navigation Dots */
+        .slide-dots {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+            z-index: 10;
+        }
+
+        .dot {
+            width: 12px;
+            height: 12px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+            .dot.active {
+                background: var(--primary-color);
+                box-shadow: 0 0 10px var(--primary-color);
+            }
+
+        /* Navigation Arrows */
+        .slide-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            padding: 15px;
+            font-size: 2rem;
+            cursor: pointer;
+            z-index: 10;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+            .slide-arrow:hover {
+                background: var(--primary-color);
+                box-shadow: 0 0 20px var(--primary-color);
+            }
+
+        .arrow-left {
+            left: 20px;
+        }
+
+        .arrow-right {
+            right: 20px;
+        }
+
+        /* Play/Pause Button */
+        .autoplay-toggle {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            font-size: 1rem;
+            cursor: pointer;
+            z-index: 10;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+            .autoplay-toggle:hover {
+                background: var(--primary-color);
+                box-shadow: 0 0 15px var(--primary-color);
+            }
+
+        /* Common Card Styles */
+        .demo-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            width: 80%;
+            max-width: 600px;
+            margin: 20px auto;
+            text-align: left;
+            position: relative;
+        }
+
+        /* AI Assistant Slide Specifics */
+        .chat-interface {
+            display: flex;
+            flex-direction: column;
+            height: 350px;
+            overflow-y: auto;
+            padding-right: 10px;
+            scrollbar-width: thin;
+            scrollbar-color: var(--primary-color) transparent;
+        }
+
+            .chat-interface::-webkit-scrollbar {
+                width: 8px;
+            }
+
+            .chat-interface::-webkit-scrollbar-track {
+                background: transparent;
+            }
+
+            .chat-interface::-webkit-scrollbar-thumb {
+                background-color: var(--primary-color);
+                border-radius: 10px;
+                border: 2px solid var(--card-bg);
+            }
+
+        .chat-message {
+            margin-bottom: 15px;
+            max-width: 85%;
+            padding: 10px 15px;
+            border-radius: 15px;
+            line-height: 1.5;
+            word-wrap: break-word;
+            font-size: 0.95rem;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInMessage 0.5s forwards;
+        }
+
+            .chat-message.user {
+                align-self: flex-end;
+                background: var(--primary-color);
+                color: var(--dark-bg);
+                border-bottom-right-radius: 0;
+                animation-delay: 0.2s;
+            }
+
+            .chat-message.ai {
+                align-self: flex-start;
+                background: var(--dark-secondary);
+                color: var(--text-primary);
+                border-bottom-left-radius: 0;
+                animation-delay: 0.4s;
+            }
+
+        @keyframes fadeInMessage {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .typing-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            background: var(--dark-secondary);
+            padding: 8px 12px;
+            border-radius: 15px;
+            font-size: 0.9em;
+            color: var(--text-secondary);
+            margin-top: 10px;
+            animation: fadeIn 0.3s ease-out;
+            align-self: flex-start;
+        }
+
+            .typing-indicator span {
+                width: 6px;
+                height: 6px;
+                background-color: var(--primary-color);
+                border-radius: 50%;
+                opacity: 0;
+                animation: bounce 1.4s infinite ease-in-out;
+            }
+
+                .typing-indicator span:nth-child(2) {
+                    animation-delay: 0.2s;
+                }
+
+                .typing-indicator span:nth-child(3) {
+                    animation-delay: 0.4s;
+                }
+
+        @keyframes bounce {
+            0%, 80%, 100% {
+                transform: translateY(0);
+                opacity: 0;
+            }
+
+            40% {
+                transform: translateY(-5px);
+                opacity: 1;
+            }
+        }
+
+        /* Strategy & Take Profit Slide Specifics */
+        .trading-chart {
+            background: #000;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+            position: relative;
+            height: 250px;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .chart-grid {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: linear-gradient(to right, rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.05) 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+
+        .price-line {
+            position: absolute;
+            bottom: 10%; /* Base price */
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--primary-color);
+            box-shadow: 0 0 15px var(--primary-color);
+            transition: all 1s ease-in-out;
+            transform-origin: left bottom;
+        }
+
+        .trade-indicator {
+            position: absolute;
+            font-size: 1rem;
+            font-weight: bold;
+            padding: 8px 12px;
+            border-radius: 8px;
+            white-space: nowrap;
+            opacity: 0;
+            animation: fadeInScale 0.5s forwards;
+            z-index: 5;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+            .trade-indicator.buy {
+                background: var(--accent-color);
+                color: black;
+                bottom: calc(10% + 15px);
+                left: 10%;
+            }
+
+            .trade-indicator.sell {
+                background: var(--secondary-color);
+                color: white;
+                bottom: calc(10% + 15px);
+                left: 80%;
+            }
+
+            .trade-indicator.ai-signal {
+                background: var(--primary-color);
+                color: black;
+                bottom: calc(10% + 40px);
+                left: 50%;
+                transform: translateX(-50%);
+            }
+
+            .trade-indicator.take-profit {
+                background: #ffc107;
+                color: black;
+                right: 10px;
+                top: 10px;
+                opacity: 1;
+            }
+
+        .trade-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 30px;
+        }
+
+        .trade-btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 25px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+            .trade-btn.buy {
+                background: var(--gradient-accent);
+                color: var(--dark-bg);
+            }
+
+            .trade-btn.sell {
+                background: var(--gradient-secondary);
+                color: white;
+            }
+
+            .trade-btn:hover {
+                transform: translateY(-3px);
+                box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            }
+
+        /* Restart Button */
+        .restart-demo-btn {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-secondary);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 15px;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+            .restart-demo-btn:hover {
+                background: var(--primary-color);
+                color: white;
+                border-color: var(--primary-color);
+                transform: translateY(-2px);
+            }
+
+        .notification {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: var(--gradient-accent);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            z-index: 3000;
+            animation: slideInFromRight 0.3s ease-out forwards;
+            box-shadow: 0 10px 25px rgba(0, 255, 136, 0.4);
+            opacity: 0;
+            font-size: 1rem;
+        }
+
+        @keyframes slideInFromRight {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideOutToRight {
+            from {
+                transform: translateX(0);
+                opacity: 1;
+            }
+
+            to {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+        }
+
+        /* Specific animations for price line */
+        .price-line.animate-up {
+            transform: scaleY(2.0);
+        }
+
+        .price-line.animate-down {
+            transform: scaleY(0.2);
+        }
+
+        .price-line.animate-reset {
+            transform: scaleY(1);
+        }
+
+        /* Take Profit specific lines */
+        .take-profit-line {
+            position: absolute;
+            top: 30%;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: #ffc107;
+            border-style: dashed;
+            z-index: 2;
+            opacity: 0.9;
+        }
+
+        /* Final slide CTA */
+        .final-cta-buttons {
+            display: flex;
+            gap: 20px;
+            margin-top: 40px;
+            justify-content: center;
+        }
+
+        .btn-launch {
+            background: var(--gradient-primary);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 30px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+            .btn-launch:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 15px 30px rgba(0, 212, 255, 0.5);
+            }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .advert-container {
+                width: 95vw;
+                height: 95vh;
+                padding: 20px;
+            }
+
+            .slide h2 {
+                font-size: 2.2rem;
+            }
+
+            .slide p {
+                font-size: 1rem;
+                margin-bottom: 20px;
+            }
+
+            .demo-card {
+                width: 95%;
+                padding: 15px;
+            }
+
+            .trade-buttons {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .trade-btn {
+                width: 100%;
+            }
+
+            .slide-arrow {
+                padding: 10px;
+                font-size: 1.5rem;
+            }
+
+            .notification {
+                top: 10px;
+                right: 10px;
+                padding: 10px 15px;
+                font-size: 0.9rem;
+            }
+
+            .autoplay-toggle {
+                top: 10px;
+                left: 10px;
+                padding: 8px 12px;
+                font-size: 0.9rem;
+            }
+        }
+
+        /* Specific styles for video simulation scenes */
+        .platform-overview-mockup {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 20px;
+            width: 90%;
+            max-width: 700px;
+            height: 400px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .mockup-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 15px;
+        }
+
+            .mockup-header .logo {
+                font-size: 1.2rem;
+                font-weight: bold;
+                color: var(--primary-color);
+            }
+
+            .mockup-header .nav-items span {
+                margin-left: 15px;
+                color: var(--text-secondary);
+                font-size: 0.9rem;
+            }
+
+        .mockup-content {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+        }
+
+            .mockup-content h3 {
+                font-size: 2rem;
+                background: var(--gradient-primary);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
+                margin-bottom: 10px;
+            }
+
+            .mockup-content p {
+                font-size: 1rem;
+                color: var(--text-secondary);
+                max-width: 400px;
+                margin-bottom: 20px;
+            }
+
+        .mockup-buttons .btn {
+            padding: 10px 20px;
+            margin: 0 10px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            color: white;
+        }
+
+        .mockup-buttons .btn-primary {
+            background: var(--gradient-accent);
+        }
+
+        .mockup-buttons .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .strategy-highlight-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr); /* Two columns for better focus */
+            gap: 20px;
+            width: 100%;
+            max-width: 800px;
+        }
+
+        .strategy-card-small {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 15px;
+            text-align: left;
+            opacity: 0.5;
+            transition: all 0.5s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+            .strategy-card-small.highlight {
+                opacity: 1;
+                transform: scale(1.05);
+                border-color: var(--primary-color);
+                box-shadow: 0 0 20px var(--primary-color);
+            }
+
+            .strategy-card-small h4 {
+                font-size: 1.1rem;
+                margin-bottom: 5px;
+                color: var(--primary-color);
+            }
+
+            .strategy-card-small p {
+                font-size: 0.85rem;
+                color: var(--text-secondary);
+                margin-bottom: 10px;
+            }
+
+            .strategy-card-small .stat-line {
+                display: flex;
+                justify-content: space-between;
+                font-size: 0.8rem;
+                color: var(--text-muted);
+            }
+
+                .strategy-card-small .stat-line span:first-child {
+                    color: var(--accent-color);
+                    font-weight: bold;
+                }
+
+        .voice-command-demo {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 15px;
+            padding: 25px;
+            width: 80%;
+            max-width: 500px;
+            margin: 20px auto;
+            text-align: center;
+            position: relative;
+            height: 300px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .microphone-icon {
+            font-size: 60px;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            animation: pulse 1.5s infinite ease-in-out;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+
+            50% {
+                transform: scale(1.1);
+                opacity: 0.8;
+            }
+
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .command-text {
+            font-size: 1.2rem;
+            color: var(--text-primary);
+            margin-bottom: 15px;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInMessage 0.8s forwards;
+            animation-delay: 0.5s;
+        }
+
+        .command-response {
+            font-size: 1rem;
+            color: var(--accent-color);
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInMessage 0.8s forwards;
+            animation-delay: 1.5s;
+        }
+
+        .security-features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            width: 100%;
+            max-width: 900px;
+        }
+
+        .security-feature-item {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeIn 0.6s forwards;
+        }
+
+            .security-feature-item:nth-child(1) {
+                animation-delay: 0.5s;
+            }
+
+            .security-feature-item:nth-child(2) {
+                animation-delay: 0.8s;
+            }
+
+            .security-feature-item:nth-child(3) {
+                animation-delay: 1.1s;
+            }
+
+            .security-feature-item:nth-child(4) {
+                animation-delay: 1.4s;
+            }
+
+            .security-feature-item:nth-child(5) {
+                animation-delay: 1.7s;
+            }
+
+            .security-feature-item:nth-child(6) {
+                animation-delay: 2.0s;
+            }
+
+
+            .security-feature-item i {
+                font-size: 40px;
+                color: var(--primary-color);
+                margin-bottom: 10px;
+            }
+
+            .security-feature-item h4 {
+                font-size: 1.1rem;
+                color: var(--text-primary);
+            }
+
+        .stats-display {
+            display: flex;
+            justify-content: space-around;
+            width: 100%;
+            max-width: 800px;
+            margin-top: 40px;
+        }
+
+        .stat-item {
+            text-align: center;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeIn 0.8s forwards;
+        }
+
+            .stat-item:nth-child(1) {
+                animation-delay: 0.5s;
+            }
+
+            .stat-item:nth-child(2) {
+                animation-delay: 1.0s;
+            }
+
+            .stat-item:nth-child(3) {
+                animation-delay: 1.5s;
+            }
+
+        .stat-value {
+            font-size: 3rem;
+            font-weight: bold;
+            background: var(--gradient-accent);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stat-label {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+        }
+
+        .getting-started-steps {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            width: 80%;
+            max-width: 600px;
+            margin-top: 40px;
+        }
+
+        .step-item {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 10px;
+            padding: 15px 25px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            opacity: 0;
+            transform: translateX(-50px);
+            animation: slideInLeft 0.6s forwards;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+            .step-item:nth-child(1) {
+                animation-delay: 0.5s;
+            }
+
+            .step-item:nth-child(2) {
+                animation-delay: 1.0s;
+            }
+
+            .step-item:nth-child(3) {
+                animation-delay: 1.5s;
+            }
+
+            .step-item:nth-child(4) {
+                animation-delay: 2.0s;
+            }
+
+        @keyframes slideInLeft {
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .step-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        .step-text {
+            font-size: 1.1rem;
+            color: var(--text-primary);
+            text-align: left;
+        }
+
+        .contact-info-final {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 40px;
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+        }
+
+            .contact-info-final div {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                justify-content: center;
+            }
+
+            .contact-info-final i {
+                color: var(--primary-color);
+                font-size: 1.3rem;
+            }
+
+        .logo-animation-final {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin-top: 50px;
+        }
+
+            .logo-animation-final .logo-text {
+                font-size: 4rem;
+                font-weight: 900;
+                background: var(--gradient-primary);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
+                animation: fadeIn 1s ease-out;
+            }
+
+            .logo-animation-final .tagline {
+                font-size: 1.5rem;
+                color: var(--text-secondary);
+                margin-top: 10px;
+                opacity: 0;
+                animation: fadeIn 1s ease-out forwards;
+                animation-delay: 0.5s;
+            }
+    </style>
+</head>
+<body>
+    <div class="advert-container">
+        <!-- SCENE 1: Opening Hook -->
+        <div class="slide active" id="scene-0">
+            <h2>Experience the Future of Crypto Trading</h2>
+            <p>Welcome to Kaseddie AI, your intelligent trading assistant.</p>
+            <i class="fas fa-robot" style="font-size: 80px; color: var(--primary-color);"></i>
+            <div class="crypto-animation">
+                <div class="floating-crypto">₿</div>
+                <div class="floating-crypto">Ξ</div>
+                <div class="floating-crypto">₳</div>
+                <div class="floating-crypto">●</div>
+            </div>
+        </div>
+
+        <!-- SCENE 2: Platform Overview -->
+        <div class="slide" id="scene-1">
+            <h2>Meet Kaseddie AI</h2>
+            <p>A professional cryptocurrency trading platform powered by advanced artificial intelligence.</p>
+            <div class="platform-overview-mockup">
+                <div class="mockup-header">
+                    <span class="logo">Kaseddie<span style="color:var(--secondary-color);">AI</span></span>
+                    <div class="nav-items">
+                        <span>Home</span>
+                        <span>Features</span>
+                        <span>Trading</span>
+                        <span>Platform</span>
+                        <span>Contact</span>
+                    </div>
+                </div>
+                <div class="mockup-content">
+                    <h3>The Future of <span style="background:linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">AI Crypto Trading</span></h3>
+                    <p>Professional AI-powered cryptocurrency trading platform with advanced strategies, voice commands, and real-time market analysis.</p>
+                    <div class="mockup-buttons">
+                        <button class="btn btn-primary">Launch Platform</button>
+                        <button class="btn btn-secondary">Download App</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SCENE 3: AI Trading Strategies -->
+        <div class="slide" id="scene-2">
+            <h2>AI Trading Strategies</h2>
+            <p>Our platform offers 10 sophisticated AI trading strategies, each designed for different market conditions.</p>
+            <div class="strategy-highlight-grid" id="strategy-grid">
+                <div class="strategy-card-small" data-strategy-key="ai_prediction">
+                    <h4>AI Prediction Strategy</h4>
+                    <p>Machine learning models predict price movements with high accuracy.</p>
+                    <div class="stat-line"><span>85% Success Rate</span> <span>+18.3% Avg Return</span></div>
+                </div>
+                <div class="strategy-card-small" data-strategy-key="arbitrage">
+                    <h4>Cross-Exchange Arbitrage</h4>
+                    <p>Instantly identifies and profits from price differences across exchanges.</p>
+                    <div class="stat-line"><span>95% Success Rate</span> <span>+2.8% Avg Return</span></div>
+                </div>
+                <div class="strategy-card-small" data-strategy-key="sentiment_analysis">
+                    <h4>Social Sentiment Analysis</h4>
+                    <p>Monitors social media and news sentiment for profitable trades.</p>
+                    <div class="stat-line"><span>81% Success Rate</span> <span>+16.9% Avg Return</span></div>
+                </div>
+                <div class="strategy-card-small" data-strategy-key="scalping">
+                    <h4>AI Scalping</h4>
+                    <p>High-frequency micro-trades capturing small price movements.</p>
+                    <div class="stat-line"><span>89% Success Rate</span> <span>+3.2% Avg Return</span></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SCENE 4: Voice Command Trading -->
+        <div class="slide" id="scene-3">
+            <h2>Voice Command Trading</h2>
+            <p>Experience revolutionary voice-controlled trading. Trading has never been this intuitive.</p>
+            <div class="voice-command-demo">
+                <i class="fas fa-microphone microphone-icon"></i>
+                <div class="command-text" id="voice-command-text"></div>
+                <div class="command-response" id="voice-command-response"></div>
+            </div>
+        </div>
+
+        <!-- SCENE 5: Manual Trading for Professionals -->
+        <div class="slide" id="scene-4">
+            <h2>Manual Trading for Professionals</h2>
+            <p>For experienced traders, our manual trading interface provides complete control.</p>
+            <div class="demo-card">
+                <div class="trading-chart">
+                    <div class="chart-grid"></div>
+                    <div class="price-line" id="manual-trading-price-line"></div>
+                    <div class="trade-indicator buy" style="bottom: 25%; left: 15%; opacity: 1;">Buy Order Placed</div>
+                    <div class="trade-indicator sell" style="bottom: 55%; right: 15%; opacity: 1;">Sell Target Set</div>
+                </div>
+                <p style="text-align: center; margin-top: 20px; color: var(--text-primary);">Access advanced charting tools, technical indicators, and real-time market data.</p>
+            </div>
+        </div>
+
+        <!-- SCENE 6: Security & Features -->
+        <div class="slide" id="scene-5">
+            <h2>Security & Comprehensive Features</h2>
+            <p>Your security is paramount. Trade across web, desktop, and mobile platforms.</p>
+            <div class="security-features-grid">
+                <div class="security-feature-item">
+                    <i class="fas fa-lock"></i>
+                    <h4>256-bit Encryption</h4>
+                </div>
+                <div class="security-feature-item">
+                    <i class="fas fa-user-shield"></i>
+                    <h4>KYC Compliance</h4>
+                </div>
+                <div class="security-feature-item">
+                    <i class="fas fa-shield-alt"></i>
+                    <h4>Multi-Factor Auth</h4>
+                </div>
+                <div class="security-feature-item">
+                    <i class="fas fa-coins"></i>
+                    <h4>50+ Cryptos</h4>
+                </div>
+                <div class="security-feature-item">
+                    <i class="fas fa-chart-area"></i>
+                    <h4>Real-Time Analytics</h4>
+                </div>
+                <div class="security-feature-item">
+                    <i class="fas fa-sync-alt"></i>
+                    <h4>Seamless Sync</h4>
+                </div>
+            </div>
+        </div>
+
+        <!-- SCENE 7: Live Performance Stats -->
+        <div class="slide" id="scene-6">
+            <h2>Live Performance Metrics</h2>
+            <p>Our results speak for themselves. AI continuously learns and adapts.</p>
+            <div class="stats-display">
+                <div class="stat-item">
+                    <div class="stat-value" id="stat-success">0%</div>
+                    <div class="stat-label">Average Success Rate</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="stat-volume">$0M</div>
+                    <div class="stat-label">Trading Volume Processed</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="stat-traders">0+</div>
+                    <div class="stat-label">Satisfied Traders</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SCENE 8: Getting Started -->
+        <div class="slide" id="scene-7">
+            <h2>Getting Started is Simple</h2>
+            <p>Kaseddie AI adapts to your experience level.</p>
+            <div class="getting-started-steps">
+                <div class="step-item">
+                    <span class="step-number">1</span>
+                    <span class="step-text">Sign Up for Your Kaseddie AI Account</span>
+                </div>
+                <div class="step-item">
+                    <span class="step-number">2</span>
+                    <span class="step-text">Complete KYC Verification for Security</span>
+                </div>
+                <div class="step-item">
+                    <span class="step-number">3</span>
+                    <span class="step-text">Choose Your Preferred AI Trading Strategy</span>
+                </div>
+                <div class="step-item">
+                    <span class="step-number">4</span>
+                    <span class="step-text">Start Trading and Grow Your Portfolio</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- SCENE 9: Call to Action -->
+        <div class="slide" id="scene-8">
+            <h2>Ready to Transform Your Trading?</h2>
+            <p>Experience the future of cryptocurrency trading.</p>
+            <div class="contact-info-final">
+                <div><i class="fas fa-globe"></i> Website: kaseddie-crypto-ai.netlify.app</div>
+                <div><i class="fas fa-envelope"></i> Email: kaseddie@hotmail.com / kaseddie@gmail.com</div>
+                <div><i class="fas fa-phone"></i> Phone: +256 769089860</div>
+                <div><i class="fab fa-whatsapp"></i> WhatsApp: +256 784428821</div>
+            </div>
+            <div class="final-cta-buttons">
+                <a href="https://kaseddie-crypto-ai.netlify.app/" target="_blank" class="btn-launch"><i class="fas fa-rocket"></i> Launch Platform</a>
+                <a href="#" class="btn-launch" style="background: var(--gradient-secondary);" onclick="downloadPitchDeck()"><i class="fas fa-download"></i> Download Pitch Deck</a>
+            </div>
+        </div>
+
+        <!-- SCENE 10: Closing -->
+        <div class="slide" id="scene-9">
+            <h2>Kaseddie AI</h2>
+            <div class="logo-animation-final">
+                <div class="logo-text">Kaseddie<span style="color:var(--secondary-color);">AI</span></div>
+                <div class="tagline">Where artificial intelligence meets cryptocurrency trading. The future is here, and it's intelligent.</div>
+            </div>
+            <i class="fas fa-robot" style="font-size: 80px; color: var(--primary-color); margin-top: 50px;"></i>
+        </div>
+
+        <!-- Slide Navigation -->
+        <button class="slide-arrow arrow-left" onclick="prevSlide()"><i class="fas fa-chevron-left"></i></button>
+        <button class="slide-arrow arrow-right" onclick="nextSlide()"><i class="fas fa-chevron-right"></i></button>
+        <div class="slide-dots" id="slide-dots"></div>
+
+        <!-- Autoplay Toggle -->
+        <button class="autoplay-toggle" id="autoplay-toggle" onclick="toggleAutoplay()">
+            <i class="fas fa-pause"></i> Pause Autoplay
+        </button>
+
+        <!-- Notification Area -->
+        <div id="notification-area"></div>
+    </div>
+
+    <script>
+        // AI Learning System (simplified for demo) - Retained for chat message generation logic
+        class AILearningSystem {
+            constructor() {
+                this.knowledgeBase = {
+                    tradingStrategies: {
+                        'ai_prediction': {
+                            description: 'Our AI Prediction strategy uses advanced machine learning models to analyze vast amounts of historical data, market sentiment, and macroeconomic factors to forecast future price movements with high accuracy. It identifies optimal entry and exit points.',
+                            successRate: 85,
+                            riskLevel: 'Medium-High',
+                            timeframe: 'Variable',
+                            bestFor: 'Traders seeking data-backed insights and automated decision-making.'
+                        },
+                        'manual_trading': {
+                            description: 'For experienced traders who prefer full control, our platform offers a robust manual trading interface. You can execute trades directly, utilize advanced charting tools, and apply your own strategies with real-time data.',
+                            successRate: 'User Dependent',
+                            riskLevel: 'User Dependent',
+                            timeframe: 'User Dependent',
+                            bestFor: 'Experienced traders who want full discretion over their trades.'
+                        },
+                        'take_profit': {
+                            description: 'The Automated Take Profit Algorithm is designed to maximize profits and minimize losses. It automatically closes positions when a predefined profit target is reached (take profit) or when a specified loss limit is hit (stop loss), ensuring disciplined trading.',
+                            successRate: 88,
+                            riskLevel: 'Low (risk management tool)',
+                            timeframe: 'Continuous, as part of any trading strategy',
+                            bestFor: 'All traders, for effective risk management and profit securing.'
+                        }
+                    },
+                    platformInfo: {
+                        'security': 'We employ 256-bit encryption, multi-factor authentication (2FA), and adhere to strict KYC (Know Your Customer) compliance to ensure the highest level of security for your assets and data.',
+                        'voice_commands': 'You can use natural language voice commands to execute trades (e.g., "Buy 1 Ethereum"), analyze markets (e.g., "Analyze Bitcoin market"), or manage your portfolio (e.g., "Show my portfolio").'
+                    }
+                };
+            }
+
+            generateSmartResponse(userMessage) {
+                const message = userMessage.toLowerCase();
+
+                if (message.includes('ai prediction strategy')) {
+                    const data = this.knowledgeBase.tradingStrategies.ai_prediction;
+                    return `🤖 **AI Prediction Strategy**:\n${data.description}\n📊 Success Rate: ${data.successRate}%\n⚖️ Risk Level: ${data.riskLevel}\n🎯 Best For: ${data.bestFor}`;
+                }
+                if (message.includes('secure') || message.includes('security')) {
+                    return `🛡️ **Platform Security**:\n${this.knowledgeBase.platformInfo.security}\nYour security is our top priority.`;
+                }
+                if (message.includes('voice commands')) {
+                    return `🎤 **Voice Commands**:\n${this.knowledgeBase.platformInfo.voice_commands}\nExperience hands-free trading with our intuitive voice interface!`;
+                }
+                if (message.includes('hello') || message.includes('hi')) {
+                    return `👋 Hello! I'm your Kaseddie AI trading assistant. How can I assist you today?`;
+                }
+                if (message.includes('how are you')) {
+                    return `I'm an AI, so I don't have feelings, but I'm ready to help you with Kaseddie AI!`;
+                }
+                if (message.includes('thank you') || message.includes('thanks')) {
+                    return `You're most welcome! Is there anything else I can assist you with?`;
+                }
+                return "I'm continuously learning! Could you please rephrase or ask about Kaseddie AI features, strategies, or general crypto knowledge?";
+            }
+        }
+
+        // Global variables for the demo
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+        const aiLearning = new AILearningSystem(); // Instance for chat response logic
+        let aiChatInterval;
+        let aiStrategyTimeout;
+        let takeProfitTimeout;
+        let notificationTimeout;
+        let autoplayInterval;
+        let isAutoplayPlaying = true;
+        let currentSlideTimeout = null; // To manage slide-specific demo timeouts before auto-advancing
+
+        // Speech Synthesis setup
+        let speechSynthesis = window.speechSynthesis;
+        let currentUtterance = null; // To keep track of the current speech utterance
+
+        // Autoplay delays for each scene (in milliseconds), based on script timings
+        // These are initial estimates; actual duration will be calculated based on speech length + demo length.
+        const sceneDurations = [
+            15000, // Scene 0: Opening Hook (15s)
+            15000, // Scene 1: Platform Overview (15s)
+            30000, // Scene 2: AI Trading Strategies (30s)
+            15000, // Scene 3: Voice Command Trading (15s)
+            15000, // Scene 4: Manual Trading for Professionals (15s)
+            15000, // Scene 5: Security & Features (15s)
+            15000, // Scene 6: Live Performance Stats (15s)
+            15000, // Scene 7: Getting Started (15s)
+            15000, // Scene 8: Call to Action (15s)
+            15000  // Scene 9: Closing (15s)
+        ];
+
+        // Initialize dots and display first slide
+        document.addEventListener('DOMContentLoaded', () => {
+            const slideDotsContainer = document.getElementById('slide-dots');
+            for (let i = 0; i < totalSlides; i++) {
+                const dot = document.createElement('div');
+                dot.classList.add('dot');
+                dot.setAttribute('data-slide-index', i);
+                dot.onclick = () => goToSlide(i);
+                slideDotsContainer.appendChild(dot);
+            }
+            updateSlideDisplay();
+            setupVoiceSynthesis(); // Setup voice synthesis on load
+            startAutoplay(); // Start autoplay on load
+        });
+
+        /**
+         * Navigates to the next slide.
+         */
+        function nextSlide() {
+            goToSlide(currentSlide + 1);
+        }
+
+        /**
+         * Navigates to the previous slide.
+         */
+        function prevSlide() {
+            goToSlide(currentSlide - 1);
+        }
+
+        /**
+         * Navigates to a specific slide by index.
+         * @param {number} index - The index of the slide to go to.
+         * @param {boolean} [resetAutoplay=true] - Whether to reset the autoplay timer.
+         */
+        function goToSlide(index, resetAutoplay = true) {
+            if (index < 0) {
+                index = totalSlides - 1; // Loop back to last slide
+            } else if (index >= totalSlides) {
+                index = 0; // Loop back to first slide
+            }
+
+            // If already on this slide, do nothing
+            if (index === currentSlide && slides[index].classList.contains('active')) {
+                return;
+            }
+
+            // Clean up previous slide's animations/intervals and speech
+            cleanupSlideDemos(currentSlide);
+
+            const oldSlide = slides[currentSlide];
+            const newSlide = slides[index];
+
+            // Determine direction for animation
+            if (index > currentSlide || (index === 0 && currentSlide === totalSlides - 1)) { // Next or loop from last to first
+                newSlide.style.transform = 'translateX(100%)';
+                oldSlide.classList.add('prev'); // Animate old slide out to left
+            } else { // Previous or loop from first to last
+                newSlide.style.transform = 'translateX(-100%)';
+                oldSlide.classList.remove('prev'); // Animate old slide out to right (default)
+            }
+
+            // Remove active class from old slide, add to new slide
+            oldSlide.classList.remove('active');
+            newSlide.classList.add('active');
+            newSlide.style.opacity = 0; // Start new slide invisible
+            newSlide.style.transform = (index > currentSlide || (index === 0 && currentSlide === totalSlides - 1)) ? 'translateX(100%)' : 'translateX(-100%)'; // Reset transform for entry
+
+            // Force reflow for transition to work
+            void newSlide.offsetWidth;
+
+            newSlide.style.opacity = 1;
+            newSlide.style.transform = 'translateX(0)';
+
+            currentSlide = index;
+            updateSlideDisplay();
+
+            if (resetAutoplay) {
+                resetAutoplayTimer();
+            }
+        }
+
+        /**
+         * Updates the active state of navigation dots and triggers slide-specific demos.
+         */
+        function updateSlideDisplay() {
+            const dots = document.querySelectorAll('.dot');
+            dots.forEach((dot, index) => {
+                if (index === currentSlide) {
+                    dot.classList.add('active');
+                } else {
+                    dot.classList.remove('active');
+                }
+            });
+
+            // Auto-start demo and voice for specific slides
+            // Add a small delay to allow slide transition animation to complete
+            setTimeout(() => {
+                triggerSceneContent(currentSlide);
+            }, 700); // Allow 0.7s for slide transition
+        }
+
+        /**
+         * Cleans up any running demos/intervals for a given slide.
+         * @param {number} slideIndex - The index of the slide to clean up.
+         */
+        function cleanupSlideDemos(slideIndex) {
+            if (speechSynthesis) {
+                speechSynthesis.cancel(); // Stop speech when slide changes
+            }
+            if (currentSlideTimeout) {
+                clearTimeout(currentSlideTimeout); // Clear any pending demo timeouts
+                currentSlideTimeout = null;
+            }
+
+            // Specific cleanup for each scene
+            if (slideIndex === 1) { // AI Assistant
+                clearInterval(aiChatInterval);
+                const chatContainer = document.getElementById('ai-assistant-chat');
+                if (chatContainer) chatContainer.innerHTML = '';
+            } else if (slideIndex === 2) { // AI Strategy
+                clearTimeout(aiStrategyTimeout);
+                const priceLine = document.getElementById('ai-price-line');
+                if (priceLine) {
+                    priceLine.style.transition = 'none';
+                    priceLine.style.transform = 'scaleY(1)';
+                    void priceLine.offsetWidth;
+                    priceLine.style.transition = 'all 1s ease-in-out';
+                    priceLine.classList.remove('animate-up', 'animate-down');
+                }
+                document.getElementById('ai-signal').style.opacity = 0;
+                document.getElementById('ai-trade-executed').style.opacity = 0;
+                document.querySelectorAll('.strategy-card-small').forEach(card => card.classList.remove('highlight'));
+            } else if (slideIndex === 3) { // Voice Command Demo
+                const commandText = document.getElementById('voice-command-text');
+                const commandResponse = document.getElementById('voice-command-response');
+                if (commandText) commandText.style.opacity = 0;
+                if (commandResponse) commandResponse.style.opacity = 0;
+            } else if (slideIndex === 4) { // Manual Trading
+                const priceLine = document.getElementById('manual-trading-price-line');
+                if (priceLine) {
+                    priceLine.style.transition = 'none';
+                    priceLine.style.transform = 'scaleY(1)';
+                    void priceLine.offsetWidth;
+                    priceLine.style.transition = 'all 1s ease-in-out';
+                    priceLine.classList.remove('animate-up', 'animate-down');
+                }
+            } else if (slideIndex === 5) { // Security & Features
+                document.querySelectorAll('.security-feature-item').forEach(item => {
+                    item.style.opacity = 0;
+                    item.style.transform = 'translateY(20px)';
+                });
+            } else if (slideIndex === 6) { // Live Performance Stats
+                document.getElementById('stat-success').textContent = '0%';
+                document.getElementById('stat-volume').textContent = '$0M';
+                document.getElementById('stat-traders').textContent = '0+';
+                document.querySelectorAll('.stat-item').forEach(item => {
+                    item.style.opacity = 0;
+                    item.style.transform = 'translateY(20px)';
+                });
+            } else if (slideIndex === 7) { // Getting Started
+                document.querySelectorAll('.step-item').forEach(item => {
+                    item.style.opacity = 0;
+                    item.style.transform = 'translateX(-50px)';
+                });
+            }
+            // Clear any active notifications
+            if (notificationTimeout) clearTimeout(notificationTimeout);
+            const existingNotifications = document.querySelectorAll('.notification');
+            existingNotifications.forEach(n => n.remove());
+        }
+
+        /**
+         * Displays a temporary notification.
+         * @param {string} message - The message to display.
+         * @param {string} type - 'success', 'error', or 'info'.
+         * @param {number} duration - How long to display in ms.
+         */
+        function showNotification(message, type = 'info', duration = 3000) {
+            // Clear existing notification if any
+            if (notificationTimeout) clearTimeout(notificationTimeout);
+            const existingNotifications = document.querySelectorAll('.notification');
+            existingNotifications.forEach(n => n.remove());
+
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            notification.innerHTML = `<i class="fas fa-info-circle"></i> <span>${message}</span>`;
+
+            // Add specific icon based on type
+            if (type === 'success') notification.querySelector('i').className = 'fas fa-check-circle';
+            else if (type === 'error') notification.querySelector('i').className = 'fas fa-times-circle';
+            else notification.querySelector('i').className = 'fas fa-info-circle';
+
+            document.body.appendChild(notification);
+
+            // Animate in
+            notification.style.opacity = 0;
+            void notification.offsetWidth; // Trigger reflow
+            notification.style.animation = 'slideInFromRight 0.3s ease-out forwards';
+
+            notificationTimeout = setTimeout(() => {
+                notification.style.animation = 'slideOutToRight 0.5s ease-in forwards';
+                setTimeout(() => notification.remove(), 500);
+            }, duration);
+        }
+
+        /* --- VOICE SYNTHESIS SETUP --- */
+        function setupVoiceSynthesis() {
+            if ('speechSynthesis' in window) {
+                // Wait for voices to be loaded
+                const loadVoices = () => {
+                    // This is handled by triggerSceneContent(0) now
+                    speechSynthesis.onvoiceschanged = null; // Remove listener after voices are loaded
+                };
+
+                if (speechSynthesis.getVoices().length === 0) {
+                    speechSynthesis.onvoiceschanged = loadVoices;
+                } else {
+                    // If voices are already loaded, ensure triggerSceneContent is called
+                    // It's already called by updateSlideDisplay on DOMContentLoaded
+                }
+            } else {
+                console.warn("Speech Synthesis API not supported in this browser.");
+                showNotification("Voice explanations are not supported in your browser.", "error", 5000);
+            }
+        }
+
+        /**
+         * Speaks the given text using the browser's speech synthesis.
+         * @param {string} text - The text to speak.
+         * @returns {Promise<void>} A promise that resolves when speech ends.
+         */
+        function speak(text) {
+            return new Promise((resolve) => {
+                if (speechSynthesis) {
+                    speechSynthesis.cancel(); // Stop any ongoing speech
+                    currentUtterance = new SpeechSynthesisUtterance(text);
+                    currentUtterance.rate = 0.95; // Slightly slower speech
+                    currentUtterance.pitch = 1.0;
+                    currentUtterance.volume = 0.9; // Slightly louder
+
+                    // Set voice if available
+                    const voices = speechSynthesis.getVoices();
+                    const preferredVoice = voices.find(v =>
+                        v.name.includes('Google US English') ||
+                        v.name.includes('Microsoft Zira') ||
+                        v.name.includes('Samantha') ||
+                        v.name.includes('Karen') ||
+                        v.lang.startsWith('en-US') ||
+                        v.lang.startsWith('en-GB')
+                    );
+                    if (preferredVoice) currentUtterance.voice = preferredVoice;
+
+                    currentUtterance.onend = () => {
+                        resolve(); // Resolve promise when speech finishes
+                    };
+                    currentUtterance.onerror = (event) => {
+                        console.error('SpeechSynthesisUtterance.onerror', event);
+                        resolve(); // Resolve even on error to continue flow
+                    };
+
+                    speechSynthesis.speak(currentUtterance);
+                } else {
+                    resolve(); // Resolve immediately if no speech synthesis
+                }
+            });
+        }
+
+        /* --- SCENE CONTENT ORCHESTRATOR --- */
+        async function triggerSceneContent(sceneIndex) {
+            // Clear any pending timeouts from previous scene's demo
+            if (currentSlideTimeout) clearTimeout(currentSlideTimeout);
+
+            let narrationText = "";
+            let demoPromise = Promise.resolve(); // Default empty promise for scenes without demos
+            let minimumSceneDuration = 2000; // Minimum 2 seconds per scene after voice/demo
+
+            // Stop any ongoing speech
+            if (speechSynthesis) {
+                speechSynthesis.cancel();
+            }
+
+            switch (sceneIndex) {
+                case 0: // SCENE 1: Opening Hook
+                    narrationText = "Welcome to the future of cryptocurrency trading. I'm Kaseddie AI, your intelligent trading assistant, and I'm about to show you how artificial intelligence is revolutionizing crypto trading.";
+                    minimumSceneDuration = 15000; // Target 15 seconds
+                    break;
+                case 1: // SCENE 2: Platform Overview
+                    narrationText = "Meet Kaseddie AI - a professional cryptocurrency trading platform powered by advanced artificial intelligence. We've combined cutting-edge machine learning with intuitive design to create the ultimate trading experience.";
+                    minimumSceneDuration = 15000; // Target 15 seconds
+                    break;
+                case 2: // SCENE 3: AI Trading Strategies
+                    // This scene has segmented narration and visual highlights
+                    narrationText = "Our platform offers 10 sophisticated AI trading strategies, each designed for different market conditions.";
+                    demoPromise = new Promise(resolve => {
+                        currentSlideTimeout = setTimeout(async () => {
+                            await speak("AI Prediction Strategy - Using machine learning models, we analyze vast amounts of market data to predict price movements with 85% accuracy.");
+                            highlightStrategy('ai_prediction');
+                            await new Promise(r => setTimeout(r, 3000)); // Pause for visual
+
+                            await speak("Cross-Exchange Arbitrage - Our AI instantly identifies price differences across exchanges, executing risk-free trades with 95% success rate.");
+                            highlightStrategy('arbitrage');
+                            await new Promise(r => setTimeout(r, 3000));
+
+                            await speak("Social Sentiment Analysis - We monitor social media and news sentiment in real-time, turning market emotions into profitable trades with 81% accuracy.");
+                            highlightStrategy('sentiment_analysis');
+                            await new Promise(r => setTimeout(r, 3000));
+
+                            await speak("AI Scalping - High-frequency micro-trades capture small price movements with lightning speed, achieving 89% success rate.");
+                            highlightStrategy('scalping');
+                            await new Promise(r => setTimeout(r, 3000));
+
+                            await speak("Each strategy is backtested and continuously optimized by our AI algorithms.");
+                            clearHighlights();
+                            resolve(); // Resolve demo promise
+                        }, 1000); // Start demo after initial narration
+                    });
+                    minimumSceneDuration = 30000; // Target 30 seconds
+                    break;
+                case 3: // SCENE 4: Voice Command Trading
+                    narrationText = "Experience revolutionary voice-controlled trading. Simply say 'Buy 1 Ethereum' or 'Analyze Bitcoin market' and watch our AI execute your commands instantly. Trading has never been this intuitive.";
+                    demoPromise = new Promise(resolve => {
+                        currentSlideTimeout = setTimeout(async () => {
+                            await startVoiceCommandDemo(); // This demo has its own internal timing
+                            resolve();
+                        }, 1000); // Start demo after initial narration
+                    });
+                    minimumSceneDuration = 15000; // Target 15 seconds
+                    break;
+                case 4: // SCENE 5: Manual Trading for Professionals
+                    narrationText = "For experienced traders and professionals, our manual trading interface provides complete control. Access advanced charting tools, technical indicators, and real-time market data. Execute trades with precision while our AI provides intelligent insights and risk management.";
+                    // No interactive demo, just static visual and price line movement
+                    demoPromise = new Promise(resolve => {
+                        currentSlideTimeout = setTimeout(() => {
+                            const priceLine = document.getElementById('manual-trading-price-line');
+                            if (priceLine) {
+                                priceLine.classList.add('animate-up'); // Simulate some movement
+                                setTimeout(() => {
+                                    priceLine.classList.remove('animate-up');
+                                    priceLine.classList.add('animate-reset');
+                                    resolve();
+                                }, 3000); // Animation duration
+                            } else {
+                                resolve();
+                            }
+                        }, 1000);
+                    });
+                    minimumSceneDuration = 15000; // Target 15 seconds
+                    break;
+                case 5: // SCENE 6: Security & Features
+                    narrationText = "Your security is paramount. We employ bank-grade 256-bit encryption, multi-factor authentication, and complete KYC compliance. Trade 50+ cryptocurrencies across web, desktop, and mobile platforms with seamless synchronization.";
+                    demoPromise = new Promise(resolve => {
+                        currentSlideTimeout = setTimeout(() => {
+                            // Trigger fade-in animations for security items
+                            document.querySelectorAll('#scene-5 .security-feature-item').forEach((item, index) => {
+                                item.style.animationDelay = `${0.5 + index * 0.3}s`;
+                                item.style.opacity = 1;
+                                item.style.transform = 'translateY(0)';
+                            });
+                            setTimeout(resolve, 4000); // Allow time for animations
+                        }, 1000);
+                    });
+                    minimumSceneDuration = 15000; // Target 15 seconds
+                    break;
+                case 6: // SCENE 7: Live Performance Stats
+                    narrationText = "Our results speak for themselves: Up to 95% success rates, over $1.2 million in trading volume processed, and thousands of satisfied traders worldwide. Our AI continuously learns and adapts to market conditions.";
+                    demoPromise = new Promise(resolve => {
+                        currentSlideTimeout = setTimeout(async () => {
+                            await animateStat('stat-success', 95, '%', 1000);
+                            await animateStat('stat-volume', 1.2, 'M', 1500, true); // True for millions
+                            await animateStat('stat-traders', 5000, '+', 2000);
+                            setTimeout(resolve, 2000); // Allow time for numbers to settle
+                        }, 1000);
+                    });
+                    minimumSceneDuration = 15000; // Target 15 seconds
+                    break;
+                case 7: // SCENE 8: Getting Started
+                    narrationText = "Getting started is simple: Sign up, complete KYC verification, choose your AI strategy, and start trading. Whether you're a beginner or a professional, Kaseddie AI adapts to your experience level.";
+                    demoPromise = new Promise(resolve => {
+                        currentSlideTimeout = setTimeout(() => {
+                            // Trigger slide-in animations for steps
+                            document.querySelectorAll('#scene-7 .step-item').forEach((item, index) => {
+                                item.style.animationDelay = `${0.5 + index * 0.5}s`;
+                                item.style.opacity = 1;
+                                item.style.transform = 'translateX(0)';
+                            });
+                            setTimeout(resolve, 3000); // Allow time for animations
+                        }, 1000);
+                    });
+                    minimumSceneDuration = 15000; // Target 15 seconds
+                    break;
+                case 8: // SCENE 9: Call to Action
+                    narrationText = "Ready to transform your trading? Visit kaseddie-crypto-ai.netlify.app to experience the future of cryptocurrency trading. Contact us at kaseddie@hotmail.com or WhatsApp +256 784428821 for personalized assistance.";
+                    minimumSceneDuration = 15000; // Target 15 seconds
+                    break;
+                case 9: // SCENE 10: Closing
+                    narrationText = "Kaseddie AI - Where artificial intelligence meets cryptocurrency trading. The future is here, and it's intelligent.";
+                    minimumSceneDuration = 15000; // Target 15 seconds
+                    break;
+            }
+
+            // Speak the narration for the current scene
+            await speak(narrationText);
+
+            // Wait for any specific demo animations to complete
+            await demoPromise;
+
+            // Calculate the total time this scene should be displayed
+            // This is a simplified approach. For precise timing, you'd measure actual speech duration.
+            const estimatedSpeechDuration = narrationText.split(' ').length * 150; // ~150ms per word
+            const totalSceneTime = Math.max(estimatedSpeechDuration, minimumSceneDuration);
+
+            // Set the autoplay timer for the next slide
+            autoplayInterval = setTimeout(() => {
+                nextSlide(false); // Auto-advance, don't reset timer again immediately
+            }, totalSceneTime);
+
+            // Reset autoplay timer if user manually navigates during a scene
+            resetAutoplayTimer();
+        }
+
+        /* --- AI ASSISTANT DEMO (Scene 1) --- */
+        let chatDemoStep = 0;
+        let currentAIChatTimeout;
+        const chatMessages = [
+            { sender: 'user', text: 'Hello AI assistant, how does the AI Prediction strategy work?' },
+            { sender: 'ai', text: '' }, // AI will generate this
+            { sender: 'user', text: 'That sounds powerful! How about security on Kaseddie AI?' },
+            { sender: 'ai', text: '' } // AI will generate this
+        ];
+
+        function startAIAssistantDemo() {
+            const chatContainer = document.getElementById('ai-assistant-chat');
+            if (!chatContainer) return; // Ensure element exists
+            chatContainer.innerHTML = '';
+            chatDemoStep = 0;
+            currentAIChatTimeout = setTimeout(runAIAssistantStep, 1000);
+        }
+
+        async function runAIAssistantStep() {
+            const chatContainer = document.getElementById('ai-assistant-chat');
+            if (!chatContainer || chatDemoStep >= chatMessages.length) {
+                clearInterval(aiChatInterval);
+                clearTimeout(currentAIChatTimeout);
+                return;
+            }
+
+            const currentMsg = chatMessages[chatDemoStep];
+
+            if (currentMsg.sender === 'user') {
+                addChatMessage(chatContainer, currentMsg.text, 'user');
+                chatDemoStep++;
+                currentAIChatTimeout = setTimeout(runAIAssistantStep, 1500);
+            } else { // AI message
+                const typingIndicator = addTypingIndicator(chatContainer);
+                const userQuery = chatMessages[chatDemoStep - 1].text;
+                const aiResponse = aiLearning.generateSmartResponse(userQuery);
+
+                currentAIChatTimeout = setTimeout(() => {
+                    removeTypingIndicator(typingIndicator);
+                    addChatMessage(chatContainer, aiResponse, 'ai');
+                    chatDemoStep++;
+                    currentAIChatTimeout = setTimeout(runAIAssistantStep, 3000);
+                }, 2000);
+            }
+        }
+
+        function addChatMessage(container, text, sender) {
+            const msgDiv = document.createElement('div');
+            msgDiv.classList.add('chat-message', sender);
+            msgDiv.innerHTML = text;
+            container.appendChild(msgDiv);
+            container.scrollTop = container.scrollHeight;
+        }
+
+        function addTypingIndicator(container) {
+            const typingDiv = document.createElement('div');
+            typingDiv.className = 'typing-indicator ai';
+            typingDiv.innerHTML = '<span></span><span></span><span></span>';
+            container.appendChild(typingDiv);
+            container.scrollTop = container.scrollHeight;
+            return typingDiv;
+        }
+
+        function removeTypingIndicator(indicatorElement) {
+            if (indicatorElement && indicatorElement.parentNode) {
+                indicatorElement.parentNode.removeChild(indicatorElement);
+            }
+        }
+
+        /* --- SCENE 3: AI Trading Strategies Highlights --- */
+        function highlightStrategy(strategyKey) {
+            document.querySelectorAll('.strategy-card-small').forEach(card => {
+                card.classList.remove('highlight');
+                if (card.dataset.strategyKey === strategyKey) {
+                    card.classList.add('highlight');
+                }
+            });
+        }
+
+        function clearHighlights() {
+            document.querySelectorAll('.strategy-card-small').forEach(card => {
+                card.classList.remove('highlight');
+            });
+        }
+
+        /* --- SCENE 4: Voice Command Demo --- */
+        async function startVoiceCommandDemo() {
+            const commandText = document.getElementById('voice-command-text');
+            const commandResponse = document.getElementById('voice-command-response');
+            if (!commandText || !commandResponse) return;
+
+            commandText.style.opacity = 0;
+            commandResponse.style.opacity = 0;
+
+            await new Promise(resolve => setTimeout(resolve, 500)); // Initial pause
+
+            commandText.textContent = "User says: 'Buy 1 Ethereum'";
+            commandText.style.opacity = 1;
+            await new Promise(resolve => setTimeout(resolve, 2000));
+
+            commandResponse.textContent = "AI: 'Executing buy order for 1 Ethereum.'";
+            commandResponse.style.opacity = 1;
+            await new Promise(resolve => setTimeout(resolve, 2500));
+
+            commandText.textContent = "User says: 'Analyze Bitcoin market'";
+            commandText.style.opacity = 1;
+            commandResponse.style.opacity = 0; // Clear previous response
+            await new Promise(resolve => setTimeout(resolve, 2000));
+
+            commandResponse.textContent = "AI: 'Bitcoin market shows strong bullish momentum. RSI at 68, MACD crossover confirmed.'";
+            commandResponse.style.opacity = 1;
+            await new Promise(resolve => setTimeout(resolve, 3000));
+
+            commandText.style.opacity = 0;
+            commandResponse.style.opacity = 0;
+        }
+
+        /* --- SCENE 6: Security & Features (No specific JS needed beyond CSS animations) --- */
+
+        /* --- SCENE 7: Live Performance Stats --- */
+        function animateStat(id, targetValue, suffix = '', duration = 2000, isMillion = false) {
+            return new Promise(resolve => {
+                const element = document.getElementById(id);
+                if (!element) { resolve(); return; }
+
+                const startValue = parseFloat(element.textContent.replace(/[%,M+]/g, '')) || 0;
+                const startTime = performance.now();
+
+                function updateCount(currentTime) {
+                    const elapsedTime = currentTime - startTime;
+                    const progress = Math.min(elapsedTime / duration, 1);
+                    let currentValue = startValue + (targetValue - startValue) * progress;
+
+                    if (id === 'stat-success') {
+                        element.textContent = `${Math.round(currentValue)}%`;
+                    } else if (isMillion) {
+                        element.textContent = `$${currentValue.toFixed(1)}${suffix}`;
+                    } else {
+                        element.textContent = `${Math.round(currentValue)}${suffix}`;
+                    }
+
+                    if (progress < 1) {
+                        requestAnimationFrame(updateCount);
+                    } else {
+                        element.style.opacity = 1; // Ensure final state is visible
+                        element.style.transform = 'translateY(0)';
+                        resolve();
+                    }
+                }
+                element.style.opacity = 0; // Start invisible
+                element.style.transform = 'translateY(20px)';
+                requestAnimationFrame(updateCount);
+            });
+        }
+
+        /* --- SCENE 8: Getting Started (No specific JS needed beyond CSS animations) --- */
+
+        /* --- AUTOPLAY CONTROLS --- */
+        function startAutoplay() {
+            if (autoplayInterval) clearInterval(autoplayInterval); // Clear any existing interval
+            autoplayInterval = setTimeout(() => {
+                nextSlide(false); // Auto-advance, don't reset timer again immediately
+            }, sceneDurations[currentSlide]); // Use the dynamically set autoplayDelay
+            isAutoplayPlaying = true;
+            updateAutoplayButton();
+        }
+
+        function pauseAutoplay() {
+            clearInterval(autoplayInterval);
+            if (speechSynthesis) {
+                speechSynthesis.pause(); // Pause speech too
+            }
+            isAutoplayPlaying = false;
+            updateAutoplayButton();
+        }
+
+        function toggleAutoplay() {
+            if (isAutoplayPlaying) {
+                pauseAutoplay();
+                showNotification('Autoplay Paused', 'info', 1500);
+            } else {
+                startAutoplay();
+                if (speechSynthesis && speechSynthesis.paused) {
+                    speechSynthesis.resume(); // Resume speech if it was paused
+                }
+                showNotification('Autoplay Resumed', 'info', 1500);
+            }
+        }
+
+        function resetAutoplayTimer() {
+            if (isAutoplayPlaying) {
+                pauseAutoplay(); // Pause current timer
+                startAutoplay(); // Start a new timer with the current scene's duration
+            }
+        }
+
+        function updateAutoplayButton() {
+            const btn = document.getElementById('autoplay-toggle');
+            if (isAutoplayPlaying) {
+                btn.innerHTML = '<i class="fas fa-pause"></i> Pause Autoplay';
+            } else {
+                btn.innerHTML = '<i class="fas fa-play"></i> Play Autoplay';
+            }
+        }
+
+        /* --- PITCH DECK DOWNLOAD (Scene 9) --- */
+        function downloadPitchDeck() {
+            const pitchDeckContent = `
+KASEDDIE AI - PITCH DECK
+========================
+
+EXECUTIVE SUMMARY
+- Market: $2.8T cryptocurrency market
+- Problem: 95% of traders lose money due to emotional decisions
+- Solution: AI-powered trading platform with 95% success rate
+- Traction: 10,000+ beta users, $1.2M trading volume
+- Funding: Seeking $2.5M Series A
+
+MARKET OPPORTUNITY
+- Total Addressable Market: $2.8T
+- Serviceable Addressable Market: $280B
+- Serviceable Obtainable Market: $2.8B
+
+PRODUCT
+- 10 AI trading algorithms
+- Voice command trading
+- Multi-platform (Web, Mobile, Desktop)
+- Starknet integration for low fees
+
+BUSINESS MODEL
+- Trading fees: 0.1% per transaction
+- Premium subscriptions: $99/month
+- API licensing: $10,000/month
+- White-label solutions: $50,000/setup
+
+FINANCIAL PROJECTIONS
+Year 1: $500K revenue, 50K users
+Year 2: $2.5M revenue, 250K users
+Year 3: $10M revenue, 1M users
+
+TEAM
+- John Kaseddie: CEO, Ex-Goldman Sachs
+- Sarah Chen: CTO, Ex-Google AI
+- Michael Rodriguez: Head of AI, Ex-Citadel
+- Alice Mutesi: Head of Operations
+
+FUNDING REQUEST
+- Amount: $2.5M Series A
+- Use of funds: 40% Product Development, 30% Marketing, 20% Team, 10% Operations
+- Valuation: $25M pre-money
+
+CONTACT
+Email: kaseddie@hotmail.com, kaseddie@gmail.com
+Phone: +256 769089860
+WhatsApp: +256 784428821
+Website: kaseddie.ai
+            `;
+
+            const blob = new Blob([pitchDeckContent], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = 'Kaseddie-AI-Pitch-Deck.txt';
+            link.click();
+            URL.revokeObjectURL(url);
+            showNotification('Pitch Deck download initiated!', 'success');
+        }
+
+    </script>
+</body>
+</html>

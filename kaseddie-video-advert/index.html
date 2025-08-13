@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Kaseddie AI - Video Advertisement</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #00d4ff;
+            --secondary-color: #ff6b35;
+            --accent-color: #00ff88;
+            --dark-bg: #0a0a0a;
+            --dark-secondary: #1a1a2e;
+            --text-primary: #ffffff;
+            --text-secondary: #cccccc;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--dark-bg) 0%, var(--dark-secondary) 100%);
+            color: var(--text-primary);
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            width: 100%;
+            max-width: 100vw;
+        }
+
+        .video-container {
+            width: 95vw;
+            height: 95vh;
+            max-width: 1200px;
+            max-height: 800px;
+            background: rgba(0, 0, 0, 0.9);
+            border-radius: 20px;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .slide {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 40px;
+            text-align: center;
+            opacity: 0;
+            transition: opacity 0.7s ease;
+        }
+
+        .slide.active {
+            opacity: 1;
+            position: relative;
+        }
+
+        .slide h2 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .slide p {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            max-width: 800px;
+            margin-bottom: 30px;
+        }
+
+        .investor-dashboard-preview {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 20px;
+            width: 90%;
+            max-width: 600px;
+            height: 350px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .dashboard-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .dashboard-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .stat-card-mini {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .stat-number-mini {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        .stat-label-mini {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        .investment-tiers-mini {
+            display: flex;
+            justify-content: space-around;
+            gap: 10px;
+        }
+
+        .tier-mini {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 10px;
+            border-radius: 8px;
+            text-align: center;
+            flex: 1;
+        }
+
+        .tier-amount-mini {
+            font-size: 1rem;
+            font-weight: bold;
+            color: var(--accent-color);
+        }
+
+        .tier-label-mini {
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+        }
+
+        .slide-dots {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 8px;
+            z-index: 10;
+        }
+
+        .dot {
+            width: 10px;
+            height: 10px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .dot.active {
+            background: var(--primary-color);
+            box-shadow: 0 0 10px var(--primary-color);
+        }
+
+        .slide-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            padding: 12px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            z-index: 10;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .slide-arrow:hover {
+            background: var(--primary-color);
+        }
+
+        .arrow-left {
+            left: 15px;
+        }
+
+        .arrow-right {
+            right: 15px;
+        }
+
+        .autoplay-toggle {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 15px;
+            cursor: pointer;
+            z-index: 10;
+            font-size: 0.9rem;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 25px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-cta {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 20px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: transform 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .btn-primary-cta {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+        }
+
+        .btn-secondary-cta {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-primary);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .btn-cta:hover {
+            transform: translateY(-2px);
+        }
+
+        /* Visual Elements Styles */
+        .strategy-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-top: 20px;
+            width: 100%;
+            max-width: 500px;
+        }
+
+        .strategy-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            transition: all 0.3s ease;
+            opacity: 0.5;
+        }
+
+        .strategy-card.highlight {
+            opacity: 1;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 15px var(--primary-color);
+            transform: scale(1.05);
+        }
+
+        .strategy-card h4 {
+            color: var(--primary-color);
+            margin-bottom: 5px;
+            font-size: 1rem;
+        }
+
+        .strategy-card p {
+            color: var(--accent-color);
+            font-size: 0.9rem;
+            margin: 0;
+        }
+
+        .voice-demo {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 20px;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .voice-command {
+            font-size: 1.2rem;
+            color: var(--primary-color);
+            margin: 10px 0;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .voice-response {
+            font-size: 1rem;
+            color: var(--accent-color);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .security-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-top: 20px;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .security-item {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.5s ease;
+        }
+
+        .security-item.animate {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .security-item i {
+            font-size: 24px;
+            color: var(--primary-color);
+            margin-bottom: 8px;
+        }
+
+        .security-item span {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .stats-display {
+            display: flex;
+            justify-content: space-around;
+            gap: 20px;
+            margin-top: 20px;
+            width: 100%;
+            max-width: 500px;
+        }
+
+        .stat-item {
+            text-align: center;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.5s ease;
+        }
+
+        .stat-item.animate {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        .steps-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-top: 20px;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .step-item {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            opacity: 0;
+            transform: translateX(-20px);
+            transition: all 0.5s ease;
+        }
+
+        .step-item.animate {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .step-number {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 5px;
+        }
+
+        .step-text {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .video-container {
+                width: 100vw;
+                height: 100vh;
+                border-radius: 0;
+            }
+
+            .slide {
+                padding: 15px;
+            }
+
+            .slide h2 {
+                font-size: 1.5rem;
+                margin-bottom: 15px;
+            }
+
+            .slide p {
+                font-size: 0.9rem;
+                margin-bottom: 20px;
+            }
+
+            .investor-dashboard-preview {
+                width: 95%;
+                height: 280px;
+                padding: 12px;
+            }
+
+            .dashboard-stats {
+                grid-template-columns: 1fr;
+                gap: 8px;
+            }
+
+            .stat-card-mini {
+                padding: 10px;
+            }
+
+            .stat-number-mini {
+                font-size: 0.9rem;
+            }
+
+            .stat-label-mini {
+                font-size: 0.7rem;
+            }
+
+            .investment-tiers-mini {
+                flex-direction: column;
+                gap: 6px;
+            }
+
+            .tier-mini {
+                padding: 8px;
+            }
+
+            .tier-amount-mini {
+                font-size: 0.9rem;
+            }
+
+            .tier-label-mini {
+                font-size: 0.6rem;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+                gap: 10px;
+            }
+
+            .btn-cta {
+                width: 100%;
+                max-width: 200px;
+                justify-content: center;
+                padding: 8px 16px;
+                font-size: 0.8rem;
+            }
+
+            .slide-arrow {
+                padding: 8px;
+                font-size: 1rem;
+            }
+
+            .arrow-left {
+                left: 10px;
+            }
+
+            .arrow-right {
+                right: 10px;
+            }
+
+            .autoplay-toggle {
+                top: 10px;
+                left: 10px;
+                padding: 6px 10px;
+                font-size: 0.8rem;
+            }
+
+            .slide-dots {
+                bottom: 15px;
+                gap: 6px;
+            }
+
+            .dot {
+                width: 8px;
+                height: 8px;
+            }
+
+            /* Mobile Visual Elements */
+            .strategy-grid {
+                grid-template-columns: 1fr;
+                gap: 10px;
+                max-width: 280px;
+            }
+
+            .strategy-card {
+                padding: 10px;
+            }
+
+            .strategy-card h4 {
+                font-size: 0.9rem;
+            }
+
+            .strategy-card p {
+                font-size: 0.8rem;
+            }
+
+            .voice-demo {
+                padding: 15px;
+            }
+
+            .voice-command {
+                font-size: 1rem;
+            }
+
+            .voice-response {
+                font-size: 0.9rem;
+            }
+
+            .security-grid {
+                grid-template-columns: 1fr;
+                gap: 10px;
+                max-width: 250px;
+            }
+
+            .security-item {
+                padding: 10px;
+            }
+
+            .security-item i {
+                font-size: 20px;
+            }
+
+            .security-item span {
+                font-size: 0.8rem;
+            }
+
+            .stats-display {
+                flex-direction: column;
+                gap: 15px;
+                max-width: 200px;
+            }
+
+            .stat-value {
+                font-size: 1.5rem;
+            }
+
+            .stat-label {
+                font-size: 0.7rem;
+            }
+
+            .steps-container {
+                grid-template-columns: 1fr;
+                gap: 10px;
+                max-width: 250px;
+            }
+
+            .step-item {
+                padding: 10px;
+            }
+
+            .step-number {
+                font-size: 1.2rem;
+            }
+
+            .step-text {
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="video-container">
+        <!-- Slide 0: Welcome -->
+        <div class="slide active" id="scene-0">
+            <h2>Welcome to Kaseddie AI</h2>
+            <p>The future of intelligent cryptocurrency trading</p>
+            <i class="fas fa-robot" style="font-size: 60px; color: var(--primary-color); margin-top: 20px;"></i>
+        </div>
+
+        <!-- Slide 1: Platform Overview -->
+        <div class="slide" id="scene-1">
+            <h2>Professional Trading Platform</h2>
+            <p>Advanced AI-powered cryptocurrency trading with institutional-grade security</p>
+        </div>
+
+        <!-- Slide 2: AI Strategies -->
+        <div class="slide" id="scene-2">
+            <h2>AI Trading Strategies</h2>
+            <p>10 sophisticated AI algorithms with up to 95% success rates</p>
+            <div class="strategy-grid">
+                <div class="strategy-card" data-strategy="ai_prediction">
+                    <h4>AI Prediction</h4>
+                    <p>85% Success Rate</p>
+                </div>
+                <div class="strategy-card" data-strategy="arbitrage">
+                    <h4>Arbitrage</h4>
+                    <p>95% Success Rate</p>
+                </div>
+                <div class="strategy-card" data-strategy="sentiment_analysis">
+                    <h4>Sentiment Analysis</h4>
+                    <p>81% Success Rate</p>
+                </div>
+                <div class="strategy-card" data-strategy="scalping">
+                    <h4>AI Scalping</h4>
+                    <p>89% Success Rate</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 3: Voice Commands -->
+        <div class="slide" id="scene-3">
+            <h2>Voice Command Trading</h2>
+            <p>Revolutionary voice-controlled trading interface</p>
+            <div class="voice-demo">
+                <i class="fas fa-microphone" style="font-size: 40px; color: var(--primary-color); margin-bottom: 15px;"></i>
+                <div class="voice-command" id="voice-command">"Buy 1 Ethereum"</div>
+                <div class="voice-response" id="voice-response">AI: "Executing buy order..."</div>
+            </div>
+        </div>
+
+        <!-- Slide 4: Mobile Optimized -->
+        <div class="slide" id="scene-4">
+            <h2>Mobile-Optimized Platform</h2>
+            <p>Perfect mobile experience with smooth scrolling and responsive design</p>
+        </div>
+
+        <!-- Slide 5: Security -->
+        <div class="slide" id="scene-5">
+            <h2>Security & Features</h2>
+            <p>Bank-grade 256-bit encryption with complete KYC compliance</p>
+            <div class="security-grid">
+                <div class="security-item">
+                    <i class="fas fa-lock"></i>
+                    <span>256-bit Encryption</span>
+                </div>
+                <div class="security-item">
+                    <i class="fas fa-user-shield"></i>
+                    <span>KYC Compliance</span>
+                </div>
+                <div class="security-item">
+                    <i class="fas fa-shield-alt"></i>
+                    <span>Multi-Factor Auth</span>
+                </div>
+                <div class="security-item">
+                    <i class="fas fa-coins"></i>
+                    <span>50+ Cryptos</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 6: Performance -->
+        <div class="slide" id="scene-6">
+            <h2>Performance Projections</h2>
+            <p>Target 95% success rates with mobile-first trading experience</p>
+            <div class="stats-display">
+                <div class="stat-item">
+                    <div class="stat-value" id="stat-success">0%</div>
+                    <div class="stat-label">Target Success Rate</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="stat-users">0K</div>
+                    <div class="stat-label">Expected Users</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="stat-funding">$0K</div>
+                    <div class="stat-label">Funding Goal</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 7: Getting Started -->
+        <div class="slide" id="scene-7">
+            <h2>Getting Started</h2>
+            <p>Simple 4-step process: Sign up, KYC, choose strategy, start trading</p>
+            <div class="steps-container">
+                <div class="step-item">
+                    <div class="step-number">1</div>
+                    <div class="step-text">Sign Up</div>
+                </div>
+                <div class="step-item">
+                    <div class="step-number">2</div>
+                    <div class="step-text">Complete KYC</div>
+                </div>
+                <div class="step-item">
+                    <div class="step-number">3</div>
+                    <div class="step-text">Choose Strategy</div>
+                </div>
+                <div class="step-item">
+                    <div class="step-number">4</div>
+                    <div class="step-text">Start Trading</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 8: Investor Dashboard -->
+        <div class="slide" id="scene-8">
+            <h2>Investor Dashboard</h2>
+            <p>Transparent access to development progress and investment opportunities</p>
+            <div class="investor-dashboard-preview">
+                <div class="dashboard-header">
+                    <h3 style="color: var(--primary-color); margin-bottom: 10px; font-size: 1.2rem;">Investment Overview</h3>
+                </div>
+                <div class="dashboard-stats">
+                    <div class="stat-card-mini">
+                        <div class="stat-number-mini">95%</div>
+                        <div class="stat-label-mini">Target Success</div>
+                    </div>
+                    <div class="stat-card-mini">
+                        <div class="stat-number-mini">Eddie Kasamba</div>
+                        <div class="stat-label-mini">CEO</div>
+                    </div>
+                    <div class="stat-card-mini">
+                        <div class="stat-number-mini">$250K</div>
+                        <div class="stat-label-mini">Funding Goal</div>
+                    </div>
+                    <div class="stat-card-mini">
+                        <div class="stat-number-mini">100%</div>
+                        <div class="stat-label-mini">Mobile Ready</div>
+                    </div>
+                </div>
+                <div class="investment-tiers-mini">
+                    <div class="tier-mini">
+                        <div class="tier-amount-mini">$1,000</div>
+                        <div class="tier-label-mini">Seed</div>
+                    </div>
+                    <div class="tier-mini">
+                        <div class="tier-amount-mini">$10,000</div>
+                        <div class="tier-label-mini">Growth</div>
+                    </div>
+                    <div class="tier-mini">
+                        <div class="tier-amount-mini">$50,000+</div>
+                        <div class="tier-label-mini">Strategic</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 9: Investment Opportunity -->
+        <div class="slide" id="scene-9">
+            <h2>Investment Opportunity</h2>
+            <p>Honest new project seeking early investors - $250,000 funding goal</p>
+        </div>
+
+        <!-- Slide 10: Thank You -->
+        <div class="slide" id="scene-10">
+            <h2>Thank You</h2>
+            <p>Kaseddie AI - Where AI meets cryptocurrency trading</p>
+            <div class="cta-buttons">
+                <a href="https://kaseddie-crypto-ai.netlify.app/" target="_blank" class="btn-cta btn-primary-cta">
+                    <i class="fas fa-rocket"></i>
+                    Visit Platform
+                </a>
+                <a href="https://kaseddie-crypto-ai.netlify.app/investor-dashboard.html" target="_blank" class="btn-cta btn-secondary-cta">
+                    <i class="fas fa-chart-line"></i>
+                    Investor Dashboard
+                </a>
+            </div>
+        </div>
+
+        <!-- Navigation -->
+        <button class="slide-arrow arrow-left"><i class="fas fa-chevron-left"></i></button>
+        <button class="slide-arrow arrow-right"><i class="fas fa-chevron-right"></i></button>
+        <div class="slide-dots" id="slide-dots"></div>
+        <button class="autoplay-toggle" id="autoplay-toggle">
+            <i class="fas fa-pause"></i> Pause
+        </button>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
