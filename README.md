@@ -4,7 +4,7 @@ Professional AI-powered cryptocurrency trading platform with Cairo wallet integr
 
 ## Features
 
-- **AI Trading Strategies**: 10+ advanced AI algorithms with up to 95% success rates
+- **AI Trading Strategies**: 10+ advanced AI algorithms with up to 68% success rates
 - **Cairo Wallet Integration**: Starknet-based wallet with deposit, withdraw, and investment functions
 - **Voice Commands**: Revolutionary voice-controlled trading
 - **Multi-Platform**: Web, desktop, and mobile applications
@@ -13,15 +13,15 @@ Professional AI-powered cryptocurrency trading platform with Cairo wallet integr
 
 ## AI Trading Strategies
 
-1. **Momentum Strategy** - 78% success rate
-2. **AI Prediction** - 85% success rate  
-3. **Mean Reversion** - 71% success rate
-4. **Cross-Exchange Arbitrage** - 95% success rate
-5. **Social Sentiment AI** - 81% success rate
-6. **AI Scalping** - 89% success rate
-7. **AI Grid Trading** - 76% success rate
-8. **AI Buy/Sell Signals** - 92% success rate
-9. **Take Profit Algorithm** - 88% success rate
+1. **Momentum Strategy** - 58% success rate
+2. **AI Prediction** - 62% success rate  
+3. **Mean Reversion** - 55% success rate
+4. **Cross-Exchange Arbitrage** - 68% success rate
+5. **Social Sentiment AI** - 60% success rate
+6. **AI Scalping** - 65% success rate
+7. **AI Grid Trading** - 57% success rate
+8. **AI Buy/Sell Signals** - 64% success rate
+9. **Take Profit Algorithm** - 61% success rate
 10. **Manual Trading** - User controlled
 
 ## Cairo Smart Contract
