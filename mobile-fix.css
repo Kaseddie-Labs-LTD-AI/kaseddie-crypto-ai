@@ -1,0 +1,117 @@
+/* Mobile-first responsive fixes */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html, body {
+    width: 100%;
+    overflow-x: hidden;
+    font-size: 16px;
+}
+
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 10px;
+}
+
+/* Fix overlapping content on mobile */
+@media (max-width: 768px) {
+    body {
+        font-size: 14px;
+        line-height: 1.4;
+    }
+    
+    .hero-content {
+        padding: 20px 10px;
+        flex-direction: column;
+    }
+    
+    .hero-text h1 {
+        font-size: 1.8rem;
+        margin-bottom: 15px;
+    }
+    
+    .hero-stats {
+        flex-direction: column;
+        gap: 10px;
+        margin: 20px 0;
+    }
+    
+    .features-grid,
+    .strategies-grid,
+    .platform-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+        padding: 0 10px;
+    }
+    
+    .feature-card,
+    .strategy-card,
+    .platform-card {
+        padding: 15px;
+        margin-bottom: 15px;
+    }
+    
+    .nav-menu {
+        display: none;
+    }
+    
+    .nav-actions {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    section {
+        padding: 30px 0;
+    }
+    
+    .section-header h2 {
+        font-size: 1.5rem;
+        margin-bottom: 10px;
+    }
+    
+    .section-header p {
+        font-size: 0.9rem;
+    }
+}
+
+/* Investor page mobile fixes */
+.investor-dashboard {
+    width: 100%;
+    overflow-x: hidden;
+}
+
+@media (max-width: 768px) {
+    .investor-header {
+        padding: 15px 10px;
+    }
+    
+    .header-content {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .summary-grid,
+    .tiers-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+    
+    .summary-card,
+    .tier-card {
+        padding: 15px;
+        word-wrap: break-word;
+    }
+    
+    .metric-value {
+        font-size: 1.2rem;
+    }
+    
+    .tier-amount {
+        font-size: 1rem;
+    }
+}
