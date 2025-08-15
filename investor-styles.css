@@ -186,3 +186,54 @@ h3 {
     color: var(--accent-color);
     margin-right: 8px;
 }
+
+.roadmap-timeline {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.roadmap-milestone {
+    background: linear-gradient(135deg, var(--card-bg) 0%, rgba(255, 107, 53, 0.1) 100%);
+    border: 1px solid rgba(0, 212, 255, 0.3);
+    border-radius: 15px;
+    padding: 25px;
+    backdrop-filter: blur(10px);
+}
+
+.milestone-funding {
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: var(--accent-color);
+    margin: 10px 0;
+}
+
+.milestone-goals {
+    list-style: none;
+    margin: 15px 0;
+}
+
+.milestone-goals li {
+    color: var(--text-secondary);
+    margin: 8px 0;
+    padding-left: 20px;
+    position: relative;
+}
+
+.milestone-goals li::before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    color: var(--accent-color);
+    font-weight: bold;
+}
+
+.milestone-timeline {
+    background: rgba(0, 212, 255, 0.1);
+    color: var(--primary-color);
+    padding: 8px 15px;
+    border-radius: 20px;
+    font-weight: bold;
+    display: inline-block;
+    margin-top: 15px;
+}
