@@ -20,7 +20,7 @@ class KaseddiePresentation {
             },
             {
                 title: "AI Trading Strategies",
-                narration: "Our platform offers 10 sophisticated AI trading strategies. AI Prediction achieves 85% accuracy. Cross-Exchange Arbitrage delivers 95% success rates. Social Sentiment Analysis and AI Scalping complete our comprehensive suite.",
+                narration: "Our platform offers 10 sophisticated AI trading strategies. AI Prediction achieves 62% accuracy. Cross-Exchange Arbitrage delivers 68% success rates. Social Sentiment Analysis and AI Scalping complete our comprehensive suite.",
                 duration: 10000
             },
             {
@@ -40,7 +40,7 @@ class KaseddiePresentation {
             },
             {
                 title: "Performance Projections",
-                narration: "Our projections: Target 95% success rates, expected 10K+ users in first year, designed for mobile-first trading experience with perfect scrolling.",
+                narration: "Our projections: Target 68% success rates, expected 5K+ users in first year, designed for mobile-first trading experience with perfect scrolling.",
                 duration: 8000
             },
             {
@@ -55,7 +55,7 @@ class KaseddiePresentation {
             },
             {
                 title: "Investment Opportunity",
-                narration: "We're an honest new project seeking early investors. Starting from $1,000 seed investments up to $50,000 strategic partnerships. Total funding goal: $250,000 to launch our MVP.",
+                narration: "We're an honest new project seeking early investors. Starting from $1,000 seed investments up to $50,000 strategic partnerships. Total funding goal: $500,000 to launch our MVP.",
                 duration: 8000
             },
             {
@@ -300,9 +300,9 @@ class KaseddiePresentation {
     }
     
     async animateStats() {
-        await this.animateStat('stat-success', 95, '%');
-        await this.animateStat('stat-users', 10, 'K');
-        await this.animateStat('stat-funding', 250, 'K');
+        await this.animateStat('stat-success', 68, '%');
+        await this.animateStat('stat-users', 5, 'K');
+        await this.animateStat('stat-funding', 500, 'K');
     }
     
     animateStat(id, targetValue, suffix = '') {
