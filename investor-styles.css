@@ -1,0 +1,188 @@
+/* Crypto-themed investor page styling */
+:root {
+    --primary-color: #00d4ff;
+    --secondary-color: #ff6b35;
+    --accent-color: #00ff88;
+    --dark-bg: #0a0a0a;
+    --dark-secondary: #1a1a2e;
+    --card-bg: rgba(0, 212, 255, 0.1);
+    --text-primary: #ffffff;
+    --text-secondary: #cccccc;
+}
+
+body {
+    background: linear-gradient(135deg, var(--dark-bg) 0%, var(--dark-secondary) 100%);
+    color: var(--text-primary);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.investor-dashboard {
+    background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+    min-height: 100vh;
+}
+
+.investor-header {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    padding: 20px 0;
+    box-shadow: 0 4px 20px rgba(0, 212, 255, 0.3);
+}
+
+.logo {
+    color: white;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.logo-accent {
+    color: var(--accent-color);
+}
+
+.funding-status {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 15px;
+    border-radius: 10px;
+    backdrop-filter: blur(10px);
+}
+
+.summary-card,
+.tier-card,
+.team-member {
+    background: linear-gradient(135deg, var(--card-bg) 0%, rgba(255, 107, 53, 0.1) 100%);
+    border: 1px solid rgba(0, 212, 255, 0.3);
+    border-radius: 15px;
+    padding: 25px;
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+}
+
+.summary-card:hover,
+.tier-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0, 212, 255, 0.4);
+    border-color: var(--primary-color);
+}
+
+.card-icon i {
+    font-size: 2.5rem;
+    background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 15px;
+}
+
+.metric-value {
+    font-size: 2rem;
+    font-weight: bold;
+    background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.tier-card.featured {
+    background: linear-gradient(135deg, rgba(0, 255, 136, 0.15) 0%, rgba(0, 212, 255, 0.15) 100%);
+    border: 2px solid var(--accent-color);
+    box-shadow: 0 0 20px rgba(0, 255, 136, 0.3);
+}
+
+.tier-badge {
+    background: linear-gradient(135deg, var(--accent-color), var(--primary-color));
+    color: var(--dark-bg);
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-weight: bold;
+    font-size: 0.8rem;
+}
+
+.tier-amount {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: var(--primary-color);
+    margin: 10px 0;
+}
+
+.invest-btn {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    border: none;
+    color: white;
+    padding: 12px 30px;
+    border-radius: 25px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.invest-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 212, 255, 0.4);
+}
+
+.member-avatar {
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 15px;
+}
+
+.member-avatar i {
+    font-size: 2rem;
+    color: var(--dark-bg);
+}
+
+.member-links a {
+    color: var(--primary-color);
+    font-size: 1.2rem;
+    margin: 0 10px;
+    transition: color 0.3s ease;
+}
+
+.member-links a:hover {
+    color: var(--accent-color);
+}
+
+.contact-cta {
+    background: linear-gradient(135deg, var(--dark-secondary) 0%, var(--primary-color) 100%);
+    padding: 50px 0;
+    margin-top: 50px;
+}
+
+.contact-item i {
+    color: var(--accent-color);
+    font-size: 1.5rem;
+    margin-right: 15px;
+}
+
+section {
+    padding: 50px 0;
+}
+
+h2 {
+    color: var(--text-primary);
+    margin-bottom: 30px;
+    font-size: 2rem;
+}
+
+h2 i {
+    color: var(--primary-color);
+    margin-right: 10px;
+}
+
+h3 {
+    color: var(--primary-color);
+    margin-bottom: 15px;
+}
+
+.tier-benefits li {
+    color: var(--text-secondary);
+    margin: 8px 0;
+}
+
+.tier-benefits i {
+    color: var(--accent-color);
+    margin-right: 8px;
+}
