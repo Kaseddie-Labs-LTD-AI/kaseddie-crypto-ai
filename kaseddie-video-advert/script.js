@@ -389,7 +389,7 @@ INVESTMENT TERMS
 - Use of funds: 40% Product, 30% Marketing, 20% Team, 10% Operations
 
 CONTACT INFORMATION
-Email: kaseddie@hotmail.com, kaseddie@gmail.com
+Email: kaseddielabltd@gmail.com
 Phone: +256 769089860
 WhatsApp: +256 784428821
 Website: kaseddie-crypto-ai.netlify.app

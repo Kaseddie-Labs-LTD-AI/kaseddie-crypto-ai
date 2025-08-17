@@ -52,7 +52,7 @@ The project includes a Cairo smart contract deployed on Starknet:
 
 ## Contact
 
-- Email: kaseddie@hotmail.com, kaseddie@gmail.com
+- Email: kaseddielabltd@gmail.com
 - Phone: +256 769089860
 - WhatsApp: +256 784428821
 
