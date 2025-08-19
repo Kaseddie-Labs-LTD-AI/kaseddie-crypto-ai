@@ -1,6 +1,6 @@
 [build]
   publish = "."
-  command = "echo 'Static site deployment'"
+  command = "echo 'Build complete'"
 
 [build.environment]
   NODE_VERSION = "18"
@@ -8,9 +8,14 @@
 [[headers]]
   for = "/*"
   [headers.values]
-    X-Frame-Options = "DENY"
+    X-Frame-Options = "SAMEORIGIN"
     X-XSS-Protection = "1; mode=block"
     X-Content-Type-Options = "nosniff"
+
+[[redirects]]
+  from = "/pitch-deck/*"
+  to = "/pitch-deck/index.html"
+  status = 200
 
 [[redirects]]
   from = "/*"
