@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kaseddie AI - Investor Pitch Deck</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #00d4ff;
+            --secondary-color: #ff6b35;
+            --accent-color: #00ff88;
+            --dark-bg: #0a0a0a;
+            --dark-secondary: #1a1a2e;
+            --text-primary: #ffffff;
+            --text-secondary: #cccccc;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--dark-bg) 0%, var(--dark-secondary) 100%);
+            color: var(--text-primary);
+            overflow: hidden;
+        }
+
+        .pitch-container {
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .slide {
+            width: 95vw;
+            height: 95vh;
+            max-width: 1200px;
+            max-height: 800px;
+            background: rgba(0, 0, 0, 0.9);
+            border-radius: 20px;
+            padding: 40px;
+            display: none;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            overflow-y: auto;
+        }
+
+        .slide.active {
+            display: flex;
+        }
+
+        .slide h1 {
+            font-size: 3.5rem;
+            margin-bottom: 30px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .slide h2 {
+            font-size: 2.5rem;
+            margin-bottom: 40px;
+            color: var(--primary-color);
+        }
+
+        .slide p {
+            font-size: 1.3rem;
+            line-height: 1.6;
+            margin-bottom: 30px;
+            max-width: 800px;
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+            margin: 40px 0;
+            width: 100%;
+            max-width: 800px;
+        }
+
+        .metric-card {
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.1), rgba(255, 107, 53, 0.1));
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .metric-value {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        .metric-label {
+            font-size: 1rem;
+            color: var(--text-secondary);
+        }
+
+        .features-list {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin: 30px 0;
+            width: 100%;
+            max-width: 600px;
+        }
+
+        .feature-item {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: left;
+        }
+
+        .feature-item i {
+            color: var(--accent-color);
+            margin-right: 10px;
+        }
+
+        .team-card {
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.1), rgba(255, 107, 53, 0.1));
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            border-radius: 15px;
+            padding: 40px;
+            margin: 20px 0;
+            max-width: 500px;
+        }
+
+        .team-avatar {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+        }
+
+        .team-avatar i {
+            font-size: 3rem;
+            color: var(--dark-bg);
+        }
+
+        .funding-tiers {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin: 40px 0;
+            width: 100%;
+            max-width: 900px;
+        }
+
+        .tier-card {
+            background: linear-gradient(135deg, rgba(0, 255, 136, 0.1), rgba(0, 212, 255, 0.1));
+            border: 1px solid var(--accent-color);
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .tier-amount {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--accent-color);
+            margin-bottom: 15px;
+        }
+
+        .navigation {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .nav-btn {
+            background: rgba(0, 212, 255, 0.2);
+            border: 1px solid var(--primary-color);
+            color: var(--primary-color);
+            padding: 10px 15px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .nav-btn:hover {
+            background: var(--primary-color);
+            color: var(--dark-bg);
+        }
+
+        .slide-counter {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+
+        .contact-info {
+            background: rgba(0, 212, 255, 0.1);
+            border: 1px solid var(--primary-color);
+            border-radius: 15px;
+            padding: 30px;
+            margin-top: 30px;
+            max-width: 500px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            margin: 10px 0;
+            font-size: 1.1rem;
+        }
+
+        .contact-item i {
+            color: var(--accent-color);
+            margin-right: 15px;
+            width: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .pitch-container {
+                padding: 10px;
+            }
+            
+            .slide {
+                padding: 20px;
+                width: 100vw;
+                height: 100vh;
+                border-radius: 0;
+                justify-content: flex-start;
+                padding-top: 40px;
+            }
+            
+            .slide h1 { 
+                font-size: 2rem;
+                margin-bottom: 20px;
+            }
+            
+            .slide h2 { 
+                font-size: 1.5rem;
+                margin-bottom: 25px;
+            }
+            
+            .slide p { 
+                font-size: 1rem;
+                line-height: 1.4;
+                margin-bottom: 20px;
+            }
+            
+            .metrics-grid,
+            .features-list,
+            .funding-tiers {
+                grid-template-columns: 1fr;
+                gap: 15px;
+                margin: 20px 0;
+            }
+            
+            .metric-card,
+            .feature-item,
+            .tier-card {
+                padding: 15px;
+            }
+            
+            .metric-value {
+                font-size: 1.8rem;
+            }
+            
+            .team-card {
+                padding: 20px;
+                margin: 15px 0;
+            }
+            
+            .team-avatar {
+                width: 60px;
+                height: 60px;
+                margin-bottom: 15px;
+            }
+            
+            .team-avatar i {
+                font-size: 2rem;
+            }
+            
+            .contact-info {
+                padding: 15px;
+                margin-top: 20px;
+            }
+            
+            .contact-item {
+                font-size: 0.9rem;
+                margin: 8px 0;
+            }
+            
+            .navigation {
+                bottom: 15px;
+                gap: 10px;
+            }
+            
+            .nav-btn {
+                padding: 8px 12px;
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="pitch-container">
+        <!-- Slide 1: Title -->
+        <div class="slide active">
+            <h1>Kaseddie AI</h1>
+            <p style="font-size: 1.8rem; color: var(--accent-color);">AI-Powered Cryptocurrency Trading Platform</p>
+            <p>Revolutionizing crypto trading with artificial intelligence</p>
+            <div class="contact-info">
+                <div class="contact-item">
+                    <i class="fas fa-user"></i>
+                    <span>Eddie Kasamba Wahitu, CEO & Founder</span>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-envelope"></i>
+                    <span>kaseddielabltd@gmail.com</span>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-phone"></i>
+                    <span>+256 769089860</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 2: Problem -->
+        <div class="slide">
+            <h2>The Problem</h2>
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <div class="metric-value">95%</div>
+                    <div class="metric-label">of retail traders lose money</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">$2.8T</div>
+                    <div class="metric-label">crypto market size</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">24/7</div>
+                    <div class="metric-label">market never sleeps</div>
+                </div>
+            </div>
+            <p>Cryptocurrency trading is complex, emotional, and requires constant monitoring. Most traders lack the tools and expertise to succeed consistently.</p>
+        </div>
+
+        <!-- Slide 3: Solution -->
+        <div class="slide">
+            <h2>Our Solution</h2>
+            <p>Kaseddie AI eliminates human emotion and error with advanced AI algorithms</p>
+            <div class="features-list">
+                <div class="feature-item">
+                    <i class="fas fa-brain"></i>
+                    <strong>10 AI Trading Strategies</strong><br>
+                    Up to 68% success rates
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-microphone"></i>
+                    <strong>Voice Commands</strong><br>
+                    Revolutionary voice trading
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-shield-alt"></i>
+                    <strong>Bank-Grade Security</strong><br>
+                    256-bit encryption & KYC
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-mobile-alt"></i>
+                    <strong>Multi-Platform</strong><br>
+                    Web, desktop, mobile
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 4: Market Opportunity -->
+        <div class="slide">
+            <h2>Market Opportunity</h2>
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <div class="metric-value">$2.8T</div>
+                    <div class="metric-label">Total Addressable Market</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">420M</div>
+                    <div class="metric-label">Global crypto users</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">15%</div>
+                    <div class="metric-label">Annual market growth</div>
+                </div>
+            </div>
+            <p>The cryptocurrency market continues to grow rapidly, with increasing institutional adoption and retail participation. AI trading solutions represent the next evolution in financial technology.</p>
+        </div>
+
+        <!-- Slide 5: Product Demo -->
+        <div class="slide">
+            <h2>Product Features</h2>
+            <div class="features-list">
+                <div class="feature-item">
+                    <i class="fas fa-chart-line"></i>
+                    <strong>Momentum Strategy</strong> - 58% success rate
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-brain"></i>
+                    <strong>AI Prediction</strong> - 62% success rate
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-exchange-alt"></i>
+                    <strong>Arbitrage</strong> - 68% success rate
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-comments"></i>
+                    <strong>Sentiment Analysis</strong> - 60% success rate
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-bolt"></i>
+                    <strong>AI Scalping</strong> - 65% success rate
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-coins"></i>
+                    <strong>50+ Cryptocurrencies</strong> supported
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 6: Business Model -->
+        <div class="slide">
+            <h2>Business Model</h2>
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <div class="metric-value">0.1%</div>
+                    <div class="metric-label">Trading Fees</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">$49/mo</div>
+                    <div class="metric-label">Premium Subscriptions</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">Custom</div>
+                    <div class="metric-label">Enterprise API</div>
+                </div>
+            </div>
+            <p>Multiple revenue streams ensure sustainable growth and profitability</p>
+        </div>
+
+        <!-- Slide 7: Technology Stack -->
+        <div class="slide">
+            <h2>Technology Architecture</h2>
+            <div class="features-list">
+                <div class="feature-item">
+                    <i class="fab fa-ethereum"></i>
+                    <strong>Starknet Integration</strong><br>
+                    Cairo smart contracts
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-brain"></i>
+                    <strong>AI/ML Stack</strong><br>
+                    TensorFlow, PyTorch
+                </div>
+                <div class="feature-item">
+                    <i class="fab fa-node-js"></i>
+                    <strong>Backend</strong><br>
+                    Node.js, MongoDB
+                </div>
+                <div class="feature-item">
+                    <i class="fab fa-react"></i>
+                    <strong>Frontend</strong><br>
+                    React, TypeScript
+                </div>
+            </div>
+            <p>Built on cutting-edge blockchain and AI technologies for maximum performance and security</p>
+        </div>
+
+        <!-- Slide 8: Team -->
+        <div class="slide">
+            <h2>Leadership Team</h2>
+            <div class="team-card">
+                <div class="team-avatar">
+                    <i class="fas fa-user-tie"></i>
+                </div>
+                <h3>Eddie Kasamba Wahitu</h3>
+                <p style="color: var(--primary-color); margin-bottom: 15px;">CEO & Founder</p>
+                <p>Experienced software developer and entrepreneur with expertise in AI and blockchain technology. Leading the development of next-generation trading solutions.</p>
+                <div style="margin-top: 20px;">
+                    <div class="contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <span>kaseddielabltd@gmail.com</span>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fab fa-whatsapp"></i>
+                        <span>+256 784428821</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 9: Traction -->
+        <div class="slide">
+            <h2>Current Progress</h2>
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <div class="metric-value">MVP</div>
+                    <div class="metric-label">Development Stage</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">10</div>
+                    <div class="metric-label">AI Strategies Built</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">100%</div>
+                    <div class="metric-label">Mobile Ready</div>
+                </div>
+            </div>
+            <p>Platform is in active development with core AI algorithms completed and ready for beta testing</p>
+        </div>
+
+        <!-- Slide 10: Financial Projections -->
+        <div class="slide">
+            <h2>Financial Projections</h2>
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <div class="metric-value">$50K</div>
+                    <div class="metric-label">Year 1 Revenue</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">$250K</div>
+                    <div class="metric-label">Year 2 Revenue</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">$1M</div>
+                    <div class="metric-label">Year 3 Revenue</div>
+                </div>
+            </div>
+            <p>Conservative projections based on realistic user acquisition and retention rates</p>
+        </div>
+
+        <!-- Slide 11: Competition -->
+        <div class="slide">
+            <h2>Competitive Advantage</h2>
+            <div class="features-list">
+                <div class="feature-item">
+                    <i class="fas fa-microphone"></i>
+                    <strong>Voice Trading</strong><br>
+                    First-to-market feature
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-brain"></i>
+                    <strong>10 AI Strategies</strong><br>
+                    Most comprehensive suite
+                </div>
+                <div class="feature-item">
+                    <i class="fab fa-ethereum"></i>
+                    <strong>Starknet Integration</strong><br>
+                    Low fees, high speed
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-mobile-alt"></i>
+                    <strong>Mobile-First</strong><br>
+                    Perfect mobile experience
+                </div>
+            </div>
+            <p>Unique combination of AI, voice commands, and blockchain technology</p>
+        </div>
+
+        <!-- Slide 12: Funding Ask -->
+        <div class="slide">
+            <h2>Investment Opportunity</h2>
+            <div class="funding-tiers">
+                <div class="tier-card">
+                    <div class="tier-amount">$1K - $10K</div>
+                    <h4>Seed Investors</h4>
+                    <p>Early access & 1% equity</p>
+                </div>
+                <div class="tier-card" style="border-color: var(--primary-color); box-shadow: 0 0 20px rgba(0, 212, 255, 0.3);">
+                    <div class="tier-amount">$10K - $50K</div>
+                    <h4>Growth Partners</h4>
+                    <p>Advisory role & 3-5% equity</p>
+                </div>
+                <div class="tier-card">
+                    <div class="tier-amount">$50K+</div>
+                    <h4>Strategic Partners</h4>
+                    <p>Board seat & 5-15% equity</p>
+                </div>
+            </div>
+            <p><strong>Total Funding Goal: $500,000</strong></p>
+        </div>
+
+        <!-- Slide 13: Use of Funds -->
+        <div class="slide">
+            <h2>Use of Funds</h2>
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <div class="metric-value">40%</div>
+                    <div class="metric-label">Product Development</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">30%</div>
+                    <div class="metric-label">Marketing & User Acquisition</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">30%</div>
+                    <div class="metric-label">Operations & Team</div>
+                </div>
+            </div>
+            <p>Strategic allocation to accelerate product development and market penetration</p>
+        </div>
+
+        <!-- Slide 14: Roadmap -->
+        <div class="slide">
+            <h2>Development Roadmap</h2>
+            <div class="features-list">
+                <div class="feature-item">
+                    <i class="fas fa-rocket"></i>
+                    <strong>Q3-Q4 2025</strong><br>
+                    MVP Launch & Beta Testing
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-chart-line"></i>
+                    <strong>Q1-Q2 2026</strong><br>
+                    Market Expansion & Partnerships
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-globe"></i>
+                    <strong>Q3-Q4 2026</strong><br>
+                    Global Launch & Scaling
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-building"></i>
+                    <strong>2027+</strong><br>
+                    Enterprise Solutions
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 15: Thank You -->
+        <div class="slide">
+            <h1>Thank You</h1>
+            <p style="font-size: 1.5rem; margin-bottom: 40px;">Ready to revolutionize crypto trading with AI?</p>
+            <div class="contact-info">
+                <div class="contact-item">
+                    <i class="fas fa-user"></i>
+                    <span>Eddie Kasamba Wahitu</span>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-envelope"></i>
+                    <span>kaseddielabltd@gmail.com</span>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-phone"></i>
+                    <span>+256 769089860</span>
+                </div>
+                <div class="contact-item">
+                    <i class="fab fa-whatsapp"></i>
+                    <span>+256 784428821</span>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-globe"></i>
+                    <span>kaseddie-crypto-ai.netlify.app</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navigation -->
+        <div class="navigation">
+            <button class="nav-btn" onclick="previousSlide()">
+                <i class="fas fa-chevron-left"></i> Previous
+            </button>
+            <div class="slide-counter">
+                <span id="current-slide">1</span> / <span id="total-slides">15</span>
+            </div>
+            <button class="nav-btn" onclick="nextSlide()">
+                Next <i class="fas fa-chevron-right"></i>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const totalSlides = 15;
+
+        function showSlide(n) {
+            const slides = document.querySelectorAll('.slide');
+            slides.forEach(slide => slide.classList.remove('active'));
+            
+            if (n >= totalSlides) currentSlide = 0;
+            if (n < 0) currentSlide = totalSlides - 1;
+            
+            slides[currentSlide].classList.add('active');
+            document.getElementById('current-slide').textContent = currentSlide + 1;
+        }
+
+        function nextSlide() {
+            currentSlide++;
+            showSlide(currentSlide);
+        }
+
+        function previousSlide() {
+            currentSlide--;
+            showSlide(currentSlide);
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ') nextSlide();
+            if (e.key === 'ArrowLeft') previousSlide();
+        });
+
+        // Initialize
+        document.getElementById('total-slides').textContent = totalSlides;
+    </script>
+</body>
+</html>
