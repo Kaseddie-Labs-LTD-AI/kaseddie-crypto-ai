@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Download Kaseddie AI Pitch Deck PDF</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 100%);
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+        
+        .container {
+            text-align: center;
+            padding: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            border: 1px solid rgba(0, 212, 255, 0.3);
+        }
+        
+        h1 {
+            color: #00d4ff;
+            margin-bottom: 20px;
+        }
+        
+        .download-btn {
+            background: linear-gradient(135deg, #00d4ff, #ff6b35);
+            border: none;
+            color: white;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin: 10px;
+            transition: transform 0.3s ease;
+        }
+        
+        .download-btn:hover {
+            transform: translateY(-2px);
+        }
+        
+        .status {
+            margin-top: 20px;
+            padding: 10px;
+            border-radius: 5px;
+            background: rgba(0, 255, 136, 0.2);
+            border: 1px solid #00ff88;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Kaseddie AI Pitch Deck</h1>
+        <p>Click the button below to download the PDF version of our investor pitch deck.</p>
+        
+        <button class="download-btn" onclick="generatePDF()">
+            📄 Download PDF
+        </button>
+        
+        <button class="download-btn" onclick="generateSimplePDF()">
+            📋 Download Simple PDF
+        </button>
+        
+        <div id="status" class="status" style="display: none;">
+            PDF generated successfully! Check your downloads folder.
+        </div>
+    </div>
+
+    <script>
+        function generatePDF() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF('landscape', 'mm', 'a4');
+            
+            // Set background color
+            doc.setFillColor(10, 10, 10);
+            doc.rect(0, 0, 297, 210, 'F');
+            
+            // Slide 1: Title
+            doc.setFontSize(28);
+            doc.setTextColor(0, 212, 255);
+            doc.text('Kaseddie AI', 148, 60, { align: 'center' });
+            
+            doc.setFontSize(18);
+            doc.setTextColor(0, 255, 136);
+            doc.text('AI-Powered Cryptocurrency Trading Platform', 148, 80, { align: 'center' });
+            
+            doc.setFontSize(14);
+            doc.setTextColor(255, 255, 255);
+            doc.text('Eddie Kasamba Wahitu, CEO & Founder', 148, 110, { align: 'center' });
+            doc.text('kaseddielabltd@gmail.com | +256 769089860', 148, 125, { align: 'center' });
+            
+            // Slide 2: Problem
+            doc.addPage();
+            doc.setFillColor(10, 10, 10);
+            doc.rect(0, 0, 297, 210, 'F');
+            
+            doc.setFontSize(24);
+            doc.setTextColor(0, 212, 255);
+            doc.text('The Problem', 148, 40, { align: 'center' });
+            
+            doc.setFontSize(16);
+            doc.setTextColor(255, 255, 255);
+            doc.text('• 95% of retail traders lose money due to emotional decisions', 30, 70);
+            doc.text('• $2.8T cryptocurrency market size with high volatility', 30, 90);
+            doc.text('• 24/7 market requires constant monitoring', 30, 110);
+            doc.text('• Most traders lack sophisticated AI tools', 30, 130);
+            
+            // Slide 3: Solution
+            doc.addPage();
+            doc.setFillColor(10, 10, 10);
+            doc.rect(0, 0, 297, 210, 'F');
+            
+            doc.setFontSize(24);
+            doc.setTextColor(0, 212, 255);
+            doc.text('Our Solution', 148, 40, { align: 'center' });
+            
+            doc.setFontSize(16);
+            doc.setTextColor(255, 255, 255);
+            doc.text('• 10 AI Trading Strategies with up to 68% success rates', 30, 70);
+            doc.text('• Revolutionary voice-controlled trading interface', 30, 90);
+            doc.text('• Bank-grade security with 256-bit encryption', 30, 110);
+            doc.text('• Multi-platform: Web, desktop, and mobile apps', 30, 130);
+            
+            // Slide 4: Technology
+            doc.addPage();
+            doc.setFillColor(10, 10, 10);
+            doc.rect(0, 0, 297, 210, 'F');
+            
+            doc.setFontSize(24);
+            doc.setTextColor(0, 212, 255);
+            doc.text('Starknet Integration', 148, 40, { align: 'center' });
+            
+            doc.setFontSize(16);
+            doc.setTextColor(255, 255, 255);
+            doc.text('• SHARP/Stone proving for zero-trust execution', 30, 70);
+            doc.text('• Axelar integration for cross-chain RWA trading', 30, 90);
+            doc.text('• Avail for scalable data availability', 30, 110);
+            doc.text('• Built for Gold, Oil, EUR/USD, S&P500 trading', 30, 130);
+            
+            // Slide 5: Team
+            doc.addPage();
+            doc.setFillColor(10, 10, 10);
+            doc.rect(0, 0, 297, 210, 'F');
+            
+            doc.setFontSize(24);
+            doc.setTextColor(0, 212, 255);
+            doc.text('Resilient Founder', 148, 40, { align: 'center' });
+            
+            doc.setFontSize(18);
+            doc.setTextColor(0, 255, 136);
+            doc.text('Eddie Kasamba Wahitu - Founder & CEO', 148, 65, { align: 'center' });
+            
+            doc.setFontSize(14);
+            doc.setTextColor(255, 255, 255);
+            doc.text('Self-funded, full-stack developer with deep AI and blockchain expertise', 30, 90);
+            doc.text('• Full-Stack Developer', 30, 110);
+            doc.text('• AI Architecture Expert', 30, 125);
+            doc.text('• Blockchain Specialist', 30, 140);
+            doc.text('• Self-Funded MVP Builder', 30, 155);
+            
+            // Slide 6: Investment
+            doc.addPage();
+            doc.setFillColor(10, 10, 10);
+            doc.rect(0, 0, 297, 210, 'F');
+            
+            doc.setFontSize(24);
+            doc.setTextColor(0, 212, 255);
+            doc.text('Investment Opportunity', 148, 40, { align: 'center' });
+            
+            doc.setFontSize(16);
+            doc.setTextColor(255, 255, 255);
+            doc.text('Seed Investors: $1K - $10K (1% equity)', 30, 70);
+            doc.text('Growth Partners: $10K - $50K (3-5% equity)', 30, 90);
+            doc.text('Strategic Partners: $50K+ (5-15% equity)', 30, 110);
+            
+            doc.setFontSize(20);
+            doc.setTextColor(0, 255, 136);
+            doc.text('Total Funding Goal: $500,000', 148, 140, { align: 'center' });
+            
+            // Save PDF
+            doc.save('Kaseddie-AI-Pitch-Deck.pdf');
+            
+            // Show success message
+            document.getElementById('status').style.display = 'block';
+        }
+        
+        function generateSimplePDF() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            
+            // Simple text-based PDF
+            doc.setFontSize(20);
+            doc.text('Kaseddie AI - Investor Pitch Deck', 20, 30);
+            
+            doc.setFontSize(12);
+            doc.text('AI-Powered Cryptocurrency Trading Platform', 20, 50);
+            doc.text('', 20, 60);
+            doc.text('Contact: Eddie Kasamba Wahitu', 20, 70);
+            doc.text('Email: kaseddielabltd@gmail.com', 20, 80);
+            doc.text('Phone: +256 769089860', 20, 90);
+            doc.text('Website: kaseddie-crypto-ai.netlify.app', 20, 100);
+            doc.text('', 20, 110);
+            doc.text('Problem: 95% of retail traders lose money', 20, 120);
+            doc.text('Solution: AI eliminates emotion with 68% success rates', 20, 130);
+            doc.text('Market: $2.8T cryptocurrency market opportunity', 20, 140);
+            doc.text('Technology: Built on Starknet with zero-trust proofs', 20, 150);
+            doc.text('Ask: $500,000 seed funding for global expansion', 20, 160);
+            
+            doc.save('Kaseddie-AI-Simple-Pitch.pdf');
+            document.getElementById('status').style.display = 'block';
+        }
+    </script>
+</body>
+</html>
