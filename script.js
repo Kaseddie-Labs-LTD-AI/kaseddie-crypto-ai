@@ -2,6 +2,29 @@
 class KaseddiePlatform {
     constructor() {
         this.apiBase = 'https://kaseddie-crypto-production.up.railway.app/api'; // Example URL';
+        // Feature flags (voice/chat) controlled by URL params or localStorage
+        const params = new URLSearchParams(window.location.search);
+        const ls = window.localStorage || { getItem: () => null };
+        const voiceParam = params.get('voice');
+        const chatParam = params.get('chat');
+        this.enableVoice = voiceParam !== null ? voiceParam !== '0' : (ls.getItem('enableVoice') !== '0');
+        this.enableChat = chatParam !== null ? chatParam !== '0' : (ls.getItem('enableChat') !== '0');
+        // Expose global setters for runtime control
+        window.setVoiceEnabled = (enabled) => {
+            this.enableVoice = !!enabled;
+            try { localStorage.setItem('enableVoice', this.enableVoice ? '1' : '0'); } catch {}
+        };
+        window.setChatEnabled = (enabled) => {
+            this.enableChat = !!enabled;
+            try { localStorage.setItem('enableChat', this.enableChat ? '1' : '0'); } catch {}
+            // Optionally remove chat widget when disabling
+            if (!this.enableChat) {
+                const w = document.getElementById('liveChatWidget');
+                if (w) w.remove();
+            } else if (!document.getElementById('liveChatWidget')) {
+                this.setupLiveChat();
+            }
+        };
         this.init();
     }
 
@@ -11,8 +34,12 @@ class KaseddiePlatform {
         this.loadLivePrices();
         this.setupEventListeners();
         this.startPriceUpdates();
-        this.setupVoiceWelcome();
-        this.setupLiveChat();
+        if (this.enableVoice) {
+            this.setupVoiceWelcome();
+        }
+        if (this.enableChat) {
+            this.setupLiveChat();
+        }
     }
 
     setupVoiceWelcome() {
@@ -631,11 +658,14 @@ function showContactForm() {
 }
 
 function showLiveChat() {
-    toggleLiveChat();
+    if (window.platform && window.platform.enableChat) {
+        toggleLiveChat();
+    }
 }
 
 // Live Chat Functions
 function toggleLiveChat() {
+    if (!(window.platform && window.platform.enableChat)) return;
     const chatWindow = document.getElementById('chatWindow');
     chatWindow.classList.toggle('active');
     
@@ -649,12 +679,13 @@ function closeLiveChat() {
 }
 
 function handleChatKeyPress(event) {
-    if (event.key === 'Enter') {
+    if (event.key === 'Enter' && window.platform && window.platform.enableChat) {
         sendChatMessage();
     }
 }
 
 function sendChatMessage() {
+    if (!(window.platform && window.platform.enableChat)) return;
     const input = document.getElementById('chatInput');
     const message = input.value.trim();
     
