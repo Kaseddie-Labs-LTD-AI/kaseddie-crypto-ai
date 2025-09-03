@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kaseddie AI - Starknet Meme</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+    <style>
+        :root {
+            --bg: #03030a;
+            --panel: #0b0b16;
+            --border: #2b2b44;
+            --text: #ffffff;
+            --muted: #a6a6bf;
+            --glow1: #6ea8ff;
+            --glow2: #7b5cff;
+            --accent: #8ab4ff;
+        }
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            background:
+                radial-gradient(1000px 600px at 10% -10%, rgba(110,168,255,.15), transparent 60%),
+                radial-gradient(800px 500px at 110% 0%, rgba(123,92,255,.18), transparent 60%),
+                linear-gradient(180deg, #02020a 0%, #000 100%);
+            color: var(--text);
+            font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, sans-serif;
+            min-height: 100svh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+        }
+        .app {
+            width: 100%;
+            max-width: 980px;
+            display: grid;
+            grid-template-columns: 1fr 380px;
+            gap: 20px;
+        }
+        @media (max-width: 980px) {
+            .app { grid-template-columns: 1fr; }
+        }
+
+        /* Meme canvas */
+        .meme-wrapper {
+            position: relative;
+        }
+        .meme-container {
+            display: flex;
+            flex-direction: column;
+            border: 2px solid var(--border);
+            width: 640px;
+            max-width: 100%;
+            background-color: var(--panel);
+            box-shadow: 0 0 0 1px rgba(110,168,255,.15) inset, 0 24px 48px rgba(0,0,0,.45);
+            overflow: hidden;
+        }
+        .panel {
+            display: flex;
+            align-items: center;
+            border-bottom: 2px solid var(--border);
+            min-height: 240px;
+            background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0));
+        }
+        .panel:last-child { border-bottom: none; }
+        .meme-image {
+            width: 50%;
+            height: 240px;
+            object-fit: contain;
+            background-color: #000;
+            padding: 10px;
+        }
+        .meme-text {
+            width: 50%;
+            padding: 18px;
+            font-family: 'Anton', sans-serif;
+            font-size: 28px;
+            text-transform: uppercase;
+            line-height: 1.15;
+            text-align: center;
+            word-wrap: break-word;
+            color: var(--text);
+            text-shadow: 0 0 0 rgba(0,0,0,0.1), 0 1px 2px rgba(0,0,0,.2);
+        }
+        .meme-text[contenteditable="true"]:focus {
+            outline: 2px solid var(--glow1);
+            outline-offset: 2px;
+            border-radius: 8px;
+            background: rgba(110,168,255,.06);
+        }
+
+        /* Starknet watermark */
+        .watermark {
+            position: absolute;
+            inset: auto 8px 8px auto;
+            z-index: 2;
+            pointer-events: none;
+            opacity: .18;
+            font-family: 'Anton', sans-serif;
+            letter-spacing: 3px;
+            color: #cbd6ff;
+            text-shadow: 0 0 24px rgba(110,168,255,.4);
+            background: linear-gradient(90deg, var(--glow1), var(--glow2));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 22px;
+        }
+
+        /* Controls */
+        .controls {
+            border: 1px solid var(--border);
+            background: rgba(14,14,28,.7);
+            backdrop-filter: blur(6px);
+            border-radius: 12px;
+            padding: 16px;
+            box-shadow: 0 10px 30px rgba(0,0,0,.3);
+            height: fit-content;
+        }
+        .controls h2 {
+            margin: 0 0 12px 0;
+            font-size: 16px;
+            color: var(--muted);
+            font-weight: 600;
+        }
+        .field { margin-bottom: 12px; }
+        .field label {
+            display: block;
+            font-size: 12px;
+            color: var(--muted);
+            margin-bottom: 6px;
+        }
+        .field input[type="text"] {
+            width: 100%;
+            padding: 10px 12px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            background: #0c0c18;
+            color: var(--text);
+        }
+        .row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .row .field { margin-bottom: 0; }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 10px 14px;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            background: linear-gradient(180deg, rgba(110,168,255,.12), rgba(123,92,255,.12));
+            color: var(--text);
+            cursor: pointer;
+            font-weight: 600;
+        }
+        .btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+        @media (max-width: 640px) {
+            .panel { flex-direction: column; min-height: auto; }
+            .meme-image, .meme-text { width: 100%; }
+            .meme-text { padding: 16px; font-size: 24px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="app">
+        <div class="meme-wrapper">
+            <div class="meme-container" id="meme-container" role="img" aria-label="Crypto meme with four brain expansion panels themed for Starknet">
+                <div class="panel">
+                    <img class="meme-image" src="https://i.imgflip.com/1j5b6f.jpg" alt="Small Brain" crossorigin="anonymous" />
+                    <p class="meme-text" id="t1" contenteditable="true" aria-label="Edit panel 1 text">Trading based on gut feelings.</p>
+                </div>
+                <div class="panel">
+                    <img class="meme-image" src="https://i.imgflip.com/1j5b7g.jpg" alt="Normal Brain" crossorigin="anonymous" />
+                    <p class="meme-text" id="t2" contenteditable="true" aria-label="Edit panel 2 text">Spending 10 hours a day staring at charts.</p>
+                </div>
+                <div class="panel">
+                    <img class="meme-image" src="https://i.imgflip.com/1j5b81.jpg" alt="Expanding Brain" crossorigin="anonymous" />
+                    <p class="meme-text" id="t3" contenteditable="true" aria-label="Edit panel 3 text">Paying $150 in gas on Ethereum to execute one trade.</p>
+                </div>
+                <div class="panel">
+                    <img class="meme-image" src="https://i.imgflip.com/1j5b8f.jpg" alt="Galaxy Brain" crossorigin="anonymous" />
+                    <p class="meme-text" id="t4" contenteditable="true" aria-label="Edit panel 4 text">Telling my Kaseddie AI to run an arbitrage strategy on Starknet for less than a cent.</p>
+                </div>
+            </div>
+            <div class="watermark" aria-hidden="true">STARKNET • KASEDDIE AI</div>
+        </div>
+        <aside class="controls" aria-label="Meme controls">
+            <h2>Customize</h2>
+            <div class="field"><label for="in1">Panel 1</label><input id="in1" type="text" value="Trading based on gut feelings." aria-describedby="d1" /></div>
+            <div class="field"><label for="in2">Panel 2</label><input id="in2" type="text" value="Spending 10 hours a day staring at charts." aria-describedby="d2" /></div>
+            <div class="field"><label for="in3">Panel 3</label><input id="in3" type="text" value="Paying $150 in gas on Ethereum to execute one trade." aria-describedby="d3" /></div>
+            <div class="field"><label for="in4">Panel 4</label><input id="in4" type="text" value="Telling my Kaseddie AI to run an arbitrage strategy on Starknet for less than a cent." aria-describedby="d4" /></div>
+            <div class="row" style="margin-top:12px;">
+                <button class="btn" id="btnDownload" type="button" aria-label="Download meme image">⬇ Download Meme</button>
+                <button class="btn" id="btnReset" type="button" aria-label="Reset to defaults">↺ Reset</button>
+            </div>
+            <p style="margin-top:10px; font-size:12px; color:var(--muted);">Tip: You can also click directly into the meme text to edit.</p>
+        </aside>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+    <script>
+        const bind = (inputId, targetId) => {
+            const input = document.getElementById(inputId);
+            const target = document.getElementById(targetId);
+            input.addEventListener('input', () => { target.textContent = input.value; });
+            // Keep input in sync when editing contenteditable directly
+            target.addEventListener('input', () => { input.value = target.textContent; });
+        };
+        bind('in1','t1');
+        bind('in2','t2');
+        bind('in3','t3');
+        bind('in4','t4');
+
+        document.getElementById('btnReset').addEventListener('click', () => {
+            const defaults = [
+                'Trading based on gut feelings.',
+                'Spending 10 hours a day staring at charts.',
+                'Paying $150 in gas on Ethereum to execute one trade.',
+                'Telling my Kaseddie AI to run an arbitrage strategy on Starknet for less than a cent.'
+            ];
+            ['t1','t2','t3','t4'].forEach((id, i) => {
+                const el = document.getElementById(id);
+                el.textContent = defaults[i];
+            });
+            ['in1','in2','in3','in4'].forEach((id, i) => {
+                const el = document.getElementById(id);
+                el.value = defaults[i];
+            });
+        });
+
+        async function downloadMeme() {
+            const node = document.getElementById('meme-container');
+            // Temporarily remove contenteditable outlines for clean render
+            const editables = node.querySelectorAll('[contenteditable="true"]');
+            const prev = [];
+            editables.forEach(el => { prev.push(el.style.outline); el.style.outline = 'none'; });
+            try {
+                const canvas = await html2canvas(node, {
+                    backgroundColor: '#0b0b16',
+                    scale: 2,
+                    useCORS: true,
+                    allowTaint: false,
+                    logging: false
+                });
+                const link = document.createElement('a');
+                link.download = 'starknet-meme.png';
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+            } catch (e) {
+                alert('Could not render image. External images may block CORS. Try different image URLs or host locally.');
+                console.error(e);
+            } finally {
+                editables.forEach((el, i) => { el.style.outline = prev[i] || ''; });
+            }
+        }
+        document.getElementById('btnDownload').addEventListener('click', downloadMeme);
+    </script>
+</body>
+</html>
+
