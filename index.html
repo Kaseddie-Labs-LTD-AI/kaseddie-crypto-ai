@@ -3,684 +3,181 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kaseddie AI - Professional Cryptocurrency Trading Platform</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="rwa-styles.css">
-    <link rel="stylesheet" href="mobile-fix.css">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <title>Kaseddie Labs - Investor Pitch Deck</title>
+    <!-- Tailwind CSS for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        .slide {
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 2rem;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 100%);
+            color: #ffffff;
+        }
+        .slide.active { display: flex; }
+        h1 { font-size: 3.5rem; font-weight: 900; }
+        h2 { font-size: 2.5rem; font-weight: 700; }
+        p { font-size: 1.1rem; }
+        .nav-button {
+            position: fixed;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
+            z-index: 10;
+        }
+        #prevBtn { left: 20px; }
+        #nextBtn { right: 20px; }
+        .progress-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            height: 5px;
+            background: #00d4ff;
+            transition: width 0.3s ease;
+        }
+        .slide-number {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0,0,0,0.5);
+            padding: 5px 15px;
+            border-radius: 15px;
+        }
+    </style>
 </head>
-<body>
-    <!-- Navigation -->
-    <nav class="navbar">
-        <div class="nav-container">
-            <div class="nav-logo">
-                <i class="fas fa-rocket"></i>
-                <span>Kaseddie</span>
-                <span class="logo-accent">AI</span>
-            </div>
-            <div class="nav-menu">
-                <div class="nav-dropdown">
-                    <a href="#home" class="nav-link active">Home <i class="fas fa-chevron-down"></i></a>
-                    <div class="dropdown-content">
-                        <a href="#home" onclick="scrollToSection('home')">Overview</a>
-                        <a href="javascript:void(0)" onclick="showLivePrices()">Live Prices</a>
-                        <a href="javascript:void(0)" onclick="showMarketStats()">Market Stats</a>
-                        <a href="javascript:void(0)" onclick="showQuickStart()">Quick Start Guide</a>
-                    </div>
-                </div>
-                <div class="nav-dropdown">
-                    <a href="#features" class="nav-link">Features <i class="fas fa-chevron-down"></i></a>
-                    <div class="dropdown-content">
-                        <a href="javascript:void(0)" onclick="showFeature('ai-strategies')">AI Trading Strategies</a>
-                        <a href="javascript:void(0)" onclick="showFeature('voice-commands')">Voice Commands</a>
-                        <a href="javascript:void(0)" onclick="showFeature('kyc-security')">KYC & Security</a>
-                        <a href="javascript:void(0)" onclick="showFeature('cryptocurrencies')">50+ Cryptocurrencies</a>
-                        <a href="javascript:void(0)" onclick="showFeature('analytics')">Real-Time Analytics</a>
-                        <a href="javascript:void(0)" onclick="showFeature('multi-platform')">Multi-Platform</a>
-                    </div>
-                </div>
-                <div class="nav-dropdown">
-                    <a href="#trading" class="nav-link">AI Trading <i class="fas fa-chevron-down"></i></a>
-                    <div class="dropdown-content">
-                        <a href="javascript:void(0)" onclick="testStrategy('momentum')">Momentum Strategy</a>
-                        <a href="javascript:void(0)" onclick="testStrategy('ai_prediction')">AI Prediction</a>
-                        <a href="javascript:void(0)" onclick="testStrategy('mean_reversion')">Mean Reversion</a>
-                        <a href="javascript:void(0)" onclick="testStrategy('arbitrage')">Arbitrage</a>
-                        <a href="javascript:void(0)" onclick="testStrategy('sentiment_analysis')">Sentiment Analysis</a>
-                        <a href="javascript:void(0)" onclick="testStrategy('scalping')">AI Scalping</a>
-                        <a href="javascript:void(0)" onclick="testStrategy('grid_trading')">Grid Trading</a>
-                        <a href="javascript:void(0)" onclick="testStrategy('ai_buy_sell')">AI Buy/Sell</a>
-                        <a href="javascript:void(0)" onclick="testStrategy('take_profit')">Take Profit</a>
-                    </div>
-                </div>
-                <div class="nav-dropdown">
-                    <a href="#platform" class="nav-link">Platform <i class="fas fa-chevron-down"></i></a>
-                    <div class="dropdown-content">
-                        <a href="javascript:void(0)" onclick="launchWebPlatform()">Web Platform</a>
-                        <a href="javascript:void(0)" onclick="downloadDesktop()">Desktop App</a>
-                        <a href="javascript:void(0)" onclick="downloadMobile()">Mobile App</a>
-                        <a href="javascript:void(0)" onclick="openManualTrading()">Manual Trading</a>
-                        <a href="javascript:void(0)" onclick="showAPIDocumentation()">API Documentation</a>
-                    </div>
-                </div>
-                <div class="nav-dropdown">
-                    <a href="#contact" class="nav-link">Contact <i class="fas fa-chevron-down"></i></a>
-                    <div class="dropdown-content">
-                        <a href="javascript:void(0)" onclick="showContactForm()">Contact Form</a>
-                        <a href="javascript:void(0)" onclick="showLiveChat()">Live Chat</a>
-                        <a href="javascript:void(0)" onclick="showSupport()">24/7 Support</a>
-                        <a href="javascript:void(0)" onclick="showHelpCenter()">Help Center</a>
-                        <a href="javascript:void(0)" onclick="openDepositWithdraw()">Deposit/Withdraw</a>
-                    </div>
-                </div>
-            </div>
-            <div class="nav-actions">
-                <div class="nav-dropdown">
-                    <button class="btn-secondary dropdown-btn">Login <i class="fas fa-chevron-down"></i></button>
-                    <div class="dropdown-content">
-                        <a href="javascript:void(0)" onclick="showLoginModal()">Sign In</a>
-                        <a href="javascript:void(0)" onclick="showRegisterModal()">Sign Up</a>
-                        <a href="javascript:void(0)" onclick="showKYCModal()">KYC Verification</a>
-                        <a href="javascript:void(0)" onclick="showSettings()">Settings</a>
-                    </div>
-                </div>
-                <div class="nav-dropdown">
-                    <button class="btn-primary dropdown-btn">Launch Platform <i class="fas fa-chevron-down"></i></button>
-                    <div class="dropdown-content">
-                        <a href="javascript:void(0)" onclick="launchWebPlatform()">Web Trading Platform</a>
-                        <a href="javascript:void(0)" onclick="launchVoiceTrading()">Voice Trading</a>
-                        <a href="javascript:void(0)" onclick="launchAIAnalytics()">AI Analytics Dashboard</a>
-                        <a href="javascript:void(0)" onclick="launchPortfolioManager()">Portfolio Manager</a>
-                        <a href="javascript:void(0)" onclick="openDepositWithdraw()">Deposit & Withdraw</a>
-                        <a href="investor-interface.html">Investor Dashboard</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </nav>
+<body class="bg-gray-900">
 
-    <!-- Hero Section -->
-    <section id="home" class="hero">
-        <div class="hero-background">
-            <div class="crypto-animation">
-                <div class="floating-crypto">₿</div>
-                <div class="floating-crypto">Ξ</div>
-                <div class="floating-crypto">₳</div>
-                <div class="floating-crypto">●</div>
-            </div>
+    <!-- Slide 1: Title -->
+    <div class="slide active">
+        <h1 class="text-cyan-400">Kaseddie AI</h1>
+        <p class="mt-4 text-xl text-gray-300">Intelligent Asset Management on Starknet</p>
+        <div class="mt-12 text-center">
+            <p class="font-bold text-lg">Eddie Kasamba Wahitu, Founder</p>
+            <p class="text-gray-400">Kampala, Uganda</p>
         </div>
-        <div class="hero-content">
-            <div class="hero-text">
-                <h1>The Future of <span class="gradient-text">AI Asset Trading</span></h1>
-                <p>Professional AI-powered trading platform for cryptocurrencies, commodities, forex, and stocks - all powered by Starknet's zero-trust architecture.</p>
-                <div class="hero-stats">
-                    <div class="stat">
-                        <span class="stat-number">62%</span>
-                        <span class="stat-label">Success Rate</span>
-                    </div>
-                    <div class="stat">
-                        <span class="stat-number">100+</span>
-                        <span class="stat-label">Assets (Crypto+RWA)</span>
-                    </div>
-                    <div class="stat">
-                        <span class="stat-number">11</span>
-                        <span class="stat-label">Trading Options</span>
-                    </div>
-                </div>
-                <div class="hero-actions">
-                    <button class="btn-primary large" onclick="launchPlatform()">
-                        <i class="fas fa-rocket"></i>
-                        Launch Trading Platform
-                    </button>
-                    <button class="btn-secondary large" onclick="downloadDesktop()">
-                        <i class="fas fa-download"></i>
-                        Download Desktop App
-                    </button>
-                </div>
-            </div>
-            <div class="hero-visual">
-                <div class="trading-preview">
-                    <div class="preview-header">
-                        <div class="status-dots">
-                            <div class="dot active"></div>
-                            <div class="dot active"></div>
-                            <div class="dot"></div>
-                        </div>
-                        <span>Live Trading</span>
-                    </div>
-                    <div class="preview-content">
-                        <div class="price-display">
-                            <span class="crypto-symbol">BTC</span>
-                            <span class="crypto-price" id="btc-preview">$65,420</span>
-                            <span class="crypto-change positive">+2.5%</span>
-                        </div>
-                        <div class="ai-signal">
-                            <i class="fas fa-brain"></i>
-                            <span>AI Signal: Strong Buy</span>
-                        </div>
-                        <div class="chart-preview">
-                            <div class="chart-line"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Features Section -->
-    <section id="features" class="features">
-        <div class="container">
-            <div class="section-header">
-                <h2>Powerful AI Trading Features</h2>
-                <p>Everything you need for professional cryptocurrency trading</p>
-            </div>
-            <div class="features-grid">
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-brain"></i>
-                    </div>
-                    <h3>AI Trading Strategies</h3>
-                    <p>8 advanced AI algorithms plus manual trading for experienced users. Includes momentum, prediction, arbitrage, sentiment analysis, scalping, grid trading, mean reversion, and AI buy/sell signals with up to 95% success rates.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-microphone"></i>
-                    </div>
-                    <h3>Voice Commands</h3>
-                    <p>Revolutionary voice-controlled trading. Execute trades and analyze markets using natural language commands.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-shield-alt"></i>
-                    </div>
-                    <h3>KYC & Security</h3>
-                    <p>Bank-grade security with complete KYC compliance, 256-bit encryption, and multi-factor authentication.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-coins"></i>
-                    </div>
-                    <h3>Digital & Traditional Assets</h3>
-                    <p>Trade cryptocurrencies, commodities (Gold, Oil), forex (EUR/USD), and stocks (S&P500) - all from your Starknet wallet.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-chart-line"></i>
-                    </div>
-                    <h3>Real-Time Analytics</h3>
-                    <p>Advanced market analysis with AI-driven insights, technical indicators, and predictive modeling.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-mobile-alt"></i>
-                    </div>
-                    <h3>Multi-Platform</h3>
-                    <p>Web platform, desktop application, and mobile app with seamless synchronization across all devices.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Trading Strategies -->
-    <section id="trading" class="trading-section">
-        <div class="container">
-            <div class="section-header">
-                <h2>AI Trading Strategies</h2>
-                <p>Choose from 10 professional-grade AI strategies plus manual trading</p>
-            </div>
-            <div class="strategies-grid">
-                <div class="strategy-card" data-strategy="momentum">
-                    <div class="strategy-icon">
-                        <i class="fas fa-chart-line"></i>
-                    </div>
-                    <h3>Momentum Strategy</h3>
-                    <p>Analyzes price momentum and trend strength for optimal entry/exit points.</p>
-                    <div class="strategy-stats">
-                        <div class="stat">
-                            <span class="value">58%</span>
-                            <span class="label">Success Rate</span>
-                        </div>
-                        <div class="stat">
-                            <span class="value">+8.2%</span>
-                            <span class="label">Avg Return</span>
-                        </div>
-                    </div>
-                    <button class="strategy-btn" onclick="testStrategy('momentum')">Test Strategy</button>
-                </div>
-                <div class="strategy-card" data-strategy="ai_prediction">
-                    <div class="strategy-icon">
-                        <i class="fas fa-brain"></i>
-                    </div>
-                    <h3>AI Prediction</h3>
-                    <p>Advanced machine learning models predict market movements with high accuracy.</p>
-                    <div class="strategy-stats">
-                        <div class="stat">
-                            <span class="value">62%</span>
-                            <span class="label">Success Rate</span>
-                        </div>
-                        <div class="stat">
-                            <span class="value">+12.1%</span>
-                            <span class="label">Avg Return</span>
-                        </div>
-                    </div>
-                    <button class="strategy-btn" onclick="testStrategy('ai_prediction')">Test Strategy</button>
-                </div>
-                <div class="strategy-card" data-strategy="mean_reversion">
-                    <div class="strategy-icon">
-                        <i class="fas fa-balance-scale"></i>
-                    </div>
-                    <h3>Mean Reversion</h3>
-                    <p>Identifies overbought/oversold conditions for contrarian trading opportunities.</p>
-                    <div class="strategy-stats">
-                        <div class="stat">
-                            <span class="value">55%</span>
-                            <span class="label">Success Rate</span>
-                        </div>
-                        <div class="stat">
-                            <span class="value">+6.4%</span>
-                            <span class="label">Avg Return</span>
-                        </div>
-                    </div>
-                    <button class="strategy-btn" onclick="testStrategy('mean_reversion')">Test Strategy</button>
-                </div>
-                <div class="strategy-card" data-strategy="arbitrage">
-                    <div class="strategy-icon">
-                        <i class="fas fa-exchange-alt"></i>
-                    </div>
-                    <h3>Cross-Exchange Arbitrage</h3>
-                    <p>Exploits price differences across multiple exchanges for risk-free profits.</p>
-                    <div class="strategy-stats">
-                        <div class="stat">
-                            <span class="value">68%</span>
-                            <span class="label">Success Rate</span>
-                        </div>
-                        <div class="stat">
-                            <span class="value">+4.2%</span>
-                            <span class="label">Avg Return</span>
-                        </div>
-                    </div>
-                    <button class="strategy-btn" onclick="testStrategy('arbitrage')">Test Strategy</button>
-                </div>
-                <div class="strategy-card" data-strategy="sentiment_analysis">
-                    <div class="strategy-icon">
-                        <i class="fas fa-comments"></i>
-                    </div>
-                    <h3>Social Sentiment AI</h3>
-                    <p>Analyzes social media and news sentiment to predict market movements.</p>
-                    <div class="strategy-stats">
-                        <div class="stat">
-                            <span class="value">60%</span>
-                            <span class="label">Success Rate</span>
-                        </div>
-                        <div class="stat">
-                            <span class="value">+9.3%</span>
-                            <span class="label">Avg Return</span>
-                        </div>
-                    </div>
-                    <button class="strategy-btn" onclick="testStrategy('sentiment_analysis')">Test Strategy</button>
-                </div>
-                <div class="strategy-card" data-strategy="scalping">
-                    <div class="strategy-icon">
-                        <i class="fas fa-bolt"></i>
-                    </div>
-                    <h3>AI Scalping</h3>
-                    <p>High-frequency micro-trades capturing small price movements with AI precision.</p>
-                    <div class="strategy-stats">
-                        <div class="stat">
-                            <span class="value">65%</span>
-                            <span class="label">Success Rate</span>
-                        </div>
-                        <div class="stat">
-                            <span class="value">+5.8%</span>
-                            <span class="label">Avg Return</span>
-                        </div>
-                    </div>
-                    <button class="strategy-btn" onclick="testStrategy('scalping')">Test Strategy</button>
-                </div>
-                <div class="strategy-card" data-strategy="grid_trading">
-                    <div class="strategy-icon">
-                        <i class="fas fa-th"></i>
-                    </div>
-                    <h3>AI Grid Trading</h3>
-                    <p>Places buy/sell orders at predetermined intervals to profit from volatility.</p>
-                    <div class="strategy-stats">
-                        <div class="stat">
-                            <span class="value">57%</span>
-                            <span class="label">Success Rate</span>
-                        </div>
-                        <div class="stat">
-                            <span class="value">+7.6%</span>
-                            <span class="label">Avg Return</span>
-                        </div>
-                    </div>
-                    <button class="strategy-btn" onclick="testStrategy('grid_trading')">Test Strategy</button>
-                </div>
-                <div class="strategy-card" data-strategy="ai_buy_sell">
-                    <div class="strategy-icon">
-                        <i class="fas fa-magic"></i>
-                    </div>
-                    <h3>AI Buy/Sell Signals</h3>
-                    <p>Advanced AI calculations using RSI, MACD, support/resistance, and volume analysis for optimal entry/exit points.</p>
-                    <div class="strategy-stats">
-                        <div class="stat">
-                            <span class="value">64%</span>
-                            <span class="label">Success Rate</span>
-                        </div>
-                        <div class="stat">
-                            <span class="value">+11.2%</span>
-                            <span class="label">Avg Return</span>
-                        </div>
-                    </div>
-                    <button class="strategy-btn" onclick="testStrategy('ai_buy_sell')">Test AI Signals</button>
-                </div>
-                <div class="strategy-card" data-strategy="take_profit">
-                    <div class="strategy-icon">
-                        <i class="fas fa-target"></i>
-                    </div>
-                    <h3>Take Profit Algorithm</h3>
-                    <p>Automated profit-taking and stop-loss system with precise calculations for risk management and profit optimization.</p>
-                    <div class="strategy-stats">
-                        <div class="stat">
-                            <span class="value">61%</span>
-                            <span class="label">Success Rate</span>
-                        </div>
-                        <div class="stat">
-                            <span class="value">+8.9%</span>
-                            <span class="label">Avg Return</span>
-                        </div>
-                    </div>
-                    <button class="strategy-btn" onclick="testStrategy('take_profit')">Test Take Profit</button>
-                </div>
-                <div class="strategy-card" data-strategy="manual_trading">
-                    <div class="strategy-icon">
-                        <i class="fas fa-hand-paper"></i>
-                    </div>
-                    <h3>Manual Trading</h3>
-                    <p>Full control for experienced traders. Execute trades manually with advanced tools and real-time data.</p>
-                    <div class="strategy-stats">
-                        <div class="stat">
-                            <span class="value">User</span>
-                            <span class="label">Controlled</span>
-                        </div>
-                        <div class="stat">
-                            <span class="value">Custom</span>
-                            <span class="label">Strategy</span>
-                        </div>
-                    </div>
-                    <button class="strategy-btn" onclick="openManualTrading()">Start Manual Trading</button>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Starknet Security Section -->
-    <section class="starknet-security">
-        <div class="container">
-            <div class="section-header">
-                <h2>Security Without Compromise: Why We Chose Starknet</h2>
-                <p>Zero trust assumptions. Mathematically verifiable security. The future of DeFi.</p>
-            </div>
-            <div class="security-grid">
-                <div class="security-card">
-                    <div class="security-icon">
-                        <i class="fas fa-fingerprint"></i>
-                    </div>
-                    <h3>Zero Trusted Setup</h3>
-                    <p>Starknet's STARK proofs are generated with publicly verifiable randomness. This means our system has no central point of failure from a "trusted setup," providing mathematical certainty and transparency.</p>
-                </div>
-                <div class="security-card">
-                    <div class="security-icon">
-                        <i class="fas fa-shield-alt"></i>
-                    </div>
-                    <h3>Ethereum's Security</h3>
-                    <p>All transactions are ultimately secured by the consensus of the Ethereum mainnet, the most battle-tested blockchain in the world. We inherit its security while providing Layer 2 scalability.</p>
-                </div>
-                <div class="security-card">
-                    <div class="security-icon">
-                        <i class="fas fa-user-lock"></i>
-                    </div>
-                    <h3>Self-Custody</h3>
-                    <p>Your funds are always yours. Kaseddie AI never takes custody of your assets. All trades are executed directly from your own Starknet wallet, ensuring you are always in control.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Markets Section -->
-    <section class="markets-section">
-        <div class="container">
-            <div class="section-header">
-                <h2>Trade Everything, Everywhere</h2>
-                <p>From crypto to commodities - all assets, one AI platform</p>
-            </div>
-            <div class="markets-grid">
-                <div class="market-category">
-                    <div class="category-icon">
-                        <i class="fab fa-bitcoin"></i>
-                    </div>
-                    <h3>Cryptocurrencies</h3>
-                    <div class="asset-list">
-                        <span class="asset-tag">BTC</span>
-                        <span class="asset-tag">ETH</span>
-                        <span class="asset-tag">STRK</span>
-                        <span class="asset-tag">+47 more</span>
-                    </div>
-                </div>
-                <div class="market-category">
-                    <div class="category-icon">
-                        <i class="fas fa-coins"></i>
-                    </div>
-                    <h3>Commodities</h3>
-                    <div class="asset-list">
-                        <span class="asset-tag">GOLD</span>
-                        <span class="asset-tag">OIL</span>
-                        <span class="asset-tag">SILVER</span>
-                        <span class="asset-tag">+15 more</span>
-                    </div>
-                </div>
-                <div class="market-category">
-                    <div class="category-icon">
-                        <i class="fas fa-infinity"></i>
-                    </div>
-                    <h3>Perpetuals</h3>
-                    <div class="asset-list">
-                        <span class="asset-tag">BTC-PERP</span>
-                        <span class="asset-tag">ETH-PERP</span>
-                        <span class="asset-tag">SOL-PERP</span>
-                    </div>
-                </div>
-                <div class="market-category">
-                    <div class="category-icon">
-                        <i class="fas fa-exchange-alt"></i>
-                    </div>
-                    <h3>Forex</h3>
-                    <div class="asset-list">
-                        <span class="asset-tag">EUR/USD</span>
-                        <span class="asset-tag">GBP/USD</span>
-                        <span class="asset-tag">USD/JPY</span>
-                        <span class="asset-tag">+25 more</span>
-                    </div>
-                </div>
-                <div class="market-category">
-                    <div class="category-icon">
-                        <i class="fas fa-chart-line"></i>
-                    </div>
-                    <h3>Indices</h3>
-                    <div class="asset-list">
-                        <span class="asset-tag">S&P500</span>
-                        <span class="asset-tag">NASDAQ</span>
-                        <span class="asset-tag">DOW</span>
-                        <span class="asset-tag">+10 more</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Platform Section -->
-    <section id="platform" class="platform-section">
-        <div class="container">
-            <div class="section-header">
-                <h2>Multi-Platform Experience</h2>
-                <p>Trade anywhere with our comprehensive platform ecosystem</p>
-            </div>
-            <div class="platform-grid">
-                <div class="platform-card">
-                    <div class="platform-icon">
-                        <i class="fas fa-globe"></i>
-                    </div>
-                    <h3>Web Platform</h3>
-                    <p>Full-featured trading platform accessible from any browser with real-time data and AI strategies.</p>
-                    <button class="platform-btn" onclick="launchPlatform()">Launch Web App</button>
-                </div>
-                <div class="platform-card">
-                    <div class="platform-icon">
-                        <i class="fas fa-desktop"></i>
-                    </div>
-                    <h3>Desktop Application</h3>
-                    <p>Professional desktop app with advanced features, offline capabilities, and enhanced security.</p>
-                    <button class="platform-btn" onclick="downloadDesktop()">Download Desktop</button>
-                </div>
-                <div class="platform-card">
-                    <div class="platform-icon">
-                        <i class="fas fa-mobile-alt"></i>
-                    </div>
-                    <h3>Mobile App</h3>
-                    <p>Trade on-the-go with our mobile app featuring voice commands and push notifications.</p>
-                    <button class="platform-btn" onclick="downloadMobile()">Get Mobile App</button>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Contact Section -->
-    <section id="contact" class="contact-section">
-        <div class="container">
-            <div class="section-header">
-                <h2>Start Trading Today</h2>
-                <p>Join thousands of successful traders using AI-powered strategies</p>
-            </div>
-            <div class="contact-content">
-                <div class="contact-info">
-                    <h3>Ready to Transform Your Trading?</h3>
-                    <p>Experience the future of cryptocurrency trading with our AI-powered platform.</p>
-                    <div class="contact-methods">
-                        <div class="contact-method">
-                            <i class="fas fa-envelope"></i>
-                            <span>kaseddielabltd@gmail.com</span>
-                        </div>
-                        <div class="contact-method">
-                            <i class="fas fa-phone"></i>
-                            <span>+256 769089860</span>
-                        </div>
-                        <div class="contact-method">
-                            <i class="fab fa-whatsapp"></i>
-                            <span>+256 784428821</span>
-                        </div>
-                        <div class="contact-method">
-                            <i class="fas fa-clock"></i>
-                            <span>24/7 Customer Support</span>
-                        </div>
-                        <div class="contact-method">
-                            <i class="fab fa-whatsapp"></i>
-                            <span>WhatsApp: +256 784428821</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="contact-form">
-                    <form id="contactForm">
-                        <div class="form-group">
-                            <input type="text" placeholder="Full Name" required>
-                        </div>
-                        <div class="form-group">
-                            <input type="email" placeholder="Email Address" required>
-                        </div>
-                        <div class="form-group">
-                            <select required>
-                                <option value="">Trading Experience</option>
-                                <option value="beginner">Beginner</option>
-                                <option value="intermediate">Intermediate</option>
-                                <option value="advanced">Advanced</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <textarea placeholder="Message (Optional)" rows="4"></textarea>
-                        </div>
-                        <button type="submit" class="btn-primary full-width">
-                            <i class="fas fa-rocket"></i>
-                            Start Trading Now
-                        </button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <div class="footer-logo">
-                        <i class="fas fa-rocket"></i>
-                        <span>Kaseddie</span>
-                        <span class="logo-accent">AI</span>
-                    </div>
-                    <p>The future of AI-powered cryptocurrency trading.</p>
-                </div>
-                <div class="footer-section">
-                    <h4>Platform</h4>
-                    <ul>
-                        <li><a href="javascript:launchPlatform()">Web Platform</a></li>
-                        <li><a href="javascript:downloadDesktop()">Desktop App</a></li>
-                        <li><a href="javascript:downloadMobile()">Mobile App</a></li>
-                    </ul>
-                </div>
-                <div class="footer-section">
-                    <h4>Trading</h4>
-                    <ul>
-                        <li><a href="#trading">AI Strategies</a></li>
-                        <li><a href="#features">Features</a></li>
-                        <li><a href="#platform">Platforms</a></li>
-                    </ul>
-                </div>
-                <div class="footer-section">
-                    <h4>Support</h4>
-                    <ul>
-                        <li><a href="mailto:kaseddielabltd@gmail.com">kaseddielabltd@gmail.com</a></li>
-                        <li><a href="tel:+256769089860">+256 769089860</a></li>
-                        <li><a href="https://wa.me/256784428821">WhatsApp</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; 2025 Kaseddie AI. All rights reserved.</p>
-            </div>
-        </div>
-    </footer>
-
-    <!-- Include Modals -->
-    <div id="modals-container"></div>
+    </div>
     
-    <script src="starknet-integration.js"></script>
-    <script src="cairo-wallet-integration.js"></script>
-    <script src="ai-learning.js"></script>
-    <script src="script.js"></script>
+    <!-- Slide 2: The Problem -->
+    <div class="slide">
+        <h2 class="text-cyan-400">The Problem</h2>
+        <p class="mt-4 max-w-2xl text-gray-300">The DeFi market is powerful but hostile to newcomers. Complexity, high fees, and emotional decision-making cause over 90% of retail traders to lose money.</p>
+    </div>
+    
+    <!-- Slide 3: The Solution -->
+    <div class="slide">
+        <h2 class="text-cyan-400">Our Solution</h2>
+        <p class="mt-4 max-w-2xl text-gray-300">Kaseddie AI is an intelligent co-pilot that makes sophisticated trading simple. We use a conversational AI to translate complex market data into actionable insights and automate strategies on-chain.</p>
+    </div>
+    
+    <!-- Slide 4: Why Now? -->
+    <div class="slide">
+        <h2 class="text-cyan-400">Why Now? The Starknet Inflection Point</h2>
+        <p class="mt-4 max-w-2xl text-gray-300">With Account Abstraction and ultra-low fees, Starknet is the first L2 where a seamless, high-frequency, AI-driven trading experience becomes not just possible, but affordable for a mass audience.</p>
+    </div>
+    
+    <!-- Slide 5: The Product (MVP) -->
+    <div class="slide">
+        <h2 class="text-cyan-400">Live Vision Prototype</h2>
+        <p class="mt-4 max-w-2xl text-gray-300">We have a live, interactive prototype demonstrating the core user experience and Starknet wallet integration. This is the vision we are building towards.</p>
+        <a href="https://kaseddie-crypto-ai.netlify.app/" target="_blank" class="mt-6 px-6 py-3 bg-cyan-500 rounded-full font-bold">Try the Demo</a>
+    </div>
+
+    <!-- REVISED ROADMAP SLIDE -->
+    <div class="slide">
+        <h2 class="text-cyan-400">Our Foundational Roadmap</h2>
+        <div class="mt-8 text-left max-w-3xl w-full">
+            <div class="relative pl-8 border-l-2 border-cyan-400">
+                <div class="mb-8">
+                    <div class="absolute w-6 h-6 bg-gray-800 border-2 border-cyan-400 rounded-full -left-3.5"></div>
+                    <h3 class="font-bold text-xl">Phase 1: Cairo Foundations & Testnet (Current)</h3>
+                    <p class="text-gray-400">Deep dive into Cairo, build core contracts from scratch, and deploy a secure, well-tested V1 on the Starknet Testnet.</p>
+                </div>
+                <div class="mb-8">
+                    <div class="absolute w-6 h-6 bg-gray-800 border-2 border-gray-500 rounded-full -left-3.5"></div>
+                    <h3 class="font-bold text-xl">Phase 2: Private Beta & User Feedback</h3>
+                    <p class="text-gray-400">Integrate Testnet contracts with our frontend and onboard the first 100 users for our private beta.</p>
+                </div>
+                <div>
+                    <div class="absolute w-6 h-6 bg-gray-800 border-2 border-gray-500 rounded-full -left-3.5"></div>
+                    <h3 class="font-bold text-xl">Phase 3: Mainnet Launch & Seed Round</h3>
+                    <p class="text-gray-400">Incorporate user feedback, audit contracts, and launch on the Starknet Mainnet, followed by our official seed fundraising round.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- REVISED ASK SLIDE -->
+    <div class="slide">
+        <h2 class="text-cyan-400">The Ask: Pre-Seed / Grant Funding</h2>
+        <p class="mt-4 max-w-2xl text-gray-300">We are seeking **$25,000 - $50,000** in grant or pre-seed funding to execute Phase 1 of our roadmap over the next 3-4 months.</p>
+        <div class="mt-8 w-full max-w-md bg-gray-800 p-6 rounded-lg text-left">
+            <p><span class="font-bold text-cyan-400">Cairo Development (60%):</span> Fund the full-time development and testing of our core smart contracts.</p>
+            <p class="mt-4"><span class="font-bold text-cyan-400">Infrastructure (20%):</span> Server costs and development tools.</p>
+            <p class="mt-4"><span class="font-bold text-cyan-400">Community & Beta (20%):</span> Incentives for beta testers and community engagement.</p>
+        </div>
+    </div>
+    
+    <!-- Final Slide -->
+    <div class="slide">
+        <h2 class="text-cyan-400">Join Us in Building the Future.</h2>
+        <p class="mt-8 text-xl">Eddie Kasamba Wahitu</p>
+        <p class="text-gray-400">kaseddielabltd@gmail.com</p>
+    </div>
+
+    <!-- Navigation -->
+    <button id="prevBtn" class="nav-button"><i class="fas fa-arrow-left"></i></button>
+    <button id="nextBtn" class="nav-button"><i class="fas fa-arrow-right"></i></button>
+    <div class="progress-bar" id="progressBar"></div>
+    <div class="slide-number" id="slideNumber"></div>
+
     <script>
-        // Load modals
-        fetch('modals.html')
-            .then(response => response.text())
-            .then(html => {
-                document.getElementById('modals-container').innerHTML = html;
+        const slides = document.querySelectorAll('.slide');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const progressBar = document.getElementById('progressBar');
+        const slideNumber = document.getElementById('slideNumber');
+        let currentSlide = 0;
+
+        function showSlide(index) {
+            slides.forEach((slide, i) => {
+                slide.classList.toggle('active', i === index);
             });
-        
-        // Initialize AI Learning System
-        window.aiLearning = new AILearningSystem();
-        
-        // Override generateAIResponse to use learning system
-        window.generateAIResponse = function(userMessage) {
-            return window.aiLearning.generateSmartResponse(userMessage);
-        };
+            const progress = ((index + 1) / slides.length) * 100;
+            progressBar.style.width = `${progress}%`;
+            slideNumber.textContent = `${index + 1} / ${slides.length}`;
+        }
+
+        prevBtn.addEventListener('click', () => {
+            currentSlide = (currentSlide > 0) ? currentSlide - 1 : slides.length - 1;
+            showSlide(currentSlide);
+        });
+
+        nextBtn.addEventListener('click', () => {
+            currentSlide = (currentSlide < slides.length - 1) ? currentSlide + 1 : 0;
+            showSlide(currentSlide);
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') prevBtn.click();
+            if (e.key === 'ArrowRight') nextBtn.click();
+        });
+
+        showSlide(currentSlide);
     </script>
 </body>
 </html>
