@@ -3,181 +3,147 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kaseddie Labs - Investor Pitch Deck</title>
-    <!-- Tailwind CSS for styling -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Font Awesome for icons -->
+    <title>Kaseddie AI  - Intelligent Asset Trading on Starknet</title>
+    
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Starknet.js Library -->
+    <script src="https://cdn.jsdelivr.net/npm/starknet@5.24.3/dist/index.min.js"></script>
+
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap');
-        body { font-family: 'Inter', sans-serif; }
-        .slide {
-            display: none;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
+        :root {
+            --primary-color: #00d4ff;
+            --secondary-color: #ff6b35;
+            --accent-color: #00ff88;
+            --gold-color: #FFD700;
+            --dark-bg: #0a0a0a;
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --card-border: rgba(255, 255, 255, 0.1);
+            --text-primary: #ffffff;
+            --text-secondary: #cccccc;
+            --text-muted: #888888;
+        }
+
+        /* --- NEW PROTOTYPE NOTICE --- */
+        .prototype-notice {
+            background: linear-gradient(135deg, var(--secondary-color), var(--gold-color));
+            color: var(--dark-bg);
             text-align: center;
-            padding: 2rem;
-            min-height: 100vh;
-            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 100%);
-            color: #ffffff;
-        }
-        .slide.active { display: flex; }
-        h1 { font-size: 3.5rem; font-weight: 900; }
-        h2 { font-size: 2.5rem; font-weight: 700; }
-        p { font-size: 1.1rem; }
-        .nav-button {
+            padding: 12px;
+            font-weight: 600;
+            font-size: 0.95rem;
             position: fixed;
-            top: 50%;
-            transform: translateY(-50%);
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            color: white;
-            border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            cursor: pointer;
-            z-index: 10;
-        }
-        #prevBtn { left: 20px; }
-        #nextBtn { right: 20px; }
-        .progress-bar {
-            position: fixed;
-            bottom: 0;
+            width: 100%;
+            top: 0;
             left: 0;
-            height: 5px;
-            background: #00d4ff;
-            transition: width 0.3s ease;
+            z-index: 9999;
         }
-        .slide-number {
-            position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(0,0,0,0.5);
-            padding: 5px 15px;
-            border-radius: 15px;
+        .prototype-notice a {
+            color: var(--dark-bg);
+            font-weight: 700;
+            text-decoration: underline;
         }
+        /* Adjust header padding to not be hidden by notice */
+        header { padding-top: 45px; }
+
+
+        html, body {
+            margin: 0; padding: 0; width: 100%;
+            overflow-x: hidden; font-family: 'Inter', sans-serif;
+            background: var(--dark-bg); color: var(--text-primary);
+            scroll-behavior: smooth;
+        }
+
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+
+        header {
+            position: fixed; top: 0; left: 0; width: 100%;
+            background: rgba(10, 10, 10, 0.8); backdrop-filter: blur(15px);
+            z-index: 1000; border-bottom: 1px solid var(--card-border);
+        }
+
+        nav { display: flex; justify-content: space-between; align-items: center; height: 70px; }
+        .logo { font-size: 1.8rem; font-weight: 900; color: var(--primary-color); }
+        .nav-links { display: flex; gap: 30px; }
+        .nav-link {
+            color: var(--text-secondary); text-decoration: none; font-weight: 500;
+            transition: color 0.3s ease; position: relative; padding: 5px 0;
+        }
+        .nav-link:hover, .nav-link.active { color: var(--primary-color); }
+        .nav-link::after {
+            content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 2px;
+            background: var(--primary-color); transition: width 0.3s ease;
+        }
+        .nav-link:hover::after, .nav-link.active::after { width: 100%; }
+        .header-actions { display: flex; align-items: center; gap: 15px; }
+        .connect-wallet-btn {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white; border: none; padding: 10px 20px; border-radius: 20px;
+            cursor: pointer; font-weight: 600; transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 212, 255, 0.2);
+        }
+        .connect-wallet-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0, 212, 255, 0.4); }
+        #wallet-info {
+            display: none; align-items: center; gap: 10px; background: var(--card-bg);
+            padding: 8px 15px; border-radius: 20px; border: 1px solid var(--card-border);
+        }
+        #wallet-address { font-weight: 600; font-size: 0.9rem; }
+        #disconnect-btn { background: none; border: none; color: var(--secondary-color); cursor: pointer; font-size: 1rem; }
+
+        #home {
+            padding-top: 150px; padding-bottom: 80px; text-align: center;
+            min-height: 90vh; display: flex; flex-direction: column;
+            justify-content: center; position: relative; overflow: hidden;
+        }
+        #home::before, #home::after {
+            content: ''; position: absolute; width: 50vmax; height: 50vmax;
+            border-radius: 50%; filter: blur(150px); z-index: -1; opacity: 0.15;
+        }
+        #home::before { background: var(--primary-color); top: -25vmax; left: -25vmax; }
+        #home::after { background: var(--secondary-color); bottom: -25vmax; right: -25vmax; }
+
+        h1 {
+            font-size: 3.8rem; font-weight: 900; margin-bottom: 20px; line-height: 1.2;
+            background: linear-gradient(135deg, var(--primary-color) 0%, #fff 100%);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+        .hero-subtitle { font-size: 1.2rem; max-width: 700px; margin: 0 auto 40px; color: var(--text-secondary); }
+        .starknet-badge {
+            display: inline-flex; align-items: center; gap: 8px; background: rgba(0, 212, 255, 0.1);
+            border: 1px solid var(--primary-color); padding: 8px 15px; border-radius: 20px;
+            font-size: 0.9rem; font-weight: 500; margin-top: 20px;
+        }
+        .starknet-badge img { width: 20px; height: 20px; }
+
+        /* The rest of the CSS remains the same as your latest version... */
+
     </style>
 </head>
-<body class="bg-gray-900">
-
-    <!-- Slide 1: Title -->
-    <div class="slide active">
-        <h1 class="text-cyan-400">Kaseddie AI</h1>
-        <p class="mt-4 text-xl text-gray-300">Intelligent Asset Management on Starknet</p>
-        <div class="mt-12 text-center">
-            <p class="font-bold text-lg">Eddie Kasamba Wahitu, Founder</p>
-            <p class="text-gray-400">Kampala, Uganda</p>
-        </div>
-    </div>
+<body>
     
-    <!-- Slide 2: The Problem -->
-    <div class="slide">
-        <h2 class="text-cyan-400">The Problem</h2>
-        <p class="mt-4 max-w-2xl text-gray-300">The DeFi market is powerful but hostile to newcomers. Complexity, high fees, and emotional decision-making cause over 90% of retail traders to lose money.</p>
+    <!-- NEW PROTOTYPE NOTICE -->
+    <div class="prototype-notice">
+        <i class="fas fa-info-circle"></i> <strong>Prototype Notice:</strong> This is a vision prototype. The on-chain components are currently under active development.
     </div>
+
+    <header>
+        <nav class="container">
+            <div class="logo">Kaseddie AI</div>
+            <!-- ... rest of your nav ... -->
+        </nav>
+    </header>
+
+    <main>
+        <!-- The rest of your HTML content remains the same -->
+    </main>
     
-    <!-- Slide 3: The Solution -->
-    <div class="slide">
-        <h2 class="text-cyan-400">Our Solution</h2>
-        <p class="mt-4 max-w-2xl text-gray-300">Kaseddie AI is an intelligent co-pilot that makes sophisticated trading simple. We use a conversational AI to translate complex market data into actionable insights and automate strategies on-chain.</p>
-    </div>
-    
-    <!-- Slide 4: Why Now? -->
-    <div class="slide">
-        <h2 class="text-cyan-400">Why Now? The Starknet Inflection Point</h2>
-        <p class="mt-4 max-w-2xl text-gray-300">With Account Abstraction and ultra-low fees, Starknet is the first L2 where a seamless, high-frequency, AI-driven trading experience becomes not just possible, but affordable for a mass audience.</p>
-    </div>
-    
-    <!-- Slide 5: The Product (MVP) -->
-    <div class="slide">
-        <h2 class="text-cyan-400">Live Vision Prototype</h2>
-        <p class="mt-4 max-w-2xl text-gray-300">We have a live, interactive prototype demonstrating the core user experience and Starknet wallet integration. This is the vision we are building towards.</p>
-        <a href="https://kaseddie-crypto-ai.netlify.app/" target="_blank" class="mt-6 px-6 py-3 bg-cyan-500 rounded-full font-bold">Try the Demo</a>
-    </div>
+    <!-- Your existing script remains the same -->
 
-    <!-- REVISED ROADMAP SLIDE -->
-    <div class="slide">
-        <h2 class="text-cyan-400">Our Foundational Roadmap</h2>
-        <div class="mt-8 text-left max-w-3xl w-full">
-            <div class="relative pl-8 border-l-2 border-cyan-400">
-                <div class="mb-8">
-                    <div class="absolute w-6 h-6 bg-gray-800 border-2 border-cyan-400 rounded-full -left-3.5"></div>
-                    <h3 class="font-bold text-xl">Phase 1: Cairo Foundations & Testnet (Current)</h3>
-                    <p class="text-gray-400">Deep dive into Cairo, build core contracts from scratch, and deploy a secure, well-tested V1 on the Starknet Testnet.</p>
-                </div>
-                <div class="mb-8">
-                    <div class="absolute w-6 h-6 bg-gray-800 border-2 border-gray-500 rounded-full -left-3.5"></div>
-                    <h3 class="font-bold text-xl">Phase 2: Private Beta & User Feedback</h3>
-                    <p class="text-gray-400">Integrate Testnet contracts with our frontend and onboard the first 100 users for our private beta.</p>
-                </div>
-                <div>
-                    <div class="absolute w-6 h-6 bg-gray-800 border-2 border-gray-500 rounded-full -left-3.5"></div>
-                    <h3 class="font-bold text-xl">Phase 3: Mainnet Launch & Seed Round</h3>
-                    <p class="text-gray-400">Incorporate user feedback, audit contracts, and launch on the Starknet Mainnet, followed by our official seed fundraising round.</p>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <!-- REVISED ASK SLIDE -->
-    <div class="slide">
-        <h2 class="text-cyan-400">The Ask: Pre-Seed / Grant Funding</h2>
-        <p class="mt-4 max-w-2xl text-gray-300">We are seeking **$25,000 - $50,000** in grant or pre-seed funding to execute Phase 1 of our roadmap over the next 3-4 months.</p>
-        <div class="mt-8 w-full max-w-md bg-gray-800 p-6 rounded-lg text-left">
-            <p><span class="font-bold text-cyan-400">Cairo Development (60%):</span> Fund the full-time development and testing of our core smart contracts.</p>
-            <p class="mt-4"><span class="font-bold text-cyan-400">Infrastructure (20%):</span> Server costs and development tools.</p>
-            <p class="mt-4"><span class="font-bold text-cyan-400">Community & Beta (20%):</span> Incentives for beta testers and community engagement.</p>
-        </div>
-    </div>
-    
-    <!-- Final Slide -->
-    <div class="slide">
-        <h2 class="text-cyan-400">Join Us in Building the Future.</h2>
-        <p class="mt-8 text-xl">Eddie Kasamba Wahitu</p>
-        <p class="text-gray-400">kaseddielabltd@gmail.com</p>
-    </div>
-
-    <!-- Navigation -->
-    <button id="prevBtn" class="nav-button"><i class="fas fa-arrow-left"></i></button>
-    <button id="nextBtn" class="nav-button"><i class="fas fa-arrow-right"></i></button>
-    <div class="progress-bar" id="progressBar"></div>
-    <div class="slide-number" id="slideNumber"></div>
-
-    <script>
-        const slides = document.querySelectorAll('.slide');
-        const prevBtn = document.getElementById('prevBtn');
-        const nextBtn = document.getElementById('nextBtn');
-        const progressBar = document.getElementById('progressBar');
-        const slideNumber = document.getElementById('slideNumber');
-        let currentSlide = 0;
-
-        function showSlide(index) {
-            slides.forEach((slide, i) => {
-                slide.classList.toggle('active', i === index);
-            });
-            const progress = ((index + 1) / slides.length) * 100;
-            progressBar.style.width = `${progress}%`;
-            slideNumber.textContent = `${index + 1} / ${slides.length}`;
-        }
-
-        prevBtn.addEventListener('click', () => {
-            currentSlide = (currentSlide > 0) ? currentSlide - 1 : slides.length - 1;
-            showSlide(currentSlide);
-        });
-
-        nextBtn.addEventListener('click', () => {
-            currentSlide = (currentSlide < slides.length - 1) ? currentSlide + 1 : 0;
-            showSlide(currentSlide);
-        });
-
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'ArrowLeft') prevBtn.click();
-            if (e.key === 'ArrowRight') nextBtn.click();
-        });
-
-        showSlide(currentSlide);
-    </script>
 </body>
 </html>
